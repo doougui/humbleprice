@@ -1,0 +1,21 @@
+{
+    "name": "doougui/mvc",
+    "description": "Estrutura MVC",
+    "authors": [
+        {
+            "name": "Douglas Pinheiro Goulart",
+            "email": "douglaspigoulart@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-gd": "*",
+        "ext-pdo": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "../app/",
+            "Src\\": "../src/"
+        }
+    }
+}
