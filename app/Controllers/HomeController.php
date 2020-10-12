@@ -7,12 +7,10 @@ use App\Models\Offer;
 use App\Models\Forum;
 use App\Models\Topic;
 
-class HomeController extends Render
+class HomeController extends Controller
 {
     public function index(): void
     {
-        $data = [];
-
         $offer = new Offer();
 
         $this->setDir("Home");
@@ -30,8 +28,8 @@ class HomeController extends Render
             );
         }
 
-        $data["offers"] = $offer->getLastOffers($filter);
+        $this->setData("offers", $offer->getLastOffers($filter));
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 }

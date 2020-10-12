@@ -4,12 +4,15 @@ namespace App\Controllers;
 
 use App\Models\Subcategory;
 
-class CategoryController extends Render
+class CategoryController extends Controller
 {
+    public function index()
+    {
+
+    }
+
     public function subcategories(string $category = ""): void
     {
-        $data = [];
-
         $subcategory = new Subcategory();
 
         if (empty($category)) {

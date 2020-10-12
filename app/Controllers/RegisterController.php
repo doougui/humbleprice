@@ -5,18 +5,16 @@ namespace App\Controllers;
 use App\Controllers\Render;
 use App\Models\User;
 
-class RegisterController extends Render
+class RegisterController extends Controller
 {
     public function index(): void
     {
-        $data = [];
-
         $this->setDir("Register");
         $this->setTitle("Crie uma conta | Humbleprice");
         $this->setDescription("Crie sua conta.");
         $this->setKeywords("forum, dev, registro, register");
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 
     public function signup(): ?bool

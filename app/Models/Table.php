@@ -8,7 +8,7 @@ class Table extends Connection
 
     public function getAll(array $fields): array
     {
-        $fields = implode(",", $fields);
+        $fields = implode(", ", $fields);
 
         $sql = "SELECT
                     $fields

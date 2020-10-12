@@ -34,19 +34,19 @@ class Offer extends Table
         return [];
     }
 
-    public function registerOffer(array $data): bool {
+    public function registerOffer(array $info): bool {
         $sql = "INSERT INTO {$this->table} 
-                            (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) VALUES 
-                            (:category, :subcategory, :link, :name, :oldPrice, :newPrice, :endOffer, :tmpname)";
+                    (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) VALUES 
+                    (:category, :subcategory, :link, :name, :oldPrice, :newPrice, :endOffer, :picture)";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":category", $data["categoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":subcategory", $data["subcategoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":link", $data["link"], \PDO::PARAM_STR);
-        $sql->bindParam(":name", $data["name"], \PDO::PARAM_STR);
-        $sql->bindParam(":oldPrice", $data["oldPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":newPrice", $data["newPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":tmpname", $data["tmpname"], \PDO::PARAM_STR);
-        $sql->bindParam(":endOffer", $data["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
+        $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
+        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":picture", $info["picture"], \PDO::PARAM_STR);
+        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
