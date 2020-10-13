@@ -104,17 +104,17 @@ class OfferController extends Controller
                 $type = $picture["type"];
 
                 if (in_array($type, ["image/jpeg", "image/png"])) {
-                    $picture = md5(time().rand(0, 99999))."jpg";
+                    $imageName = md5(time().rand(0, 99999))."jpg";
                     move_uploaded_file(
                         $picture["tmp_name"],
-                        DIRREQ."public/img/products/{$picture}"
+                        DIRREQ."public/img/products/{$imageName}"
                     );
 
                     list(
                         $originalWidth,
                         $originalHeight
                     ) = getimagesize(
-                        DIRREQ."public/img/products/{$picture}"
+                        DIRREQ."public/img/products/{$imageName}"
                     );
 
                     $ratio = $originalWidth / $originalHeight;
@@ -132,11 +132,11 @@ class OfferController extends Controller
 
                     if ($type == "image/jpeg") {
                         $original = imagecreatefromjpeg(
-                            DIRREQ."public/img/products/{$picture}"
+                            DIRREQ."public/img/products/{$imageName}"
                         );
                     } elseif ($type == "image/png") {
                         $original = imagecreatefrompng(
-                            DIRREQ . "public/img/products/{$picture}"
+                            DIRREQ . "public/img/products/{$imageName}"
                         );
                     } else {
                         die("A imagem deve ser do tipo JPEG, JPG ou PNG");
@@ -157,7 +157,7 @@ class OfferController extends Controller
 
                     imagejpeg(
                         $img,
-                        DIRREQ."public/img/products/{$picture}",
+                        DIRREQ."public/img/products/{$imageName}",
                         80
                     );
 
@@ -168,7 +168,7 @@ class OfferController extends Controller
                         "newPrice" => $newPrice,
                         "categoryId" => $categoryId,
                         "subcategoryId" => $subcategoryId,
-                        "picture" => $picture,
+                        "picture" => $imageName,
                         "endOffer" => $endOffer
                     ];
 

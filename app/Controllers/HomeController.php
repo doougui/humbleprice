@@ -18,17 +18,7 @@ class HomeController extends Controller
         $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
         $this->setKeywords("ofertas, produtos, preço");
 
-        $filter = "";
-
-        if (isset($_GET["filter"])) {
-            $filter = filter_input(
-                INPUT_GET,
-                'filter',
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
-        }
-
-        $this->setData("offers", $offer->getLastOffers($filter));
+        $this->setData("offers", $offer->getLastOffers());
 
         $this->renderLayout($this->getData());
     }

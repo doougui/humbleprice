@@ -31,7 +31,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
                                 <?php foreach ($categories as $category): ?>
-                                    <a class="dropdown-item" href="<?= DIRPAGE."category/{$category['slug']}" ?>"><?= $category["name"] ?></a>
+                                    <a class="dropdown-item" href="<?= DIRPAGE."category/show/{$category['slug']}" ?>"><?= $category["name"] ?></a>
                                 <?php endforeach; ?>
                             </div>
                         </li>

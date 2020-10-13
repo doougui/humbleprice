@@ -10,11 +10,18 @@ class Offer extends Table
         $this->table = 'offer';
     }
 
-    public function getLastOffers(string $filter = ""): array
-    {
-        $filterString = "1 = 1";
-        if (! empty($filter)) {
-            $filterString = "platform = :filter";
+    public function getLastOffers(
+        int $category = null,
+        int $subcategory = null
+    ): array {
+        $categoryQuery = "1 = 1";
+        if (! empty($category)) {
+            $categoryQuery = "id_category = :category";
+        }
+
+        $subcategoryQuery = "2 = 2";
+        if (! empty($subcategory)) {
+            $subcategoryQuery = "id_subcategory = :subcategory";
         }
 
         $sql = "SELECT 
@@ -22,9 +29,24 @@ class Offer extends Table
                 FROM 
                     {$this->table} 
                 WHERE 
-                    end_offer >= NOW() AND ".$filterString." ORDER BY id DESC";
+                    end_offer >= NOW() 
+                AND 
+                      {$categoryQuery}
+                AND
+                      {$subcategoryQuery}
+                ORDER BY 
+                    id 
+                DESC";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":filter", $filter, \PDO::PARAM_STR);
+
+        if (! empty($category)) {
+            $sql->bindParam(":category", $category, \PDO::PARAM_INT);
+        }
+
+        if (! empty($subcategory)) {
+            $sql->bindParam(":subcategory", $subcategory, \PDO::PARAM_INT);
+        }
+
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
