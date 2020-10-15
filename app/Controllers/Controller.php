@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Category;
+use App\Models\User;
 
 class Controller extends Render
 {
@@ -10,7 +11,11 @@ class Controller extends Render
 
     public function __construct()
     {
-        $this->getCategories();
+        $this->setCategories();
+
+        if (isset($_SESSION["user"])) {
+            $this->setUser();
+        }
     }
 
     public function getData(): array
@@ -23,7 +28,7 @@ class Controller extends Render
         $this->data[$key] = $value;
     }
 
-    private function getCategories(): void
+    private function setCategories(): void
     {
         $category = new Category();
 
@@ -31,5 +36,15 @@ class Controller extends Render
             "categories",
             $category->getAll(["id", "slug", "name"])
         );
+    }
+
+    private function setUser(): void
+    {
+        $user = new User();
+
+        $this->setData("user", $user->getInfo(
+            $_SESSION["user"],
+            ['name', 'email', 'password', 'id_role']
+        ));
     }
 }

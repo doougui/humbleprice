@@ -35,20 +35,25 @@
                                 <?php endforeach; ?>
                             </div>
                         </li>
-                        <?php if (isset($_SESSION['user'])): ?>
-                            <li class="nav-item nav-link"><?= utf8_encode($_SESSION['user']['name']); ?></li>
-                            <li class="nav nav-item alert-link">
+                        <?php if (isset($user)): ?>
+                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'MANAGE_QUEUE')): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
+                                </li>
+                            <?php endif; ?>
+                            <li class="nav-item nav-link"><?= utf8_encode($user['name']); ?></li>
+                            <li class="nav-item alert-link">
                                 <a class="nav-link" href="<?= DIRPAGE ?>login/logout">Sair</a>
                             </li>
                         <?php else: ?>
-                           <li href="<?= DIRPAGE ?>login" class="nav-item">
+                           <li class="nav-item">
                                <a class="nav-link" href="<?= DIRPAGE ?>login">Login</a>
                            </li>
                         <?php endif; ?>
                     </ul>
                 </div>
 
-                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= isset($_SESSION['user']) ? '' : 'disabled' ?>">Sugerir oferta</a>
+                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= isset($user) ? '' : 'disabled' ?>">Sugerir oferta</a>
             </div>
         </nav>
     </header>
@@ -67,7 +72,7 @@
             <div class="btn-newpost">
                 <?/*= $this->addNavBtns($data) */?>
                 <a href="<?/*= DIRPAGE */?>topic/new">
-                    <button class="button" <?/*= (!isset($_SESSION['user'])) ? 'disabled' : '' */?>>
+                    <button class="button" <?/*= (! isset($user)) ? 'disabled' : '' */?>>
                         NOVA POSTAGEM
                     </button>
                 </a>
