@@ -36,12 +36,17 @@
                             </div>
                         </li>
                         <?php if (isset($user)): ?>
+                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'sadsad')): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
+                                </li>
+                            <?php endif; ?>
                             <li class="nav-item nav-link"><?= utf8_encode($user['name']); ?></li>
-                            <li class="nav nav-item alert-link">
+                            <li class="nav-item alert-link">
                                 <a class="nav-link" href="<?= DIRPAGE ?>login/logout">Sair</a>
                             </li>
                         <?php else: ?>
-                           <li href="<?= DIRPAGE ?>login" class="nav-item">
+                           <li class="nav-item">
                                <a class="nav-link" href="<?= DIRPAGE ?>login">Login</a>
                            </li>
                         <?php endif; ?>

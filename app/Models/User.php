@@ -129,15 +129,38 @@ class User extends Table
         return false;
     }
 
-    public function hasPermission()
+    public function hasPermission(int $role, string $permission): bool
     {
-        
+        $ability = (new Ability())->getId('label', $permission);
+
+        $sql = "SELECT
+                    id_ability, id_role
+                FROM
+                    ability_role
+                WHERE
+                    id_role = :id_role AND id_ability = :id_ability
+                OR
+                    id_role = :id_role AND id_ability = 1";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id_role", $role, \PDO::PARAM_INT);
+        $sql->bindParam(":id_ability", $ability, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     private function emailExists(string $email): bool
     {
-        $sql = "SELECT id FROM user 
-							WHERE email = :email";
+        $sql = "SELECT 
+                    id 
+                FROM 
+                     user 
+				WHERE 
+				      email = :email";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
         $sql->execute();

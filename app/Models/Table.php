@@ -27,7 +27,7 @@ class Table extends Connection
         string $column,
         string $value,
         string $table = null
-    ): int {
+    ): ?int {
         $table = ($table) ?? $this->table;
 
         $sql = "SELECT
@@ -44,7 +44,7 @@ class Table extends Connection
             return $sql->fetch()['id'];
         }
 
-        return 0;
+        return null;
     }
 
     public function getInfo(int $id, array $fields): array
