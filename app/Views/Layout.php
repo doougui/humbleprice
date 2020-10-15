@@ -36,7 +36,7 @@
                             </div>
                         </li>
                         <?php if (isset($user)): ?>
-                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'sadsad')): ?>
+                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'MANAGE_QUEUE')): ?>
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
                                 </li>
