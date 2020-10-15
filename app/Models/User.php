@@ -7,17 +7,17 @@ class User extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'user';
+        $this->table = "user";
     }
 
     public function login(string $email, string $password): bool
     {
         $sql = "SELECT 
-                    name, email, password, admin
+                    id, password
                 FROM 
-                     user
+                    user
                 WHERE 
-                      email = :email";
+                    email = :email";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
         $sql->execute();
@@ -26,7 +26,7 @@ class User extends Table
             $user = $sql->fetch();
 
             if (password_verify($password, $user["password"])) {
-                $_SESSION["user"] = $user;
+                $_SESSION["user"] = $user["id"];
                 return true;
             }
         }
@@ -58,16 +58,16 @@ class User extends Table
             $userId = $this->db->lastInsertId();
 
             $sql = "SELECT 
-                        name, email, password, admin
+                        id
                     FROM
                         user
                     WHERE 
-                          id = :user_id";
+                        id = :user_id";
             $sql = $this->db->prepare($sql);
             $sql->bindValue(":user_id", $userId);
             $sql->execute();
 
-            $_SESSION["user"] = $sql->fetch();
+            $_SESSION["user"] = $sql->fetch()["id"];
 
             return true;
         }
@@ -127,6 +127,11 @@ class User extends Table
         }
 
         return false;
+    }
+
+    public function hasPermission()
+    {
+        
     }
 
     private function emailExists(string $email): bool
