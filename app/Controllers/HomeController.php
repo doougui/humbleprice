@@ -3,16 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\Render;
+use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Forum;
 use App\Models\Topic;
 
-class HomeController extends Render
+class HomeController extends Controller
 {
     public function index(): void
     {
-        $data = [];
-
         $offer = new Offer();
 
         $this->setDir("Home");
@@ -20,18 +19,9 @@ class HomeController extends Render
         $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
         $this->setKeywords("ofertas, produtos, preço");
 
-        $filter = "";
+        $this->setData("subcategories", []);
+        $this->setData("offers", $offer->getLastOffers());
 
-        if (isset($_GET["filter"])) {
-            $filter = filter_input(
-                INPUT_GET,
-                'filter',
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
-        }
-
-        $data["offers"] = $offer->getLastOffers($filter);
-
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 }

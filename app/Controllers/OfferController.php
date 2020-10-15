@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
 
-class OfferController extends Render
+class OfferController extends Controller
 {
     public function index(): void
     {
@@ -16,10 +16,6 @@ class OfferController extends Render
 
     public function suggest(): void
     {
-        $data = [];
-
-        $category = new Category();
-
         if (! isset($_SESSION["user"])) {
             header("Location: ".DIRPAGE);
             exit;
@@ -30,17 +26,11 @@ class OfferController extends Render
         $this->setDescription("Sugira uma oferta/promoção instingante de algum estabelecimento de nossa confiança.");
         $this->setKeywords("offer, suggest, low-price, price, discount");
 
-        $data["categories"] = $category->getAll(
-            ['id', 'slug', 'name']
-        );
-
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 
     public function publish(): ?bool
     {
-        $data = [];
-
         $offer = new Offer();
         $category = new Category();
         $subcategory = new Subcategory();
@@ -100,13 +90,13 @@ class OfferController extends Render
                 $oldPrice = floatval(str_replace(",",".", $oldPrice));
                 $newPrice = floatval(str_replace(",",".", $newPrice));
 
-                $categoryId = $category->getId('slug', $categorySlug);
-                $subcategoryId = $subcategory->getId('slug', $subcategorySlug);
+                $categoryId = $category->getId("slug", $categorySlug);
+                $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
 
                 if (! $subcategory->isChildOf(
                     $subcategoryId,
                     $categoryId,
-                    'category')
+                    "category")
                 ) {
                     die("Esta subcategoria não pertence a respectiva categoria.");
                 }
@@ -114,17 +104,17 @@ class OfferController extends Render
                 $type = $picture["type"];
 
                 if (in_array($type, ["image/jpeg", "image/png"])) {
-                    $tmpname = md5(time().rand(0, 99999))."jpg";
+                    $imageName = md5(time().rand(0, 99999))."jpg";
                     move_uploaded_file(
                         $picture["tmp_name"],
-                        DIRREQ."public/img/products/{$tmpname}"
+                        DIRREQ."public/img/products/{$imageName}"
                     );
 
                     list(
                         $originalWidth,
                         $originalHeight
                     ) = getimagesize(
-                        DIRREQ."public/img/products/{$tmpname}"
+                        DIRREQ."public/img/products/{$imageName}"
                     );
 
                     $ratio = $originalWidth / $originalHeight;
@@ -142,11 +132,11 @@ class OfferController extends Render
 
                     if ($type == "image/jpeg") {
                         $original = imagecreatefromjpeg(
-                            DIRREQ."public/img/products/{$tmpname}"
+                            DIRREQ."public/img/products/{$imageName}"
                         );
                     } elseif ($type == "image/png") {
                         $original = imagecreatefrompng(
-                            DIRREQ . "public/img/products/{$tmpname}"
+                            DIRREQ . "public/img/products/{$imageName}"
                         );
                     } else {
                         die("A imagem deve ser do tipo JPEG, JPG ou PNG");
@@ -167,22 +157,22 @@ class OfferController extends Render
 
                     imagejpeg(
                         $img,
-                        DIRREQ."public/img/products/{$tmpname}",
+                        DIRREQ."public/img/products/{$imageName}",
                         80
                     );
 
-                    $data = [
-                        'link' => $link,
-                        'name' => $name,
-                        'oldPrice' => $oldPrice,
-                        'newPrice' => $newPrice,
-                        'categoryId' => $categoryId,
-                        'subcategoryId' => $subcategoryId,
-                        'tmpname' => $tmpname,
-                        'endOffer' => $endOffer
+                    $info = [
+                        "link" => $link,
+                        "name" => $name,
+                        "oldPrice" => $oldPrice,
+                        "newPrice" => $newPrice,
+                        "categoryId" => $categoryId,
+                        "subcategoryId" => $subcategoryId,
+                        "picture" => $imageName,
+                        "endOffer" => $endOffer
                     ];
 
-                    if ($offer->registerOffer($data)) {
+                    if ($offer->registerOffer($info)) {
                         return true;
                     }
 

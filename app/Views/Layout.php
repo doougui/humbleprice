@@ -24,15 +24,28 @@
                 </button>
 
                 <div class="navbar-collapse collapse" id="navbar-menu">
-                    <div class="navbar-nav">
-                        <a href="<?= DIRPAGE ?>" class="nav-item nav-link active">Jogos</a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categorias
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
+                                <?php foreach ($categories as $category): ?>
+                                    <a class="dropdown-item" href="<?= DIRPAGE."category/show/{$category['slug']}" ?>"><?= $category["name"] ?></a>
+                                <?php endforeach; ?>
+                            </div>
+                        </li>
                         <?php if (isset($_SESSION['user'])): ?>
-                            <a href="<?= DIRPAGE ?>" class="nav-item nav-link"><?= utf8_encode($_SESSION['user']['name']); ?></a>
-                            <a href="<?= DIRPAGE ?>login/logout" class="nav nav-item nav-link alert-link">Sair</a>
+                            <li class="nav-item nav-link"><?= utf8_encode($_SESSION['user']['name']); ?></li>
+                            <li class="nav nav-item alert-link">
+                                <a class="nav-link" href="<?= DIRPAGE ?>login/logout">Sair</a>
+                            </li>
                         <?php else: ?>
-                           <a href="<?= DIRPAGE ?>login" class="nav-item nav-link">Login</a>
+                           <li href="<?= DIRPAGE ?>login" class="nav-item">
+                               <a class="nav-link" href="<?= DIRPAGE ?>login">Login</a>
+                           </li>
                         <?php endif; ?>
-                    </div>
+                    </ul>
                 </div>
 
                 <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= isset($_SESSION['user']) ? '' : 'disabled' ?>">Sugerir oferta</a>

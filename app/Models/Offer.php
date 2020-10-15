@@ -10,11 +10,18 @@ class Offer extends Table
         $this->table = 'offer';
     }
 
-    public function getLastOffers(string $filter = ""): array
-    {
-        $filterString = "1 = 1";
-        if (! empty($filter)) {
-            $filterString = "platform = :filter";
+    public function getLastOffers(
+        int $category = null,
+        int $subcategory = null
+    ): array {
+        $categoryQuery = "1 = 1";
+        if (! empty($category)) {
+            $categoryQuery = "id_category = :category";
+        }
+
+        $subcategoryQuery = "2 = 2";
+        if (! empty($subcategory)) {
+            $subcategoryQuery = "id_subcategory = :subcategory";
         }
 
         $sql = "SELECT 
@@ -22,9 +29,24 @@ class Offer extends Table
                 FROM 
                     {$this->table} 
                 WHERE 
-                    end_offer >= NOW() AND ".$filterString." ORDER BY id DESC";
+                    end_offer >= NOW() 
+                AND 
+                      {$categoryQuery}
+                AND
+                      {$subcategoryQuery}
+                ORDER BY 
+                    id 
+                DESC";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":filter", $filter, \PDO::PARAM_STR);
+
+        if (! empty($category)) {
+            $sql->bindParam(":category", $category, \PDO::PARAM_INT);
+        }
+
+        if (! empty($subcategory)) {
+            $sql->bindParam(":subcategory", $subcategory, \PDO::PARAM_INT);
+        }
+
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -34,19 +56,21 @@ class Offer extends Table
         return [];
     }
 
-    public function registerOffer(array $data): bool {
-        $sql = "INSERT INTO {$this->table} 
-                            (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) VALUES 
-                            (:category, :subcategory, :link, :name, :oldPrice, :newPrice, :endOffer, :tmpname)";
+    public function registerOffer(array $info): bool {
+        $sql = "INSERT INTO 
+                    {$this->table} 
+                    (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) 
+                VALUES 
+                    (:category, :subcategory, :link, :name, :oldPrice, :newPrice, :endOffer, :picture)";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":category", $data["categoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":subcategory", $data["subcategoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":link", $data["link"], \PDO::PARAM_STR);
-        $sql->bindParam(":name", $data["name"], \PDO::PARAM_STR);
-        $sql->bindParam(":oldPrice", $data["oldPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":newPrice", $data["newPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":tmpname", $data["tmpname"], \PDO::PARAM_STR);
-        $sql->bindParam(":endOffer", $data["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
+        $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
+        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":picture", $info["picture"], \PDO::PARAM_STR);
+        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -58,7 +82,10 @@ class Offer extends Table
 
     public function deleteOffer(int $id): bool
     {
-        $sql = "DELETE FROM {$this->table} WHERE id = :id";
+        $sql = "DELETE FROM 
+                    {$this->table} 
+                WHERE 
+                    id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id", $id, \PDO::PARAM_INT);
         $sql->execute();

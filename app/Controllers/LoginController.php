@@ -5,20 +5,18 @@ namespace App\Controllers;
 use App\Controllers\Render;
 use App\Models\User;
 
-class LoginController extends Render
+class LoginController extends Controller
 {
     public function index(): void
     {
         unset($_SESSION["user"]);
-
-        $data = [];
 
         $this->setDir("Login");
         $this->setTitle("Entre na sua conta | Humbleprice");
         $this->setDescription("Entre na sua conta.");
         $this->setKeywords("forum, dev, entrar, login");
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 
     public function signin(): ?bool

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\Render;
 use App\Models\User;
 
-class UserController extends Render
+class UserController extends Controller
 {
     public function index(): void
     {
@@ -15,8 +15,6 @@ class UserController extends Render
 
     public function edit(int $id): void
     {
-        $data = [];
-
         $user = new User();
 
         if (empty($id) ||
@@ -32,9 +30,9 @@ class UserController extends Render
         $this->setDescription('Edite seu perfil.');
         $this->setKeywords('forum, dev, editar perfil, perfil');
 
-        $data['user'] = $user->getInfo($id);
+        $this->setData("user", $user->getInfo($id));
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 
     public function editUser(): ?bool
