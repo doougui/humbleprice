@@ -47,6 +47,26 @@ class Table extends Connection
         return 0;
     }
 
+    public function getInfo(int $id, array $fields): array
+    {
+        $fields = implode(", ", $fields);
+
+        $sql = "SELECT 
+                    $fields
+                FROM 
+                     {$this->table} WHERE 
+                id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id", $id, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return $sql->fetch();
+        } else {
+            return [];
+        }
+    }
+
     public function isChildOf(int $childId, int $parentId, string $table): bool
     {
         $sql = "SELECT

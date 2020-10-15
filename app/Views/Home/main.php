@@ -1,17 +1,10 @@
 <section id="filters">
     <div class="container">
-        <h1 class="h4">Ofertas e promoções de jogos.</h1>
-        <a href="./" class="btn btn-light border">Tudo</a>
-        <a href="./?filter=PC" class="btn btn-light border">PC</a>
-        <a href="./?filter=PlayStation 3" class="btn btn-light border">PlayStation 3</a>
-        <a href="./?filter=PlayStation 4" class="btn btn-light border">PlayStation 4</a>
-        <a href="./?filter=Xbox One" class="btn btn-light border">Xbox One</a>
-        <a href="./?filter=Xbox 360" class="btn btn-light border">Xbox 360</a>
-        <a href="./?filter=Outros" class="btn btn-light border">Outros</a>
+        <h1 class="h4">Confira as últimas ofertas.</h1>
     </div>
 </section>
 
-<div class="container pt-5">
+<div class="container">
     <section id="offers">
         <div class="card">
             <div class="card-header">

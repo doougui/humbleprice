@@ -10,26 +10,14 @@ class User extends Table
         $this->table = 'user';
     }
 
-    public function getInfo(int $id): array
-    {
-        $sql = "SELECT * FROM user WHERE id = :id";
-        $sql = $this->db->prepare($sql);
-        $sql->bindParam(":id", $id, \PDO::PARAM_INT);
-        $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            return $sql->fetch();
-        } else {
-            return [];
-        }
-    }
-
     public function login(string $email, string $password): bool
     {
         $sql = "SELECT 
                     name, email, password, admin
-                    FROM user
-                    WHERE email = :email";
+                FROM 
+                     user
+                WHERE 
+                      email = :email";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
         $sql->execute();
@@ -55,10 +43,11 @@ class User extends Table
             return false;
         }
 
-        $sql = "INSERT INTO user 
-                            (name, email, password) 
-                            VALUES 
-                            (:name, :email, :password)";
+        $sql = "INSERT INTO 
+                    user 
+                    (name, email, password) 
+                VALUES 
+                    (:name, :email, :password)";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":name", $name, \PDO::PARAM_STR);
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
@@ -70,8 +59,10 @@ class User extends Table
 
             $sql = "SELECT 
                         name, email, password, admin
-                        FROM user
-                        WHERE id = :user_id";
+                    FROM
+                        user
+                    WHERE 
+                          id = :user_id";
             $sql = $this->db->prepare($sql);
             $sql->bindValue(":user_id", $userId);
             $sql->execute();
@@ -95,8 +86,14 @@ class User extends Table
             $pass = ", password = :password";
         }
 
-        $sql = "UPDATE user 
-                    SET name = :name, email = :email {$pass} WHERE id = :id";
+        $sql = "UPDATE 
+                    user 
+                SET 
+                    name = :name, 
+                    email = :email 
+                    {$pass} 
+                WHERE 
+                    id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":name", $name, \PDO::PARAM_STR);
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
@@ -117,7 +114,10 @@ class User extends Table
 
     public function deleteUser(int $id): bool
     {
-        $sql = "DELETE FROM user WHERE id = :id";
+        $sql = "DELETE FROM 
+                    user 
+                WHERE 
+                    id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id", $id, \PDO::PARAM_INT);
         $sql->execute();

@@ -57,8 +57,10 @@ class Offer extends Table
     }
 
     public function registerOffer(array $info): bool {
-        $sql = "INSERT INTO {$this->table} 
-                    (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) VALUES 
+        $sql = "INSERT INTO 
+                    {$this->table} 
+                    (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) 
+                VALUES 
                     (:category, :subcategory, :link, :name, :oldPrice, :newPrice, :endOffer, :picture)";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
@@ -80,7 +82,10 @@ class Offer extends Table
 
     public function deleteOffer(int $id): bool
     {
-        $sql = "DELETE FROM {$this->table} WHERE id = :id";
+        $sql = "DELETE FROM 
+                    {$this->table} 
+                WHERE 
+                    id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id", $id, \PDO::PARAM_INT);
         $sql->execute();

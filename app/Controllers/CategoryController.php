@@ -20,17 +20,21 @@ class CategoryController extends Controller
         $subcategory = new Subcategory();
         $offer = new Offer();
 
-        $this->setDir("Home");
-        $this->setTitle("Encontre os melhores preços | Humbleprice");
-        $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
-        $this->setKeywords("ofertas, produtos, preço");
+        $categoryId = $category->getId("slug", $slug);
+        $categoryInfo = $category->getInfo($categoryId,
+            ['id', 'name', 'slug']
+        );
+
+        $this->setDir("Category");
+        $this->setTitle("Ofertas de {$categoryInfo['name']} | Humbleprice");
+        $this->setDescription("Aqui você encontra as melhores ofertas de {$categoryInfo['name']}");
+        $this->setKeywords("ofertas, produtos, preço, {$categoryInfo['name']}");
 
         if (empty($slug)) {
             header("Location: ".DIRPAGE);
             exit;
         }
 
-        $categoryId = $category->getId("slug", $slug);
         $subcategoryId = null;
 
         if (isset($_GET["subcategory"])) {
@@ -52,10 +56,12 @@ class CategoryController extends Controller
             }
         }
 
+        $this->setData("subcategories", $category->subcategories($categoryId));
         $this->setData("offers", $offer->getLastOffers(
             $categoryId,
             $subcategoryId
         ));
+        $this->setData("category", $categoryInfo);
 
         $this->renderLayout($this->getData());
     }
