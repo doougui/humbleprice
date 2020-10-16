@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Core\Controller;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;

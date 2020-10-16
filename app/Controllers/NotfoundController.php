@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Render;
+use App\Core\Controller;
 
 class NotfoundController extends Controller
 {

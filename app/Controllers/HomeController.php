@@ -2,11 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Render;
-use App\Models\Category;
+use App\Core\Controller;
 use App\Models\Offer;
-use App\Models\Forum;
-use App\Models\Topic;
 
 class HomeController extends Controller
 {
