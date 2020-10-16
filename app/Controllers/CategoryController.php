@@ -20,6 +20,10 @@ class CategoryController extends Authorization
         $subcategory = new Subcategory();
         $offer = new Offer();
 
+        if (empty($slug)) {
+            $this->redirect(DIRPAGE);
+        }
+
         $categoryId = $category->getId("slug", $slug);
         $categoryInfo = $category->getInfo($categoryId,
             ['id', 'name', 'slug']
@@ -29,10 +33,6 @@ class CategoryController extends Authorization
         $this->setTitle("Ofertas de {$categoryInfo['name']} | Humbleprice");
         $this->setDescription("Aqui você encontra as melhores ofertas de {$categoryInfo['name']}");
         $this->setKeywords("ofertas, produtos, preço, {$categoryInfo['name']}");
-
-        if (empty($slug)) {
-            $this->redirect(DIRPAGE);
-        }
 
         $subcategoryId = null;
 

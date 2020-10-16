@@ -13,9 +13,8 @@
 
             <div class="card-body">
                 <?php foreach ($pendingOffers as $offer): ?>
-                    <div class="card card-item">
+                    <div class="card card-item" data-item="<?= $offer['slug'] ?>">
                         <div class="card-body">
-
                             <div class="product-img">
                                 <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
                             </div>
@@ -32,12 +31,16 @@
                             <?php endif; ?>
                         </div>
 
+                        <div class="alert alert-danger d-none error" role="alert">
+                            <p class="error-msg"></p>
+                        </div>
+
                         <div class="card-footer">
                             <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-danger mb-2">Pegar promoção</a>
 
                             <div class="row justify-content-center">
-                                <a href="<?= DIRPAGE ?>offer/approve/<?= $offer["slug"] ?>" class="btn btn-success m-1">Aprovar</a>
-                                <a href="<?= DIRPAGE ?>offer/refuse/<?= $offer["slug"] ?>" class="btn btn-danger m-1">Recusar</a>
+                                <a href="<?= DIRPAGE ?>queue/approve/<?= $offer['slug'] ?>" class="btn btn-success m-1 approve">Aprovar</a>
+                                <a href="<?= DIRPAGE ?>queue/refuse/<?= $offer['slug'] ?>" class="btn btn-danger m-1 refuse">Recusar</a>
                             </div>
                         </div>
                     </div>

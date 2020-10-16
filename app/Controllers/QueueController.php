@@ -29,4 +29,26 @@ class QueueController extends Authorization
 
         $this->renderLayout($this->getData());
     }
+
+    public function approve(string $slug = "")
+    {
+        $offer = new Offer();
+
+        if (empty($slug)) {
+            $this->redirect(DIRPAGE);
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+    }
+
+    public function refuse(string $slug = "")
+    {
+        $offer = new Offer();
+
+        if (empty($slug)) {
+            $this->redirect(DIRPAGE);
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+    }
 }
