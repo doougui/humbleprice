@@ -8,6 +8,12 @@ use App\Models\Subcategory;
 
 class OfferController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->authenticated();
+    }
+
     public function index(): void
     {
         header("Location: ".DIRPAGE);
@@ -16,11 +22,6 @@ class OfferController extends Controller
 
     public function suggest(): void
     {
-        if (! isset($_SESSION["user"])) {
-            header("Location: ".DIRPAGE);
-            exit;
-        }
-
         $this->setDir("Suggest");
         $this->setTitle("Sugira uma promoção | Humbleprice");
         $this->setDescription("Sugira uma oferta/promoção instingante de algum estabelecimento de nossa confiança.");
@@ -34,11 +35,6 @@ class OfferController extends Controller
         $offer = new Offer();
         $category = new Category();
         $subcategory = new Subcategory();
-
-        if (! isset($_SESSION["user"])) {
-            header("Location: " . DIRPAGE);
-            exit;
-        }
 
         if (isset($_POST["link"]) && isset($_POST["name"]) &&
             isset($_POST["old-price"]) && isset($_POST["new-price"]) &&

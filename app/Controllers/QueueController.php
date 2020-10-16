@@ -7,19 +7,15 @@ use App\Models\User;
 
 class QueueController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->authenticated()->withPermission("MANAGE_QUEUE");
+    }
+
     public function index(): void
     {
-        $user = new User();
         $offer = new Offer();
-
-        if (! isset($_SESSION["user"]) ||
-            ! $user->hasPermission(
-            $this->getData()["user"]["id_role"],
-            "MANAGE_QUEUE")
-        ) {
-            header("Location: ".DIRPAGE);
-            exit;
-        }
 
         $this->setDir("Queue");
         $this->setTitle("Fila de promoções | Humbleprice");

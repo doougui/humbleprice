@@ -28,6 +28,31 @@ class Controller extends Render
         $this->data[$key] = $value;
     }
 
+    protected function authenticated(): object
+    {
+        if (! isset($_SESSION["user"])) {
+            header("Location: ".DIRPAGE);
+            exit;
+        }
+
+        return $this;
+    }
+
+    protected function withPermission(string $permission): object
+    {
+        $user = new User();
+
+        if (! $user->hasPermission(
+            $this->getData()["user"]["id_role"],
+            $permission
+        )) {
+            header("Location: ".DIRPAGE);
+            exit;
+        }
+
+        return $this;
+    }
+
     private function setCategories(): void
     {
         $category = new Category();
