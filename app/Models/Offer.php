@@ -12,7 +12,8 @@ class Offer extends Table
 
     public function getLastOffers(
         int $category = null,
-        int $subcategory = null
+        int $subcategory = null,
+        string $status = "approved"
     ): array {
         $categoryQuery = "1 = 1";
         if (! empty($category)) {
@@ -29,7 +30,9 @@ class Offer extends Table
                 FROM 
                     {$this->table} 
                 WHERE 
-                    end_offer >= NOW() 
+                    end_offer >= NOW()
+                AND
+                    status = :status
                 AND 
                       {$categoryQuery}
                 AND
@@ -38,6 +41,7 @@ class Offer extends Table
                     id 
                 DESC";
         $sql = $this->db->prepare($sql);
+        $sql->bindParam(":status", $status, \PDO::PARAM_STR);
 
         if (! empty($category)) {
             $sql->bindParam(":category", $category, \PDO::PARAM_INT);

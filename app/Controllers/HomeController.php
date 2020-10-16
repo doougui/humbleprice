@@ -19,7 +19,6 @@ class HomeController extends Controller
         $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
         $this->setKeywords("ofertas, produtos, preço");
 
-        $this->setData("subcategories", []);
         $this->setData("offers", $offer->getLastOffers());
 
         $this->renderLayout($this->getData());
