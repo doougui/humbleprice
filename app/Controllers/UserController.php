@@ -2,15 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\Authorization;
 use App\Models\User;
 
-class UserController extends Controller
+class UserController extends Authorization
 {
     public function index(): void
     {
-        header('Location: '.DIRPAGE);
-        exit;
+        $this->redirect(DIRPAGE);
     }
 
     public function edit(int $id): void
@@ -21,8 +20,7 @@ class UserController extends Controller
             ! isset($_SESSION['user']) ||
             $id !== $_SESSION['user']['id']
         ) {
-            header('Location: '.DIRPAGE);
-            exit;
+            $this->redirect(DIRPAGE);
         }
 
         $this->setDir('EditUser');

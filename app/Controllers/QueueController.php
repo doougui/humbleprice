@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\Authorization;
 use App\Models\Offer;
 
-class QueueController extends Controller
+class QueueController extends Authorization
 {
     public function __construct()
     {

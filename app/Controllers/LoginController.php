@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\Authorization;
 use App\Models\User;
 
-class LoginController extends Controller
+class LoginController extends Authorization
 {
     public function index(): void
     {
@@ -58,6 +58,6 @@ class LoginController extends Controller
 
     public function logout() {
         unset($_SESSION["user"]);
-        header("Location: ".DIRPAGE."login");
+        $this->redirect(DIRPAGE."login");
     }
 }

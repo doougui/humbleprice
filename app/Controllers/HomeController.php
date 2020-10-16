@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\Authorization;
 use App\Models\Offer;
 
-class HomeController extends Controller
+class HomeController extends Authorization
 {
     public function index(): void
     {

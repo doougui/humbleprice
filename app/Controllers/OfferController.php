@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
 
-class OfferController extends Controller
+class OfferController extends Authorization
 {
     public function __construct()
     {
@@ -17,8 +17,7 @@ class OfferController extends Controller
 
     public function index(): void
     {
-        header("Location: ".DIRPAGE);
-        exit;
+        $this->redirect(DIRPAGE);
     }
 
     public function suggest(): void

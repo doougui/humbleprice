@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\Authorization;
 use App\Models\User;
 
-class RegisterController extends Controller
+class RegisterController extends Authorization
 {
     public function index(): void
     {
