@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Table;
+
 class Offer extends Table
 {
     public function __construct()
@@ -12,7 +14,8 @@ class Offer extends Table
 
     public function getLastOffers(
         int $category = null,
-        int $subcategory = null
+        int $subcategory = null,
+        string $status = "approved"
     ): array {
         $categoryQuery = "1 = 1";
         if (! empty($category)) {
@@ -29,7 +32,9 @@ class Offer extends Table
                 FROM 
                     {$this->table} 
                 WHERE 
-                    end_offer >= NOW() 
+                    end_offer >= NOW()
+                AND
+                    status = :status
                 AND 
                       {$categoryQuery}
                 AND
@@ -38,6 +43,7 @@ class Offer extends Table
                     id 
                 DESC";
         $sql = $this->db->prepare($sql);
+        $sql->bindParam(":status", $status, \PDO::PARAM_STR);
 
         if (! empty($category)) {
             $sql->bindParam(":category", $category, \PDO::PARAM_INT);
@@ -71,6 +77,26 @@ class Offer extends Table
         $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
         $sql->bindParam(":picture", $info["picture"], \PDO::PARAM_STR);
         $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updateStatus(int $offerId, string $status): bool
+    {
+        $sql = "UPDATE 
+                    offer 
+                SET 
+                    status = :status 
+                WHERE 
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":status", $status, \PDO::PARAM_STR);
+        $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

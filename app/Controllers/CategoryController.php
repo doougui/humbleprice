@@ -2,16 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
 
-class CategoryController extends Controller
+class CategoryController extends Authorization
 {
     public function index(): void
     {
-        header("Location: ".DIRPAGE);
-        exit;
+        $this->redirect(DIRPAGE);
     }
 
     public function show(string $slug = ""): void
@@ -19,6 +19,10 @@ class CategoryController extends Controller
         $category = new Category();
         $subcategory = new Subcategory();
         $offer = new Offer();
+
+        if (empty($slug)) {
+            $this->redirect(DIRPAGE);
+        }
 
         $categoryId = $category->getId("slug", $slug);
         $categoryInfo = $category->getInfo($categoryId,
@@ -29,11 +33,6 @@ class CategoryController extends Controller
         $this->setTitle("Ofertas de {$categoryInfo['name']} | Humbleprice");
         $this->setDescription("Aqui você encontra as melhores ofertas de {$categoryInfo['name']}");
         $this->setKeywords("ofertas, produtos, preço, {$categoryInfo['name']}");
-
-        if (empty($slug)) {
-            header("Location: ".DIRPAGE);
-            exit;
-        }
 
         $subcategoryId = null;
 
@@ -51,8 +50,7 @@ class CategoryController extends Controller
                 $categoryId,
                 "category")
             ) {
-                header("Location: ".DIRPAGE."category/show/{$slug}");
-                exit;
+                $this->redirect(DIRPAGE."category/show/{$slug}");
             }
         }
 

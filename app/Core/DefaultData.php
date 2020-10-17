@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Core;
 
 use App\Models\Category;
 use App\Models\User;
 
-class Controller extends Render
+class DefaultData extends Controller
 {
-    private array $data;
-
     public function __construct()
     {
         $this->setCategories();
@@ -16,16 +14,6 @@ class Controller extends Render
         if (isset($_SESSION["user"])) {
             $this->setUser();
         }
-    }
-
-    public function getData(): array
-    {
-        return $this->data;
-    }
-
-    public function setData(string $key, $value): void
-    {
-        $this->data[$key] = $value;
     }
 
     private function setCategories(): void

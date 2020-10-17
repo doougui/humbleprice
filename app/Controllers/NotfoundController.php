@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Render;
+use App\Core\Authorization;
 
-class NotfoundController extends Controller
+class NotfoundController extends Authorization
 {
     public function index(): void
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Core;
 
 /**
  * Class Render

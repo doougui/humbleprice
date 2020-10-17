@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Table;
+
 class Category extends Table
 {
     public function __construct()
