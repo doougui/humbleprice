@@ -4,9 +4,10 @@ $(document).ready(function() {
 
     const action = $(this).attr('href');
     const card = $(this).closest('.card-item');
-    const error = $(card).next('.error');
-    const button = $(card).next('.approve');
-    console.log(error);
+    const error = $(card).find('.error');
+    const errorMsg = $(error).find('.error-msg');
+    const button = $(card).find('.approve');
+
     $.ajax({
       url: action,
       type: 'POST',
@@ -17,14 +18,14 @@ $(document).ready(function() {
       if (response.length !== 0) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
-        $(error).next('.error-msg').html(response).fadeIn();
+        $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
       } else {
         $(card).fadeOut();
       }
     }).fail(function() {
       $(error).removeClass('d-none');
       $(error).addClass('d-block');
-      $(`${error} .error-msg`).html('Ops! Algo de errado aconteceu!').fadeIn();
+      $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
     }).always(function() {
       $(button).removeClass('disabled');
     });

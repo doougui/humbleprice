@@ -45,15 +45,15 @@ class LoginController extends Authorization
             if (! empty($email) && ! empty($password)) {
                 if ($user->login($email, $password)) {
                     return true;
-                } else {
-                    die("Usuário e/ou senha incorretos.");
                 }
-            } else {
-                die("Preencha todos os campos para continuar.");
+
+                die("Usuário e/ou senha incorretos.");
             }
-        } else {
+
             die("Preencha todos os campos para continuar.");
         }
+
+        die("Preencha todos os campos para continuar.");
     }
 
     public function logout() {

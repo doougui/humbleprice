@@ -86,6 +86,26 @@ class Offer extends Table
         return false;
     }
 
+    public function updateStatus(int $offerId, string $status): bool
+    {
+        $sql = "UPDATE 
+                    offer 
+                SET 
+                    status = :status 
+                WHERE 
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":status", $status, \PDO::PARAM_STR);
+        $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function deleteOffer(int $id): bool
     {
         $sql = "DELETE FROM 

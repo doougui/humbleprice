@@ -30,7 +30,7 @@ class QueueController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function approve(string $slug = "")
+    public function approve(string $slug = ""): ?bool
     {
         $offer = new Offer();
 
@@ -39,9 +39,15 @@ class QueueController extends Authorization
         }
 
         $offerId = $offer->getId("slug", $slug);
+
+        if ($offer->updateStatus($offerId, "approved")) {
+            return true;
+        }
+
+        die("Não foi possível aprovar essa oferta.");
     }
 
-    public function refuse(string $slug = "")
+    public function refuse(string $slug = ""): ?bool
     {
         $offer = new Offer();
 
@@ -50,5 +56,11 @@ class QueueController extends Authorization
         }
 
         $offerId = $offer->getId("slug", $slug);
+
+        if ($offer->updateStatus($offerId, "refused")) {
+            return true;
+        }
+
+        die("Não foi possível recusar essa oferta.");
     }
 }

@@ -106,6 +106,7 @@
           } );
     </script>
     <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <?= $this->addExtraFooter($data) ?>
 <!--    <script src="--><?//= DIRJS ?><!--script.js"></script>-->
 </body>
