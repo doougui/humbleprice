@@ -19,7 +19,7 @@ class RegisterController extends Authorization
 
     public function signup(): ?bool
     {
-        $this->logout();
+        $this->logout(false);
 
         $user = new User();
 

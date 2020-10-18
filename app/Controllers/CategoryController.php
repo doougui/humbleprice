@@ -14,7 +14,7 @@ class CategoryController extends Authorization
         $this->redirect(DIRPAGE);
     }
 
-    public function show(string $slug = ""): void
+    public function offers(string $slug = ""): void
     {
         $category = new Category();
         $subcategory = new Subcategory();
@@ -50,7 +50,7 @@ class CategoryController extends Authorization
                 $categoryId,
                 "category")
             ) {
-                $this->redirect(DIRPAGE."category/show/{$slug}");
+                $this->redirect(DIRPAGE."category/offers/{$slug}");
             }
         }
 

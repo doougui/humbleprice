@@ -13,11 +13,11 @@ class Authorization extends Controller
         }
     }
 
-    public function logout(): void
+    public function logout(bool $redirect = true): void
     {
         unset($_SESSION["user"]);
 
-        if (currentUrl() !== DIRPAGE."login") {
+        if (currentUrl() !== DIRPAGE."login" && $redirect) {
             $this->redirect(DIRPAGE."login");
         }
     }

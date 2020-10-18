@@ -21,7 +21,7 @@ class LoginController extends Authorization
 
     public function signin(): ?bool
     {
-        $this->logout();
+        $this->logout(false);
 
         $user = new User();
 
