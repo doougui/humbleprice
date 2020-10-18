@@ -28,7 +28,7 @@ class UserController extends Authorization
         $this->setDescription('Edite seu perfil.');
         $this->setKeywords('forum, dev, editar perfil, perfil');
 
-        $this->setData("user", $user->getInfo($id));
+        $this->setData("user", $user->getInfo($id, ["name", "email"]));
 
         $this->renderLayout($this->getData());
     }
@@ -106,7 +106,7 @@ class UserController extends Authorization
 
     public function suspended(string $email): void
     {
-        $loggedEmail = $this->getData()["user"]["email"];
+        $loggedEmail = user()["email"];
 
         if ($email !== $loggedEmail) {
             $this->redirect($loggedEmail);

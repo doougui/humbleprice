@@ -35,7 +35,7 @@
                         <label for="category">Categoria</label>
                         <select name="category" id="category" class="form-control">
                             <option value="">Escolha uma categoria</option>
-                            <?php foreach ($categories as $category): ?>
+                            <?php foreach (categories() as $category): ?>
                                 <option value="<?= $category["slug"] ?>"><?= $category["name"] ?></option>
                             <?php endforeach; ?>
                         </select>

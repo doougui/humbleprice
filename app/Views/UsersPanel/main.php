@@ -16,17 +16,17 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $manageableUser): ?>
-                    <tr data-item="<?= $manageableUser["email"] ?>">
-                        <td><?= $manageableUser["name"] ?></td>
-                        <td><?= $manageableUser["email"] ?></td>
+                <?php foreach ($users as $user): ?>
+                    <tr data-item="<?= $user["email"] ?>">
+                        <td><?= $user["name"] ?></td>
+                        <td><?= $user["email"] ?></td>
                         <td class="form-group">
                             <select name="role" id="role" class="form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
                                         value="<?= $role['label'] ?>"
                                         <?=
-                                            ($role['label'] === $manageableUser['role_label'])
+                                            ($role['label'] === $user['role_label'])
                                                 ? 'selected'
                                                 : '';
                                         ?>
@@ -42,18 +42,18 @@
                             </div>
                             <button
                                 type="button"
-                                class="btn btn-outline-<?= ($manageableUser["suspended"])
+                                class="btn btn-outline-<?= ($user["suspended"])
                                     ? 'success'
                                     : "warning"
                                 ?> suspend"
 
-                                <?= ($manageableUser["email"] === $user["email"]
-                                    || $manageableUser["id_role"] === $user["id_role"])
+                                <?= ($user["email"] === user()["email"]
+                                    || $user["id_role"] === user()["id_role"])
                                     ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o mesmo nível hierárquico que você."'
                                     : ''
                                 ?>
                             >
-                                <?= ($manageableUser["suspended"]) ? 'Re-ativar' : "Suspender" ?>
+                                <?= ($user["suspended"]) ? 'Re-ativar' : "Suspender" ?>
                             </button>
                             <button class="btn btn-outline-danger delete">Deletar</button>
                         </td>

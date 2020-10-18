@@ -29,13 +29,13 @@
                                 Categorias
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
-                                <?php foreach ($categories as $category): ?>
+                                <?php foreach (categories() as $category): ?>
                                     <a class="dropdown-item" href="<?= DIRPAGE."category/show/{$category['slug']}" ?>"><?= $category["name"] ?></a>
                                 <?php endforeach; ?>
                             </div>
                         </li>
-                        <?php if (isset($user)): ?>
-                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'NANAGE_USERS')): ?>
+                        <?php if (user()): ?>
+                            <?php if ((new \App\Models\User())->hasPermission(user()["id_role"], 'NANAGE_USERS')): ?>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Painel
@@ -46,13 +46,13 @@
                                 </li>
                             <?php endif; ?>
                         <?php endif; ?>
-                        <?php if (isset($user)): ?>
-                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'MANAGE_QUEUE')): ?>
+                        <?php if (user()): ?>
+                            <?php if ((new \App\Models\User())->hasPermission(user()["id_role"], 'MANAGE_QUEUE')): ?>
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
                                 </li>
                             <?php endif; ?>
-                            <li class="nav-item nav-link"><?= $user['name'] ?></li>
+                            <li class="nav-item nav-link"><?= user()['name'] ?></li>
                             <li class="nav-item alert-link">
                                 <a class="nav-link" href="<?= DIRPAGE ?>login/logout">Sair</a>
                             </li>
@@ -64,7 +64,7 @@
                     </ul>
                 </div>
 
-                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= isset($user) ? '' : 'disabled' ?>">Sugerir oferta</a>
+                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= (user()) ? '' : 'disabled' ?>">Sugerir oferta</a>
             </div>
         </nav>
     </header>
@@ -82,11 +82,6 @@
     <!-- JavaScript -->
     <script src="<?= DIRJS ?>jquery-3.5.1.min.js"></script>
     <script src="<?= DIRJS ?>bootstrap.bundle.min.js"></script>
-    <script>
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-    </script>
 <!--    <script src="--><?//= DIRJS ?><!--ckeditor.js"></script>-->
 <!--    <script>-->
 <!--      ClassicEditor-->

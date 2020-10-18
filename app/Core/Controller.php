@@ -7,7 +7,7 @@ use App\Models\User;
 
 class Controller extends Render
 {
-    private array $data;
+    private array $data = [];
 
     public function getData(): array
     {

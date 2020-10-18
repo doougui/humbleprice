@@ -4,12 +4,10 @@ namespace App\Core;
 
 use App\Models\User;
 
-class Authorization extends DefaultData
+class Authorization extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
-
         if (isset($_SESSION["user"])) {
             $this->isSuspended();
         }
@@ -19,7 +17,7 @@ class Authorization extends DefaultData
     {
         unset($_SESSION["user"]);
 
-        if ($this->getData()["currentUrl"] != DIRPAGE."login") {
+        if (currentUrl() !== DIRPAGE."login") {
             $this->redirect(DIRPAGE."login");
         }
     }
@@ -44,7 +42,7 @@ class Authorization extends DefaultData
         $user = new User();
 
         if (! $user->hasPermission(
-            $this->getData()["user"]["id_role"],
+            user()["id_role"],
             $permission
         )) {
             $this->redirect(DIRPAGE);
@@ -56,9 +54,7 @@ class Authorization extends DefaultData
     private function isSuspended(): void
     {
         $user = new User();
-        $email = $this->getData()["user"]["email"];
-
-        $currentUrl = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        $email = user()["email"];
 
         $allowedRoutesForSuspendedUsers = [
             DIRPAGE."user/suspended/{$email}",
@@ -67,12 +63,12 @@ class Authorization extends DefaultData
             DIRPAGE."login/logout",
         ];
 
-        if (! in_array($currentUrl, $allowedRoutesForSuspendedUsers)) {
+        if (! in_array(currentUrl(), $allowedRoutesForSuspendedUsers)) {
             if ($user->isSuspended($email)) {
                 $this->redirect($allowedRoutesForSuspendedUsers[0]);
             }
         } else if (
-            $currentUrl === $allowedRoutesForSuspendedUsers[0]
+            currentUrl() === $allowedRoutesForSuspendedUsers[0]
             && ! $user->isSuspended($email)
         ) {
             $this->redirect(DIRPAGE);

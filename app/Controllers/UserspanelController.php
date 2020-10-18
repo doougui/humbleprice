@@ -56,7 +56,7 @@ class UserspanelController extends Authorization
         if ($userId === $_SESSION["user"] ||
             $user->getInfo(
                 $userId, ["id_role"]
-            )["id_role"] === $this->getData()["user"]["id_role"]
+            )["id_role"] === user()["id_role"]
         ) {
             die("Você não pode suspender ou re-ativar uma conta com o mesmo nível hierárquico que você.");
         }
