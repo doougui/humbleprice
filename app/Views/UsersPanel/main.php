@@ -5,15 +5,44 @@
 </section>
 
 <div class="container">
-    <section id="offers">
-        <div class="card">
-            <div class="card-header">
-                <h4>Usuários</h4>
-            </div>
-
-            <div class="card-body">
-
-            </div>
-        </div>
+    <section id="offers" class="table-responsive">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $manageableUser): ?>
+                    <tr>
+                        <td><?= $manageableUser["name"] ?></td>
+                        <td><?= $manageableUser["email"] ?></td>
+                        <td class="form-group">
+                            <select name="role" id="role" class="form-control">
+                                <?php foreach ($roles as $role): ?>
+                                    <option
+                                        value="<?= $role['label'] ?>"
+                                        <?=
+                                            ($role['label'] === $manageableUser['role_label'])
+                                                ? 'selected'
+                                                : '';
+                                        ?>
+                                    >
+                                        <?= $role['name'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-warning">Suspender</button>
+                            <button class="btn btn-outline-danger">Deletar</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </section>
 </div>
