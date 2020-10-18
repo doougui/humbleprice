@@ -9,7 +9,7 @@ class Category extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'category';
+        $this->table = "category";
     }
 
     public function subcategories(int $categoryId): array

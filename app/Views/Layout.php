@@ -36,6 +36,18 @@
                             </div>
                         </li>
                         <?php if (isset($user)): ?>
+                            <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'NANAGE_USERS')): ?>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Painel
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
+                                        <a class="dropdown-item" href="<?= DIRPAGE."userspanel" ?>">Painel de usuários</a>
+                                    </div>
+                                </li>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php if (isset($user)): ?>
                             <?php if ((new \App\Models\User())->hasPermission($user["id_role"], 'MANAGE_QUEUE')): ?>
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
@@ -59,26 +71,6 @@
     </header>
 
     <main>
-<!--        <section id="navigation" class="box box-infos">
-            <nav class="breadcrumbs">
-                <li>
-                    <?php
-/*                    $breadcrumb = new Src\Classes\ClassBreadcrumb();
-                    echo $breadcrumb->addBreadcrumb();
-                    */?>
-                </li>
-            </nav>
-
-            <div class="btn-newpost">
-                <?/*= $this->addNavBtns($data) */?>
-                <a href="<?/*= DIRPAGE */?>topic/new">
-                    <button class="button" <?/*= (! isset($user)) ? 'disabled' : '' */?>>
-                        NOVA POSTAGEM
-                    </button>
-                </a>
-            </div>
-        </section>
--->
         <section id="content">
             <?= $this->addMainContent($data) ?>
         </section>

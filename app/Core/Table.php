@@ -6,16 +6,32 @@ class Table extends Connection
 {
     protected string $table;
 
-    public function getAll(array $fields): array
-    {
+    public function getAll(
+        array $fields,
+        array $joins = null,
+        array $on = null
+    ): array {
         $fields = implode(", ", $fields);
+
+        $joinQuery = "";
+
+        if (! empty($joins)) {
+            foreach ($joins as $key => $join) {
+                $joinQuery .=
+                    "{$join[1]} JOIN
+                        $join[0]
+                    ON
+                        {$on[$key]}
+                    ";
+            }
+        }
 
         $sql = "SELECT
                     $fields
                 FROM
-                    {$this->table}";
+                    {$this->table}
+                {$joinQuery}";
         $sql = $this->db->query($sql);
-
         if ($sql->rowCount() > 0) {
             return $sql->fetchAll();
         }
@@ -62,9 +78,9 @@ class Table extends Connection
 
         if ($sql->rowCount() > 0) {
             return $sql->fetch();
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     public function isChildOf(int $childId, int $parentId, string $table): bool
