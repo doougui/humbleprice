@@ -2,9 +2,30 @@
 
 namespace App;
 
+use Src\Traits\TraitUrlParser;
+
 class Dispatch
 {
-    use \Src\Traits\TraitUrlParser;
+    private array $prefixes;
+
+    use TraitUrlParser;
+
+    public function __construct()
+    {
+        $this->setPrefixes();
+    }
+
+    private function getPrefixes(): array
+    {
+        return $this->prefixes;
+    }
+
+    private function setPrefixes(): void
+    {
+        $this->prefixes = [
+            "admin"
+        ];
+    }
 
     public function run(): void
     {

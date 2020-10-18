@@ -1,17 +1,21 @@
 $(document).ready(function() {
-  $('#login').submit(function() {
-    const email = $('#email').val();
-    const password = $('#password').val();
+  $('#login').submit(function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const action = $(this).attr('action');
 
     $.ajax({
-      url: `${DIRPAGE}login/signin`,
+      url: action,
       type: 'POST',
-      data: { email, password },
+      data: formData,
+      processData: false,
+      contentType: false,
       beforeSend: function() {
         $('button[type=submit]').attr('disabled', '');
       }
     }).done(function(response) {
-      if (response.length != 0) {
+      if (response.length !== 0) {
         $('#error').removeClass('d-none');
         $('#error').addClass('d-block');
         $('#error-msg').html(response).fadeIn();
@@ -25,7 +29,5 @@ $(document).ready(function() {
     }).always(function() {
       $('button[type=submit]').removeAttr('disabled');
     });
-
-    return false;
   });
 });

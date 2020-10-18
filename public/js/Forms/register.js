@@ -1,13 +1,16 @@
 $(document).ready(function() {
-  $('#register').submit(function() {
-    const name = $('#name').val();
-    const email = $('#email').val();
-    const password = $('#password').val();
+  $('#register').submit(function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const action = $(this).attr('action');
 
     $.ajax({
-      url: `${DIRPAGE}register/signup`,
+      url: action,
       type: 'POST',
-      data: { name, email, password },
+      data: formData,
+      processData: false,
+      contentType: false,
       beforeSend: function() {
         $('button[type=submit]').attr('disabled', '');
       }
@@ -26,7 +29,5 @@ $(document).ready(function() {
     }).always(function() {
       $('button[type=submit]').removeAttr('disabled');
     });
-
-    return false;
   });
 });

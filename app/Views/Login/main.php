@@ -7,7 +7,7 @@
             <div id="error" class="alert alert-danger d-none" role="alert">
                 <p id="error-msg"></p>
             </div>
-            <form method="POST" id="login">
+            <form method="POST" id="login" action="<?= DIRPAGE ?>login/signin">
                 <div class="form-group">
                     <label for="email">E-mail</label>
                     <input type="email" name="email" id="email" class="form-control" required>
