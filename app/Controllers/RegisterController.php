@@ -19,7 +19,7 @@ class RegisterController extends Authorization
 
     public function signup(): ?bool
     {
-        unset($_SESSION["user"]);
+        $this->logout();
 
         $user = new User();
 

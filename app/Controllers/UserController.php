@@ -103,4 +103,13 @@ class UserController extends Authorization
             echo "Preencha todos os campos para continuar.";
         }
     }
+
+    public function suspended(string $email): void
+    {
+        $loggedEmail = $this->getData()["user"]["email"];
+
+        if ($email !== $loggedEmail) {
+            $this->redirect($loggedEmail);
+        }
+    }
 }

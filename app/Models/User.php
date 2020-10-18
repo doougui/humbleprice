@@ -12,12 +12,33 @@ class User extends Table
         $this->table = "user";
     }
 
+    public function isSuspended(string $email): bool
+    {
+        $sql = "SELECT
+                    suspended
+                FROM
+                    {$this->table}
+                WHERE
+                    email = :email
+                AND
+                    suspended = 1";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":email", $email, \PDO::PARAM_STR);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function login(string $email, string $password): bool
     {
         $sql = "SELECT 
                     id, password
                 FROM 
-                    user
+                    {$this->table}
                 WHERE 
                     email = :email";
         $sql = $this->db->prepare($sql);
@@ -46,7 +67,7 @@ class User extends Table
         }
 
         $sql = "INSERT INTO 
-                    user 
+                    {$this->table} 
                     (name, email, password) 
                 VALUES 
                     (:name, :email, :password)";
@@ -62,7 +83,7 @@ class User extends Table
             $sql = "SELECT 
                         id
                     FROM
-                        user
+                        {$this->table}
                     WHERE 
                         id = :user_id";
             $sql = $this->db->prepare($sql);
@@ -89,7 +110,7 @@ class User extends Table
         }
 
         $sql = "UPDATE 
-                    user 
+                    {$this->table} 
                 SET 
                     name = :name, 
                     email = :email 
@@ -117,7 +138,7 @@ class User extends Table
     public function deleteUser(int $id): bool
     {
         $sql = "DELETE FROM 
-                    user 
+                    {$this->table} 
                 WHERE 
                     id = :id";
         $sql = $this->db->prepare($sql);
@@ -143,7 +164,7 @@ class User extends Table
         }
 
         $sql = "UPDATE 
-                    user 
+                    {$this->table} 
                 SET 
                     suspended = :suspended 
                 WHERE 
@@ -189,7 +210,7 @@ class User extends Table
         $sql = "SELECT 
                     id 
                 FROM 
-                     user 
+                     {$this->table} 
 				WHERE 
 				      email = :email";
         $sql = $this->db->prepare($sql);
