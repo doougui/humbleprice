@@ -28,7 +28,7 @@ class User extends Table
             $user = $sql->fetch();
 
             if (password_verify($password, $user["password"])) {
-                $_SESSION["user"] = $user["id"];
+                $_SESSION["user"] = intval($user["id"]);
                 return true;
             }
         }
@@ -69,7 +69,7 @@ class User extends Table
             $sql->bindValue(":user_id", $userId);
             $sql->execute();
 
-            $_SESSION["user"] = $sql->fetch()["id"];
+            $_SESSION["user"] = intval($sql->fetch()["id"]);
 
             return true;
         }
@@ -122,6 +122,35 @@ class User extends Table
                     id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id", $id, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function toggleSuspension(int $userId): bool
+    {
+        $isUserSuspended = $this->getInfo($userId, [
+           "suspended"
+        ]);
+
+        $suspended = 1;
+        if ($isUserSuspended["suspended"]) {
+            $suspended = 0;
+        }
+
+        $sql = "UPDATE 
+                    user 
+                SET 
+                    suspended = :suspended 
+                WHERE 
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":suspended", $suspended, \PDO::PARAM_STR);
+        $sql->bindParam(":id", $userId, \PDO::PARAM_INT);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

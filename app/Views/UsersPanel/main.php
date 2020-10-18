@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <?php foreach ($users as $manageableUser): ?>
-                    <tr>
+                    <tr data-item="<?= $manageableUser["email"] ?>">
                         <td><?= $manageableUser["name"] ?></td>
                         <td><?= $manageableUser["email"] ?></td>
                         <td class="form-group">
@@ -37,8 +37,25 @@
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-outline-warning">Suspender</button>
-                            <button class="btn btn-outline-danger">Deletar</button>
+                            <div class="alert alert-danger error tr-error d-none" role="alert">
+                                <p class="error-msg"></p>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn btn-outline-<?= ($manageableUser["suspended"])
+                                    ? 'success'
+                                    : "warning"
+                                ?> suspend"
+
+                                <?= ($manageableUser["email"] === $user["email"]
+                                    || $manageableUser["id_role"] === $user["id_role"])
+                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o mesmo nível hierárquico que você."'
+                                    : ''
+                                ?>
+                            >
+                                <?= ($manageableUser["suspended"]) ? 'Re-ativar' : "Suspender" ?>
+                            </button>
+                            <button class="btn btn-outline-danger delete">Deletar</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

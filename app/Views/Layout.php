@@ -9,7 +9,6 @@
     <title><?= $this->getTitle() ?></title>
     <link rel="stylesheet" href="<?= DIRCSS ?>bootstrap.min.css">
     <link rel="stylesheet" href="<?= DIRCSS ?>normalize.css">
-    <link rel="stylesheet" href="<?= DIRCSS ?>quill.snow.css">
     <link rel="stylesheet" href="<?= DIRCSS ?>style.css">
     <?= $this->addExtraHead($data) ?>
 </head>
@@ -81,22 +80,26 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="<?= DIRJS ?>jquery-3.4.1.min.js"></script>
-    <script src="<?= DIRJS ?>bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/f8d095f64b.js" crossorigin="anonymous"></script>
-    <script src="<?= DIRJS ?>ckeditor.js"></script>
+    <script src="<?= DIRJS ?>jquery-3.5.1.min.js"></script>
+    <script src="<?= DIRJS ?>bootstrap.bundle.min.js"></script>
     <script>
-      ClassicEditor
-          .create( document.querySelector( '#editor' ), {
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']
-          } )
-          .then( editor => {
-            window.editor = editor;
-          } )
-          .catch( err => {
-            console.error( err.stack );
-          } );
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
     </script>
+<!--    <script src="--><?//= DIRJS ?><!--ckeditor.js"></script>-->
+<!--    <script>-->
+<!--      ClassicEditor-->
+<!--          .create( document.querySelector( '#editor' ), {-->
+<!--            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']-->
+<!--          } )-->
+<!--          .then( editor => {-->
+<!--            window.editor = editor;-->
+<!--          } )-->
+<!--          .catch( err => {-->
+<!--            console.error( err.stack );-->
+<!--          } );-->
+<!--    </script>-->
     <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <?= $this->addExtraFooter($data) ?>

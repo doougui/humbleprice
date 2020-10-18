@@ -28,7 +28,7 @@ $(document).ready(function() {
           if (response.length !== 0) {
             $(error).removeClass('d-none');
             $(error).addClass('d-block');
-            $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
+            $(errorMsg).html(response).fadeIn();
           } else {
             $(card).fadeOut();
           }
@@ -43,8 +43,6 @@ $(document).ready(function() {
         swal("Oferta recusada com sucesso", {
           icon: "success",
         });
-      } else {
-        swal("Ótimo! A oferta não foi refusada.");
       }
     } catch (e) {
       $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();

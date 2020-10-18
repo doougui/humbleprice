@@ -72,3 +72,7 @@ a.delete {
   background-color: #F7F7F7;
   height: 237.23px;
 }
+
+.tr-error {
+  max-width: 300px;
+}

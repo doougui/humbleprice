@@ -27,17 +27,44 @@ class UserspanelController extends Authorization
         $this->setData("users", $user->getAll(
             [
                 "user.name AS name",
+                "suspended",
                 "email",
+                "id_role",
                 "role.name AS role",
                 "role.label AS role_label"
             ],
             [
                 ["role", "INNER"]
             ],
-            ["user.id_role = role.id", "user.id_offer = offer.id"]
+            ["user.id_role = role.id"]
         ));
         $this->setData("roles", $role->getAll(["name", "label"]));
 
         $this->renderLayout($this->getData());
+    }
+
+    public function suspend(string $email): ?bool
+    {
+        $user = new User();
+
+        if (empty($email)) {
+            $this->redirect(DIRPAGE."userspanel");
+        }
+
+        $userId = $user->getId("email", $email);
+
+        if ($userId === $_SESSION["user"] ||
+            $user->getInfo(
+                $userId, ["id_role"]
+            )["id_role"] === $this->getData()["user"]["id_role"]
+        ) {
+            die("Você não pode suspender ou re-ativar uma conta com o mesmo nível hierárquico que você.");
+        }
+
+        if ($user->toggleSuspension($userId)) {
+            return true;
+        }
+
+        die("Não foi possível suspender este usuário.");
     }
 }

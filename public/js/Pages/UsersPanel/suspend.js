@@ -18,7 +18,7 @@ $(document).ready(function() {
       if (response.length !== 0) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
-        $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
+        $(errorMsg).html(response).fadeIn();
       } else {
         window.location.href = `${DIRPAGE}userspanel`;
       }
