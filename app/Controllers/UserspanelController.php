@@ -37,7 +37,7 @@ class UserspanelController extends Authorization
                 ["role", "INNER"]
             ],
             ["user.id_role = role.id"],
-            "ORDER BY id_role DESC"
+            "ORDER BY id_role DESC, user.id ASC"
         ));
         $this->setData("roles", $role->getAll(["name", "label"]));
 

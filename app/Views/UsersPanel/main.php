@@ -43,7 +43,7 @@
                             <button
                                 type="button"
                                 class="btn btn-outline-<?= ($user["suspended"])
-                                    ? 'success'
+                                    ? 'info'
                                     : "warning"
                                 ?> suspend"
 
