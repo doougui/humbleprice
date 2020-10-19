@@ -42,7 +42,7 @@ class LoginController extends Authorization
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (! empty($email) && ! empty($password)) {
+            if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->login($email, $password)) {
                     return true;
                 }

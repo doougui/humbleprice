@@ -19,16 +19,12 @@
                                 <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
                             </div>
 
-                            <a href="#" class="btn btn-link"><?= utf8_encode($offer['name']) ?></a>
+                            <a href="#" class="btn btn-link"><?= $offer['name'] ?></a>
 
                             <div class="card-prices">
                                 <div class="old-price">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></div>
                                 <div class="new-price">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></div>
                             </div>
-
-                            <?php if (isset($_SESSION['hLogin']) && $_SESSION['user']['admin'] == 1): ?>
-                                <a href="<?= DIRPAGE ?>ofertas/deletar/<?= $offer['id'] ?>" class="delete text-center">Excluir anúncio</a>
-                            <?php endif; ?>
                         </div>
 
                         <div class="alert alert-danger d-none error" role="alert">
@@ -36,7 +32,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-danger mb-2">Pegar promoção</a>
+                            <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-danger mb-2">Avaliar oferta</a>
 
                             <div class="row justify-content-center">
                                 <a href="<?= DIRPAGE ?>queue/approve/<?= $offer['slug'] ?>" class="btn btn-success m-1 approve">Aprovar</a>

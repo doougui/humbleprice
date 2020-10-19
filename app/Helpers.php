@@ -17,7 +17,7 @@ function user(): ?array
     if (isset($_SESSION["user"])) {
         return $user->getInfo(
             $_SESSION["user"],
-            ['name', 'email', 'password', 'id_role']
+            ["name", "email", "password", "id_role"]
         );
     }
 
@@ -27,4 +27,11 @@ function user(): ?array
 function currentUrl(): string
 {
     return "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+}
+
+function authorized(string $permission): bool
+{
+    $user = new User();
+
+    return $user->hasPermission(user()["id_role"], $permission);
 }

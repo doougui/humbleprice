@@ -35,7 +35,7 @@
                             </div>
                         </li>
                         <?php if (user()): ?>
-                            <?php if ((new \App\Models\User())->hasPermission(user()["id_role"], 'NANAGE_USERS')): ?>
+                            <?php if (authorized('NANAGE_USERS')): ?>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Painel
@@ -47,7 +47,7 @@
                             <?php endif; ?>
                         <?php endif; ?>
                         <?php if (user()): ?>
-                            <?php if ((new \App\Models\User())->hasPermission(user()["id_role"], 'MANAGE_QUEUE')): ?>
+                            <?php if (authorized('MANAGE_QUEUE')): ?>
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
                                 </li>
