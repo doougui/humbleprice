@@ -36,14 +36,15 @@ class UserspanelController extends Authorization
             [
                 ["role", "INNER"]
             ],
-            ["user.id_role = role.id"]
+            ["user.id_role = role.id"],
+            "ORDER BY id_role DESC"
         ));
         $this->setData("roles", $role->getAll(["name", "label"]));
 
         $this->renderLayout($this->getData());
     }
 
-    public function suspend(string $email): ?bool
+    public function suspend(string $email = null): ?bool
     {
         $user = new User();
 
@@ -56,9 +57,9 @@ class UserspanelController extends Authorization
         if ($userId === $_SESSION["user"] ||
             $user->getInfo(
                 $userId, ["id_role"]
-            )["id_role"] === user()["id_role"]
+            )["id_role"] >= user()["id_role"]
         ) {
-            die("Você não pode suspender ou re-ativar uma conta com o mesmo nível hierárquico que você.");
+            die("Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual que o seu.");
         }
 
         if ($user->toggleSuspension($userId)) {

@@ -35,3 +35,18 @@ function authorized(string $permission): bool
 
     return $user->hasPermission(user()["id_role"], $permission);
 }
+
+function startsWith(string $startString, string $string): bool
+{
+    $length = strlen($startString);
+    return substr($string, 0, $length) === $startString;
+}
+
+function endsWith(string $endString, string $string): bool
+{
+    $length = strlen($endString);
+    if ($length == 0) {
+        return true;
+    }
+    return substr($string, -$length) === $endString;
+}

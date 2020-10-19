@@ -14,7 +14,7 @@ class CategoryController extends Authorization
         $this->redirect(DIRPAGE);
     }
 
-    public function offers(string $slug = ""): void
+    public function offers(string $slug = null): void
     {
         $category = new Category();
         $subcategory = new Subcategory();
@@ -64,7 +64,7 @@ class CategoryController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function subcategories(string $category = ""): void
+    public function subcategories(string $category = null): void
     {
         $subcategory = new Subcategory();
 

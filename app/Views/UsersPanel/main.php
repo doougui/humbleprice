@@ -48,8 +48,8 @@
                                 ?> suspend"
 
                                 <?= ($user["email"] === user()["email"]
-                                    || $user["id_role"] === user()["id_role"])
-                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o mesmo nível hierárquico que você."'
+                                    || $user["id_role"] >= user()["id_role"])
+                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual que o seu."'
                                     : ''
                                 ?>
                             >

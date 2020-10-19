@@ -30,7 +30,7 @@ class QueueController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function approve(string $slug = ""): ?bool
+    public function approve(string $slug = null): ?bool
     {
         $offer = new Offer();
 
@@ -47,7 +47,7 @@ class QueueController extends Authorization
         die("Não foi possível aprovar essa oferta.");
     }
 
-    public function refuse(string $slug = ""): ?bool
+    public function refuse(string $slug = null): ?bool
     {
         $offer = new Offer();
 
