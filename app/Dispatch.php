@@ -10,23 +10,6 @@ class Dispatch
 
     use TraitUrlParser;
 
-    public function __construct()
-    {
-        $this->setPrefixes();
-    }
-
-    private function getPrefixes(): array
-    {
-        return $this->prefixes;
-    }
-
-    private function setPrefixes(): void
-    {
-        $this->prefixes = [
-            "admin"
-        ];
-    }
-
     public function run(): void
     {
         $url = $this->parseUrl();
@@ -64,6 +47,21 @@ class Dispatch
         $newController = $prefix.$currentController;
 
         $controller = new $newController();
+
+        set_error_handler(function () {
+            $currentController = "NotfoundController";
+            $currentAction = "index";
+
+            $prefix = "\App\Controllers\\";
+
+            $newController = $prefix.$currentController;
+
+            $controller = new $newController();
+            call_user_func_array([$controller, $currentAction], []);
+        });
+
         call_user_func_array([$controller, $currentAction], $params);
+
+        restore_error_handler();
     }
 }
