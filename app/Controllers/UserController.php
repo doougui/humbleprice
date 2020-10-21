@@ -28,7 +28,7 @@ class UserController extends Authorization
         $this->setDescription('Edite seu perfil.');
         $this->setKeywords('forum, dev, editar perfil, perfil');
 
-        $this->setData("user", $user->getInfo($id, ["name", "email"]));
+        $this->setData("user", $user->getInfo("id", $id, ["name", "email"]));
 
         $this->renderLayout($this->getData());
     }

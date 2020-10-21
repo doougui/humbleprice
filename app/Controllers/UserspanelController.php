@@ -60,7 +60,9 @@ class UserspanelController extends Authorization
 
         if ($userId === $_SESSION["user"] ||
             $user->getInfo(
-                $userId, ["id_role"]
+                "id",
+                $userId,
+                ["id_role"]
             )["id_role"] >= user()["id_role"]
         ) {
             die("Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual que o seu.");
@@ -89,7 +91,9 @@ class UserspanelController extends Authorization
 
         if ($userId === $_SESSION["user"] ||
             $user->getInfo(
-                $userId, ["id_role"]
+                "id",
+                $userId,
+                ["id_role"]
             )["id_role"] >= user()["id_role"]
         ) {
             die("Você não pode deletar uma conta com o nível hierárquico maior ou igual que o seu.");
@@ -127,7 +131,9 @@ class UserspanelController extends Authorization
 
         if ($roleId >= user()["id_role"]
             || $user->getInfo(
-                $userId, ["id_role"]
+                "id",
+                $userId,
+                ["id_role"]
             )["id_role"] >= user()["id_role"]
         ) {
             die("Você não pode atribuir um cargo maior ou mudar o cargo de alguém com o nível hierárquico maior ou igual ao seu.");

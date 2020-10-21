@@ -30,7 +30,9 @@ class CategoryController extends Authorization
             $this->redirect(DIRPAGE);
         }
 
-        $categoryInfo = $category->getInfo($categoryId,
+        $categoryInfo = $category->getInfo(
+            "id",
+            $categoryId,
             ['id', 'name', 'slug']
         );
 

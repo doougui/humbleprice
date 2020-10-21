@@ -16,6 +16,7 @@ function user(): ?array
 
     if (isset($_SESSION["user"])) {
         return $user->getInfo(
+            "id",
             $_SESSION["user"],
             ["name", "email", "password", "id_role"]
         );

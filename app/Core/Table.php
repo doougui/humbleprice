@@ -42,7 +42,7 @@ class Table extends Connection
     }
 
     public function getId(
-        string $column,
+        string $byColumn,
         string $value,
         string $table = null
     ): ?int {
@@ -53,9 +53,9 @@ class Table extends Connection
                 FROM
                     {$table}
                 WHERE
-                    {$column} = :{$column}";
+                    {$byColumn} = :{$byColumn}";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":{$column}", $value, \PDO::PARAM_STR);
+        $sql->bindParam(":{$byColumn}", $value, \PDO::PARAM_STR);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -65,17 +65,20 @@ class Table extends Connection
         return null;
     }
 
-    public function getInfo(int $id, array $fields): array
-    {
+    public function getInfo(
+        string $byColumn,
+        string $value,
+        array $fields
+    ): array {
         $fields = implode(", ", $fields);
 
         $sql = "SELECT 
                     $fields
                 FROM 
                      {$this->table} WHERE 
-                id = :id";
+                {$byColumn} = :{$byColumn}";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":id", $id, \PDO::PARAM_INT);
+        $sql->bindParam(":{$byColumn}", $value, \PDO::PARAM_STR);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

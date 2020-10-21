@@ -154,9 +154,7 @@ class User extends Table
 
     public function toggleSuspension(int $userId): bool
     {
-        $isUserSuspended = $this->getInfo($userId, [
-           "suspended"
-        ]);
+        $isUserSuspended = $this->getInfo("id", $userId, ["suspended"]);
 
         $suspended = 1;
         if ($isUserSuspended["suspended"]) {
