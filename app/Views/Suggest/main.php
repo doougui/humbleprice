@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-danger">Cadastrar promoção</button>
+                <button type="submit" class="btn btn-themed">Cadastrar promoção</button>
             </form>
         </div>
     </div>

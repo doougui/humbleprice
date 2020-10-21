@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-danger">Ir para oferta</a>
+                            <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-themed">Ir para oferta</a>
                         </div>
                     </div>
                 <?php endforeach; ?>

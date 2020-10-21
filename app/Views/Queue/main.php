@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-danger mb-2">Avaliar oferta</a>
+                            <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-themed mb-2">Avaliar oferta</a>
 
                             <div class="row justify-content-center">
                                 <button class="btn btn-success m-1 approve">Aprovar</button>

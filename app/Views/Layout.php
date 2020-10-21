@@ -64,7 +64,7 @@
                     </ul>
                 </div>
 
-                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= (user()) ? '' : 'disabled' ?>">Sugerir oferta</a>
+                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-themed <?= (user()) ? '' : 'disabled' ?>">Sugerir oferta</a>
             </div>
         </nav>
     </header>

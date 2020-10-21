@@ -18,7 +18,7 @@
                     <input type="password" name="password" id="password" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-danger">Fazer login</button>
+                <button type="submit" class="btn btn-themed">Fazer login</button>
                 <a href="<?= DIRPAGE ?>register">Registrar sua conta!</a>
             </form>
         </div>

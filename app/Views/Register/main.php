@@ -23,7 +23,7 @@
                     <input type="password" name="password" id="password" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-danger">Registrar conta</button>
+                <button type="submit" class="btn btn-themed">Registrar conta</button>
                 <a href="<?= DIRPAGE ?>login">Já está cadastrado? Entre!</a>
             </form>
         </div>

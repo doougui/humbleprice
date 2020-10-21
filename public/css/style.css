@@ -8,9 +8,15 @@ body {
   background-color: #F3F5F5;
 }
 
-.btn-danger {
+.btn-themed {
+  color: white;
   background-color: tomato;
-  color: #FFF;
+  border-color: tomato;
+}
+
+.btn-themed:hover {
+  color: white;
+  background-color: #C82333;
 }
 
 .navbar-brand {
