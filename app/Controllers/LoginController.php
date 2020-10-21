@@ -9,7 +9,7 @@ class LoginController extends Authorization
 {
     public function index(): void
     {
-        unset($_SESSION["user"]);
+        $this->logout();
 
         $this->setDir("Login");
         $this->setTitle("Entre na sua conta | Humbleprice");
@@ -21,7 +21,7 @@ class LoginController extends Authorization
 
     public function signin(): ?bool
     {
-        unset($_SESSION["user"]);
+        $this->logout(false);
 
         $user = new User();
 
@@ -42,7 +42,7 @@ class LoginController extends Authorization
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (! empty($email) && ! empty($password)) {
+            if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->login($email, $password)) {
                     return true;
                 }
@@ -54,10 +54,5 @@ class LoginController extends Authorization
         }
 
         die("Preencha todos os campos para continuar.");
-    }
-
-    public function logout() {
-        unset($_SESSION["user"]);
-        $this->redirect(DIRPAGE."login");
     }
 }

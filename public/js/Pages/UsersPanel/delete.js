@@ -1,28 +1,28 @@
 $(document).ready(function() {
-  $('.refuse').click(async function(e) {
+  $('.delete').click(async function(e) {
     e.preventDefault();
 
-    const action = $(this).attr('href');
-    const card = $(this).closest('.card-item');
-    const error = $(card).find('.error');
+    const tr = $(this).closest('tr');
+    const action = `${DIRPAGE}userspanel/delete/${$(tr).attr('data-item')}`;
+    const error = $(tr).find('.actions-errors');
     const errorMsg = $(error).find('.error-msg');
-    const button = $(card).find('.refuse');
+    const button = $(tr).find('.delete');
 
     try {
-      const willRefuse = await swal({
-        title: "Você tem certeza?",
-        text: "Uma vez recusada, você não será capaz de recuperar e/ou aprovar esta oferta.",
+      const willDelete = await swal({
+        title: "Deletar conta?",
+        text: "Esta ação é irreversível e a conta não poderá ser recuperada",
         icon: "warning",
-        buttons: ['Cancelar', 'Recusar oferta'],
+        buttons: ['Cancelar', 'Deletar conta permanentemente'],
         dangerMode: true,
       });
 
-      if (willRefuse) {
+      if (willDelete) {
         $.ajax({
           url: action,
           type: 'POST',
           beforeSend: function() {
-            $(button).addClass('disabled');
+            $(button).attr('disabled', '');
           }
         }).done(function(response) {
           if (response.length !== 0) {
@@ -30,18 +30,14 @@ $(document).ready(function() {
             $(error).addClass('d-block');
             $(errorMsg).html(response).fadeIn();
           } else {
-            $(card).fadeOut();
+            window.location.href = `${DIRPAGE}userspanel`;
           }
         }).fail(function() {
           $(error).removeClass('d-none');
           $(error).addClass('d-block');
           $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
         }).always(function() {
-          $(button).removeClass('disabled');
-        });
-
-        swal("Oferta recusada com sucesso", {
-          icon: "success",
+          $(button).removeAttr('disabled');
         });
       }
     } catch (e) {

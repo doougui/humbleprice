@@ -9,7 +9,8 @@ class Table extends Connection
     public function getAll(
         array $fields,
         array $joins = null,
-        array $on = null
+        array $on = null,
+        string $orderBy = null
     ): array {
         $fields = implode(", ", $fields);
 
@@ -30,7 +31,8 @@ class Table extends Connection
                     $fields
                 FROM
                     {$this->table}
-                {$joinQuery}";
+                {$joinQuery}
+                {$orderBy}";
         $sql = $this->db->query($sql);
         if ($sql->rowCount() > 0) {
             return $sql->fetchAll();

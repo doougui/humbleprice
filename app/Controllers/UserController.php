@@ -12,13 +12,13 @@ class UserController extends Authorization
         $this->redirect(DIRPAGE);
     }
 
-    public function edit(int $id): void
+    public function edit(int $id = null): void
     {
         $user = new User();
 
         if (empty($id) ||
-            ! isset($_SESSION['user']) ||
-            $id !== $_SESSION['user']['id']
+            ! isset($_SESSION['user'])
+            || $id !== $_SESSION['user']['id']
         ) {
             $this->redirect(DIRPAGE);
         }
@@ -28,7 +28,7 @@ class UserController extends Authorization
         $this->setDescription('Edite seu perfil.');
         $this->setKeywords('forum, dev, editar perfil, perfil');
 
-        $this->setData("user", $user->getInfo($id));
+        $this->setData("user", $user->getInfo($id, ["name", "email"]));
 
         $this->renderLayout($this->getData());
     }
@@ -101,6 +101,15 @@ class UserController extends Authorization
             }
         } else {
             echo "Preencha todos os campos para continuar.";
+        }
+    }
+
+    public function suspended(string $email = null): void
+    {
+        $loggedEmail = user()["email"];
+
+        if ($email !== $loggedEmail) {
+            $this->redirect(DIRPAGE."user/suspended/{$loggedEmail}");
         }
     }
 }

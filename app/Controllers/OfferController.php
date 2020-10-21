@@ -6,6 +6,7 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
+use Cocur\Slugify\Slugify;
 
 class OfferController extends Authorization
 {
@@ -35,6 +36,7 @@ class OfferController extends Authorization
         $offer = new Offer();
         $category = new Category();
         $subcategory = new Subcategory();
+        $slugify = new Slugify();
 
         if (isset($_POST["link"]) && isset($_POST["name"]) &&
             isset($_POST["old-price"]) && isset($_POST["new-price"]) &&
@@ -51,6 +53,7 @@ class OfferController extends Authorization
                 "name",
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
+            $slug = $slugify->Slugify($name);
             $oldPrice = filter_input(
                 INPUT_POST,
                 "old-price",
@@ -78,16 +81,25 @@ class OfferController extends Authorization
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (! empty($link) && ! empty($name) &&
-                ! empty($oldPrice) && ! empty($newPrice) &&
-                ! empty($categorySlug) && ! empty($subcategorySlug) &&
-                ! empty($picture) && ! empty($endOffer)
+            if (strlen($link) !== 0 && strlen($name) !== 0 &&
+                strlen($oldPrice) !== 0 && strlen($newPrice) !== 0 &&
+                strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0 &&
+                strlen($endOffer) !== 0 && ! empty($_FILES["picture"])
             ) {
                 $oldPrice = floatval(str_replace(",",".", $oldPrice));
                 $newPrice = floatval(str_replace(",",".", $newPrice));
 
                 $categoryId = $category->getId("slug", $categorySlug);
+
+                if (! $categoryId) {
+                    die("Uma categoria inválida foi irformada. Por favor, selecione outra.");
+                }
+
                 $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
+
+                if (! $subcategoryId) {
+                    die("Uma subcategoria inválida foi irformada. Por favor, selecione outra.");
+                }
 
                 if (! $subcategory->isChildOf(
                     $subcategoryId,
@@ -158,6 +170,7 @@ class OfferController extends Authorization
                     );
 
                     $info = [
+                        "slug" => $slug,
                         "link" => $link,
                         "name" => $name,
                         "oldPrice" => $oldPrice,

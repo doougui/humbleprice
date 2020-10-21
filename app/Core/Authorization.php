@@ -4,11 +4,22 @@ namespace App\Core;
 
 use App\Models\User;
 
-class Authorization extends DefaultData
+class Authorization extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
+        if (isset($_SESSION["user"])) {
+            $this->isSuspended();
+        }
+    }
+
+    public function logout(bool $redirect = true): void
+    {
+        unset($_SESSION["user"]);
+
+        if (currentUrl() !== DIRPAGE."login" && $redirect) {
+            $this->redirect(DIRPAGE."login");
+        }
     }
 
     protected function redirect(string $to): void
@@ -17,7 +28,7 @@ class Authorization extends DefaultData
         exit;
     }
 
-    protected function authenticated(): object
+    protected function authenticated(): Authorization
     {
         if (! isset($_SESSION["user"])) {
             $this->redirect(DIRPAGE);
@@ -26,17 +37,41 @@ class Authorization extends DefaultData
         return $this;
     }
 
-    protected function withPermission(string $permission): object
+    protected function withPermission(string $permission): Authorization
     {
         $user = new User();
 
         if (! $user->hasPermission(
-            $this->getData()["user"]["id_role"],
+            user()["id_role"],
             $permission
         )) {
             $this->redirect(DIRPAGE);
         }
 
         return $this;
+    }
+
+    private function isSuspended(): void
+    {
+        $user = new User();
+        $email = user()["email"];
+
+        $allowedRoutesForSuspendedUsers = [
+            DIRPAGE."user/suspended/{$email}",
+            DIRPAGE."login",
+            DIRPAGE."register",
+            DIRPAGE."login/logout",
+        ];
+
+        if (! in_array(currentUrl(), $allowedRoutesForSuspendedUsers)) {
+            if ($user->isSuspended($email)) {
+                $this->redirect($allowedRoutesForSuspendedUsers[0]);
+            }
+        } else if (
+            currentUrl() === $allowedRoutesForSuspendedUsers[0]
+            && ! $user->isSuspended($email)
+        ) {
+            $this->redirect(DIRPAGE);
+        }
     }
 }

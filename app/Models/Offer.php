@@ -65,12 +65,13 @@ class Offer extends Table
     public function registerOffer(array $info): bool {
         $sql = "INSERT INTO 
                     {$this->table} 
-                    (id_category, id_subcategory, link, name, old_price, new_price, end_offer , image) 
+                    (id_category, id_subcategory, slug, link, name, old_price, new_price, end_offer , image) 
                 VALUES 
-                    (:category, :subcategory, :link, :name, :oldPrice, :newPrice, :endOffer, :picture)";
+                    (:category, :subcategory, :slug, :link, :name, :oldPrice, :newPrice, :endOffer, :picture)";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
         $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":slug", $info["slug"], \PDO::PARAM_STR);
         $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
         $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
         $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);

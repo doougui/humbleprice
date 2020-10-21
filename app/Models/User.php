@@ -12,12 +12,33 @@ class User extends Table
         $this->table = "user";
     }
 
+    public function isSuspended(string $email): bool
+    {
+        $sql = "SELECT
+                    suspended
+                FROM
+                    {$this->table}
+                WHERE
+                    email = :email
+                AND
+                    suspended = 1";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":email", $email, \PDO::PARAM_STR);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function login(string $email, string $password): bool
     {
         $sql = "SELECT 
                     id, password
                 FROM 
-                    user
+                    {$this->table}
                 WHERE 
                     email = :email";
         $sql = $this->db->prepare($sql);
@@ -28,7 +49,7 @@ class User extends Table
             $user = $sql->fetch();
 
             if (password_verify($password, $user["password"])) {
-                $_SESSION["user"] = $user["id"];
+                $_SESSION["user"] = intval($user["id"]);
                 return true;
             }
         }
@@ -46,7 +67,7 @@ class User extends Table
         }
 
         $sql = "INSERT INTO 
-                    user 
+                    {$this->table} 
                     (name, email, password) 
                 VALUES 
                     (:name, :email, :password)";
@@ -62,14 +83,14 @@ class User extends Table
             $sql = "SELECT 
                         id
                     FROM
-                        user
+                        {$this->table}
                     WHERE 
                         id = :user_id";
             $sql = $this->db->prepare($sql);
             $sql->bindValue(":user_id", $userId);
             $sql->execute();
 
-            $_SESSION["user"] = $sql->fetch()["id"];
+            $_SESSION["user"] = intval($sql->fetch()["id"]);
 
             return true;
         }
@@ -89,7 +110,7 @@ class User extends Table
         }
 
         $sql = "UPDATE 
-                    user 
+                    {$this->table} 
                 SET 
                     name = :name, 
                     email = :email 
@@ -114,10 +135,10 @@ class User extends Table
         return false;
     }
 
-    public function deleteUser(int $id): bool
+    public function delete(int $id): bool
     {
         $sql = "DELETE FROM 
-                    user 
+                    {$this->table} 
                 WHERE 
                     id = :id";
         $sql = $this->db->prepare($sql);
@@ -131,9 +152,38 @@ class User extends Table
         return false;
     }
 
+    public function toggleSuspension(int $userId): bool
+    {
+        $isUserSuspended = $this->getInfo($userId, [
+           "suspended"
+        ]);
+
+        $suspended = 1;
+        if ($isUserSuspended["suspended"]) {
+            $suspended = 0;
+        }
+
+        $sql = "UPDATE 
+                    {$this->table} 
+                SET 
+                    suspended = :suspended 
+                WHERE 
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":suspended", $suspended, \PDO::PARAM_STR);
+        $sql->bindParam(":id", $userId, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function hasPermission(int $role, string $permission): bool
     {
-        $ability = (new Ability())->getId('label', $permission);
+        $ability = (new Ability())->getId("label", $permission);
 
         $sql = "SELECT
                     id_ability, id_role
@@ -155,12 +205,32 @@ class User extends Table
         return false;
     }
 
+    public function assignRole(int $userId, int $roleId): bool
+    {
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    id_role = :id_role
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id_role", $roleId, \PDO::PARAM_INT);
+        $sql->bindParam(":id", $userId, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function emailExists(string $email): bool
     {
         $sql = "SELECT 
                     id 
                 FROM 
-                     user 
+                     {$this->table} 
 				WHERE 
 				      email = :email";
         $sql = $this->db->prepare($sql);

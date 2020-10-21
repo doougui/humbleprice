@@ -14,7 +14,7 @@ class CategoryController extends Authorization
         $this->redirect(DIRPAGE);
     }
 
-    public function show(string $slug = ""): void
+    public function offers(string $slug = null): void
     {
         $category = new Category();
         $subcategory = new Subcategory();
@@ -25,6 +25,11 @@ class CategoryController extends Authorization
         }
 
         $categoryId = $category->getId("slug", $slug);
+
+        if (! $categoryId) {
+            $this->redirect(DIRPAGE);
+        }
+
         $categoryInfo = $category->getInfo($categoryId,
             ['id', 'name', 'slug']
         );
@@ -45,12 +50,13 @@ class CategoryController extends Authorization
 
             $subcategoryId = $subcategory->getId("slug", $subcategoryFilter);
 
-            if (! $subcategory->isChildOf(
+            if (! $subcategoryId ||
+                ! $subcategory->isChildOf(
                 $subcategoryId,
                 $categoryId,
-                "category")
-            ) {
-                $this->redirect(DIRPAGE."category/show/{$slug}");
+                "category"
+            )) {
+                $this->redirect(DIRPAGE."category/offers/{$slug}");
             }
         }
 
@@ -64,7 +70,7 @@ class CategoryController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function subcategories(string $category = ""): void
+    public function subcategories(string $category = null): void
     {
         $subcategory = new Subcategory();
 

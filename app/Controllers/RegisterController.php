@@ -19,13 +19,14 @@ class RegisterController extends Authorization
 
     public function signup(): ?bool
     {
-        unset($_SESSION["user"]);
+        $this->logout(false);
 
         $user = new User();
 
-        if (isset($_POST["name"]) && !empty($_POST["name"]) &&
-            isset($_POST["email"]) && !empty($_POST["email"]) &&
-            isset($_POST["password"]) && !empty($_POST["password"])
+        if (
+            isset($_POST["name"])
+            && isset($_POST["email"])
+            && isset($_POST["password"])
         ) {
             if (filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL)) {
                 $email = filter_input(
@@ -51,10 +52,12 @@ class RegisterController extends Authorization
                 PASSWORD_DEFAULT
             );
 
-            if ($user->register($name, $email, $password)) {
-                return true;
-            } else {
-                die("Usuário já cadastrado. <a href='".DIRPAGE."login'>Faça seu login.</a>");
+            if (strlen($email) !== 0 && strlen($password) !== 0) {
+                if ($user->register($name, $email, $password)) {
+                    return true;
+                } else {
+                    die("Usuário já cadastrado. <a href='".DIRPAGE."login'>Faça seu login.</a>");
+                }
             }
         } else {
             die("Preencha todos os campos para continuar.");
