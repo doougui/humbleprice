@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2020 at 10:18 PM
+-- Generation Time: Oct 21, 2020 at 03:36 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -61,9 +61,10 @@ CREATE TABLE `ability_role` (
 --
 
 INSERT INTO `ability_role` (`id_ability`, `id_role`) VALUES
-(1, 1),
+(1, 4),
+(1, 3),
 (2, 2),
-(2, 5);
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -113,11 +114,13 @@ CREATE TABLE `offer` (
 --
 
 INSERT INTO `offer` (`id`, `id_category`, `id_subcategory`, `slug`, `link`, `name`, `old_price`, `new_price`, `end_offer`, `image`, `status`) VALUES
-(1, 1, 3, 'homefront-the-revolution-expansion-pass', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Homefront®: The Revolution Expansion Pass', 45, 19, '2020-10-30', 'a834079e69463a602a5017cad39c17e5jpg', 'pending'),
-(2, 1, 6, 'the-division-2', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'The Division 2', 16, 8, '2020-10-31', 'e5e41af6de3926fdd788bf5d7c22f75cjpg', 'pending'),
-(4, 1, 2, 'metro-redux-bundle', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Metro Redux Bundle', 78, 19, '2020-10-31', '237a49bef20342b5316ffa493fbcebb5jpg', 'pending'),
-(7, 1, 4, 'playstation-4', 'https://store.playstation.com/pt-br/product/UP1001-CUSA01401_00-ANEMONEREV100000?utm_source=promobit', 'PlayStation 4', 2500, 1999, '2022-04-30', '152e081dbdf8eaf753c472d5cb9e598bjpg', 'pending'),
-(6, 3, 7, 'jogo-the-lonely-hacker-android', 'https://play.google.com/store/apps/details?utm_source=promobit&#38;id=com.TheLonelyDeveloper.TheLonelyHacker', 'Jogo The Lonely Hacker - Android', 4, 0, '2020-10-29', '66859397b50ea148b49a9a3c6b7ef47fjpg', 'pending');
+(1, 1, 3, 'homefront-the-revolution-expansion-pass', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Homefront®: The Revolution Expansion Pass', 45, 19, '2020-10-30', 'a834079e69463a602a5017cad39c17e5jpg', 'approved'),
+(2, 1, 6, 'the-division-2', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'The Division 2', 16, 8, '2020-10-31', 'e5e41af6de3926fdd788bf5d7c22f75cjpg', 'approved'),
+(4, 1, 2, 'metro-redux-bundle', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Metro Redux Bundle', 78, 19, '2020-10-31', '237a49bef20342b5316ffa493fbcebb5jpg', 'approved'),
+(7, 1, 4, 'playstation-4', 'https://store.playstation.com/pt-br/product/UP1001-CUSA01401_00-ANEMONEREV100000?utm_source=promobit', 'PlayStation 4', 2500, 1999, '2022-04-30', '152e081dbdf8eaf753c472d5cb9e598bjpg', 'refused'),
+(6, 3, 7, 'jogo-the-lonely-hacker-android', 'https://play.google.com/store/apps/details?utm_source=promobit&#38;id=com.TheLonelyDeveloper.TheLonelyHacker', 'Jogo The Lonely Hacker - Android', 4, 0, '2020-10-29', '66859397b50ea148b49a9a3c6b7ef47fjpg', 'approved'),
+(8, 1, 6, 'call-of-duty-black-ops-cold-war-beta-aberto', 'microsoft.com/pt-br/p/call-of-duty-black-ops-cold-war-open-beta/9nw9mbbvpnpl?ranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A&#38;epi=wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A&#38;irgwc=1&#38;OCID=AID2000142_aff_7803_1243925&#38;tduid=%28ir__echp36uwi0kftmzkkk0sohzjx32xsw9s1f6qedht00%29%287803%29%281243925%29%28wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A%29%28%29&#38;irclickid=_echp36uwi0kftmzkkk0sohzjx32xsw9s1f6qedht00&#38;activetab=pivot%3Aoverviewtab', ' Call of Duty®: Black Ops Cold War - Beta Aberto', 20, 0, '2020-11-30', '155e1047ec2a718dff40d2c4b9bb17c6jpg', 'approved'),
+(9, 1, 4, 'game-watch-dogs-2-hits-ps4', 'https://www.kabum.com.br/cgi-local/site/produtos/descricao_ofertas.cgi?codigo=112780&#38;awc=17729_1603112669_9bb2448c441de6fdded1a7f4393a1cb8&#38;utm_source=AWIN&#38;utm_medium=AFILIADOS&#38;utm_campaign=hallowin_out20&#38;utm_content=home&#38;utm_term=https%3A%2F%2Fwww.promobit.com.br', 'Game Watch Dogs 2 Hits PS4', 79, 0, '2020-10-31', '89e6ede83df78c296358d03c133aa37ajpg', 'refused');
 
 -- --------------------------------------------------------
 
@@ -136,9 +139,10 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`id`, `label`, `name`) VALUES
-(1, 'ADMIN', 'Administrador'),
+(1, 'USER', 'Usuário'),
 (2, 'MODERATOR', 'Moderador'),
-(3, 'USER', 'Usuário');
+(3, 'ADMIN', 'Administrador'),
+(4, 'OWNER', 'Dono');
 
 -- --------------------------------------------------------
 
@@ -177,20 +181,23 @@ INSERT INTO `subcategory` (`id`, `id_category`, `slug`, `name`) VALUES
 
 CREATE TABLE `user` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `id_role` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `name` varchar(55) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `id_role` bigint(20) UNSIGNED NOT NULL DEFAULT 3
+  `suspended` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `id_role`) VALUES
-(1, 'Admin', 'admin@admin.com', '$2y$10$/iKT/F741lJAPypnnblHQ.yEm4IH9GS4Pi7BRb3REpWJW.H9QTGmK', 1),
-(2, 'Douglas Pinheiro Goulart', 'douglaspigoulart@gmail.com', '$2y$10$kXHGL/jHDIBO/HZQ4n2nHepsc16IzbeOFSCcEEcmjlh80I39xMC4a', 3),
-(4, 'Moderador', 'mod@mod.com', '$2y$10$K1Cg8L54uCZZ53URBAyoBO/M8n5277NiR6cGspnQoTua7lcz2tqh.', 2);
+INSERT INTO `user` (`id`, `id_role`, `name`, `email`, `password`, `suspended`) VALUES
+(1, 3, 'Admin', 'admin@admin.com', '$2y$10$/iKT/F741lJAPypnnblHQ.yEm4IH9GS4Pi7BRb3REpWJW.H9QTGmK', 0),
+(2, 1, 'Douglas Pinheiro Goulart', 'douglaspigoulart@gmail.com', '$2y$10$kXHGL/jHDIBO/HZQ4n2nHepsc16IzbeOFSCcEEcmjlh80I39xMC4a', 0),
+(4, 2, 'Moderador', 'mod@mod.com', '$2y$10$K1Cg8L54uCZZ53URBAyoBO/M8n5277NiR6cGspnQoTua7lcz2tqh.', 0),
+(5, 1, 'Luciana Ramos Pinheiro Inácio', 'luciana.rpi93@gmail.com', '$2y$10$RJkbwUGeFLI7S8qSSUVS2uRs6P3rDCATKFLd8QFN0i2SLiSznlatC', 0),
+(7, 4, 'Owner', 'owner@owner.com', '$2y$10$18Xy4ueE8D1pQYTRKfJMeuu/y89L12hRUu4O5hOyiTeLrZk8eEg8u', 0);
 
 --
 -- Indexes for dumped tables
@@ -206,13 +213,15 @@ ALTER TABLE `ability`
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `offer`
 --
 ALTER TABLE `offer`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `role`
@@ -224,13 +233,16 @@ ALTER TABLE `role`
 -- Indexes for table `subcategory`
 --
 ALTER TABLE `subcategory`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `email_2` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -252,13 +264,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `offer`
 --
 ALTER TABLE `offer`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `subcategory`
@@ -270,7 +282,7 @@ ALTER TABLE `subcategory`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
