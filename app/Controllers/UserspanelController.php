@@ -39,7 +39,7 @@ class UserspanelController extends Authorization
             ["user.id_role = role.id"],
             "ORDER BY id_role DESC, user.id ASC"
         ));
-        $this->setData("roles", $role->getAll(["name", "label"]));
+        $this->setData("roles", $role->getAll(["id", "name", "label"]));
 
         $this->renderLayout($this->getData());
     }
@@ -54,6 +54,10 @@ class UserspanelController extends Authorization
 
         $userId = $user->getId("email", $email);
 
+        if (! $userId) {
+            die("O usuário informado é inválido.");
+        }
+
         if ($userId === $_SESSION["user"] ||
             $user->getInfo(
                 $userId, ["id_role"]
@@ -67,5 +71,39 @@ class UserspanelController extends Authorization
         }
 
         die("Não foi possível suspender este usuário.");
+    }
+
+    public function delete(string $email = null): ?bool
+    {
+        $user = new User();
+
+        if (empty($email)) {
+            $this->redirect(DIRPAGE."userspanel");
+        }
+
+        $userId = $user->getId("email", $email);
+
+        if (! $userId) {
+            die("O usuário informado é inválido.");
+        }
+
+        if ($userId === $_SESSION["user"] ||
+            $user->getInfo(
+                $userId, ["id_role"]
+            )["id_role"] >= user()["id_role"]
+        ) {
+            die("Você não pode deletar uma conta com o nível hierárquico maior ou igual que o seu.");
+        }
+
+        if ($user->delete($userId)) {
+            return true;
+        }
+
+        die("Não foi possível deletar a conta deste usuário.");
+    }
+
+    public function assignRole()
+    {
+        
     }
 }

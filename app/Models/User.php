@@ -135,7 +135,7 @@ class User extends Table
         return false;
     }
 
-    public function deleteUser(int $id): bool
+    public function delete(int $id): bool
     {
         $sql = "DELETE FROM 
                     {$this->table} 
@@ -183,7 +183,7 @@ class User extends Table
 
     public function hasPermission(int $role, string $permission): bool
     {
-        $ability = (new Ability())->getId('label', $permission);
+        $ability = (new Ability())->getId("label", $permission);
 
         $sql = "SELECT
                     id_ability, id_role

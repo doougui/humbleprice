@@ -25,6 +25,11 @@ class CategoryController extends Authorization
         }
 
         $categoryId = $category->getId("slug", $slug);
+
+        if (! $categoryId) {
+            $this->redirect(DIRPAGE);
+        }
+
         $categoryInfo = $category->getInfo($categoryId,
             ['id', 'name', 'slug']
         );
@@ -45,11 +50,12 @@ class CategoryController extends Authorization
 
             $subcategoryId = $subcategory->getId("slug", $subcategoryFilter);
 
-            if (! $subcategory->isChildOf(
+            if (! $subcategoryId ||
+                ! $subcategory->isChildOf(
                 $subcategoryId,
                 $categoryId,
-                "category")
-            ) {
+                "category"
+            )) {
                 $this->redirect(DIRPAGE."category/offers/{$slug}");
             }
         }

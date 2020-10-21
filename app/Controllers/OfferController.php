@@ -84,13 +84,21 @@ class OfferController extends Authorization
             if (strlen($link) !== 0 && strlen($name) !== 0 &&
                 strlen($oldPrice) !== 0 && strlen($newPrice) !== 0 &&
                 strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0 &&
-                strlen($picture) !== 0 && strlen($endOffer) !== 0
+                strlen($endOffer) !== 0 && ! empty($_FILES["picture"])
             ) {
                 $oldPrice = floatval(str_replace(",",".", $oldPrice));
                 $newPrice = floatval(str_replace(",",".", $newPrice));
 
                 $categoryId = $category->getId("slug", $categorySlug);
                 $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
+
+                if (! $categoryId) {
+                    die("Esta categoria é inválida.");
+                }
+
+                if (! $subcategoryId) {
+                    die("Esta subcategoria é inválida.");
+                }
 
                 if (! $subcategory->isChildOf(
                     $subcategoryId,

@@ -21,6 +21,9 @@
                         <td><?= $user["name"] ?></td>
                         <td><?= $user["email"] ?></td>
                         <td class="form-group">
+                            <div class="alert alert-danger roles-errors tr-error d-none" role="alert">
+                                <p class="error-msg"></p>
+                            </div>
                             <select name="role" id="role" class="form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
@@ -30,6 +33,12 @@
                                                 ? 'selected'
                                                 : '';
                                         ?>
+
+                                        <?= ($role["id"] >= user()["id_role"]
+                                            || $user["id_role"] >= user()["id_role"])
+                                            ? 'disabled'
+                                            : ''
+                                        ?>
                                     >
                                         <?= $role['name'] ?>
                                     </option>
@@ -37,7 +46,7 @@
                             </select>
                         </td>
                         <td>
-                            <div class="alert alert-danger error tr-error d-none" role="alert">
+                            <div class="alert alert-danger actions-errors tr-error d-none" role="alert">
                                 <p class="error-msg"></p>
                             </div>
                             <button
@@ -55,7 +64,18 @@
                             >
                                 <?= ($user["suspended"]) ? 'Re-ativar' : "Suspender" ?>
                             </button>
-                            <button class="btn btn-outline-danger delete">Deletar</button>
+                            <button
+                                    type="button"
+                                    class="btn btn-outline-danger delete"
+
+                                <?= ($user["email"] === user()["email"]
+                                    || $user["id_role"] >= user()["id_role"])
+                                    ? 'disabled title="Você não pode deletar uma conta com o nível hierárquico maior ou igual que o seu."'
+                                    : ''
+                                ?>
+                            >
+                                Deletar
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
