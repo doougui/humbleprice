@@ -35,8 +35,8 @@
                             <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-danger mb-2">Avaliar oferta</a>
 
                             <div class="row justify-content-center">
-                                <a href="<?= DIRPAGE ?>queue/approve/<?= $offer['slug'] ?>" class="btn btn-success m-1 approve">Aprovar</a>
-                                <a href="<?= DIRPAGE ?>queue/refuse/<?= $offer['slug'] ?>" class="btn btn-danger m-1 refuse">Recusar</a>
+                                <button class="btn btn-success m-1 approve">Aprovar</button>
+                                <button class="btn btn-danger m-1 refuse">Recusar</button>
                             </div>
                         </div>
                     </div>

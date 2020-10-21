@@ -2,11 +2,11 @@ $(document).ready(function() {
   $('.refuse').click(async function(e) {
     e.preventDefault();
 
-    const action = $(this).attr('href');
     const card = $(this).closest('.card-item');
+    const action = `${DIRPAGE}queue/refuse/${$(card).attr('data-item')}`;
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
-    const button = $(card).find('.refuse');
+    const button = $(card).find('.approve');
 
     try {
       const willRefuse = await swal({

@@ -53,7 +53,7 @@ class QueueController extends Authorization
         $offer = new Offer();
 
         if (empty($slug)) {
-            $this->redirect(DIRPAGE);
+            die("Esta oferta é inválida.");
         }
 
         $offerId = $offer->getId("slug", $slug);

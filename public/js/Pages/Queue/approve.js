@@ -2,8 +2,8 @@ $(document).ready(function() {
   $('.approve').click(function(e) {
     e.preventDefault();
 
-    const action = $(this).attr('href');
     const card = $(this).closest('.card-item');
+    const action = `${DIRPAGE}queue/approve/${$(card).attr('data-item')}`;
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
     const button = $(card).find('.approve');
