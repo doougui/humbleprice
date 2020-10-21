@@ -78,7 +78,7 @@ class UserspanelController extends Authorization
         $user = new User();
 
         if (empty($email)) {
-            $this->redirect(DIRPAGE."userspanel");
+            die("Imforme um email válido.");
         }
 
         $userId = $user->getId("email", $email);
@@ -102,8 +102,41 @@ class UserspanelController extends Authorization
         die("Não foi possível deletar a conta deste usuário.");
     }
 
-    public function assignRole()
-    {
-        
+    public function assignRole(
+        string $email = null,
+        string $roleLabel = null
+    ): ?bool {
+        $user = new User();
+        $role = new Role();
+
+        if (empty($email) || empty($roleLabel)) {
+            die("O email ou o cargo informado são inválidos.");
+        }
+
+        $userId = $user->getId("email", $email);
+
+        if (! $userId) {
+            die("O usuário informado é inválido.");
+        }
+
+        $roleId = $role->getId("label", $roleLabel);
+
+        if (! $roleId) {
+            die("O cargo informado é inválido.");
+        }
+
+        if ($roleId >= user()["id_role"]
+            || $user->getInfo(
+                $userId, ["id_role"]
+            )["id_role"] >= user()["id_role"]
+        ) {
+            die("Você não pode atribuir um cargo maior ou mudar o cargo de alguém com o nível hierárquico maior ou igual ao seu.");
+        }
+
+        if ($user->assignRole($userId, $roleId)) {
+            return true;
+        }
+
+        die("Não foi possível mudar o cargo deste usuário.");
     }
 }

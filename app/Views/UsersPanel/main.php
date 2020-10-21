@@ -24,7 +24,7 @@
                             <div class="alert alert-danger roles-errors tr-error d-none" role="alert">
                                 <p class="error-msg"></p>
                             </div>
-                            <select name="role" id="role" class="form-control">
+                            <select name="role" id="role" class="role form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
                                         value="<?= $role['label'] ?>"
@@ -36,7 +36,7 @@
 
                                         <?= ($role["id"] >= user()["id_role"]
                                             || $user["id_role"] >= user()["id_role"])
-                                            ? 'disabled'
+                                            ? 'disabled title="Você não pode atribuir um cargo maior ou mudar o cargo de alguém com o nível hierárquico maior ou igual ao seu."'
                                             : ''
                                         ?>
                                     >

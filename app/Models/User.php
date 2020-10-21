@@ -205,6 +205,26 @@ class User extends Table
         return false;
     }
 
+    public function assignRole(int $userId, int $roleId): bool
+    {
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    id_role = :id_role
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id_role", $roleId, \PDO::PARAM_INT);
+        $sql->bindParam(":id", $userId, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function emailExists(string $email): bool
     {
         $sql = "SELECT 

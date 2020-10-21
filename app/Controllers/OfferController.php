@@ -90,14 +90,15 @@ class OfferController extends Authorization
                 $newPrice = floatval(str_replace(",",".", $newPrice));
 
                 $categoryId = $category->getId("slug", $categorySlug);
-                $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
 
                 if (! $categoryId) {
-                    die("Esta categoria é inválida.");
+                    die("Uma categoria inválida foi irformada. Por favor, selecione outra.");
                 }
 
+                $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
+
                 if (! $subcategoryId) {
-                    die("Esta subcategoria é inválida.");
+                    die("Uma subcategoria inválida foi irformada. Por favor, selecione outra.");
                 }
 
                 if (! $subcategory->isChildOf(
