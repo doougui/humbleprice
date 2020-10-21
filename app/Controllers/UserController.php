@@ -16,8 +16,9 @@ class UserController extends Authorization
     {
         $user = new User();
 
-        if (empty($id) ||
-            ! isset($_SESSION['user'])
+        if (
+            empty($id)
+            || ! isset($_SESSION['user'])
             || $id !== $_SESSION['user']['id']
         ) {
             $this->redirect(DIRPAGE);
@@ -37,9 +38,10 @@ class UserController extends Authorization
     {
         $user = new User();
 
-        if (isset($_POST['id']) && ! empty($_POST['id']) &&
-            isset($_POST['name']) && ! empty($_POST['name']) &&
-            isset($_POST['email']) && ! empty($_POST['email'])
+        if (
+            isset($_POST['id']) && ! empty($_POST['id'])
+            && isset($_POST['name']) && ! empty($_POST['name'])
+            && isset($_POST['email']) && ! empty($_POST['email'])
         ) {
             if (filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL)) {
                 $email = filter_input(

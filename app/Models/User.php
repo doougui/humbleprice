@@ -122,7 +122,7 @@ class User extends Table
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
         $sql->bindParam(":id", $id, \PDO::PARAM_INT);
 
-        if (!empty($password)) {
+        if (! empty($password)) {
             $sql->bindParam(":password", $password, \PDO::PARAM_STR);
         }
 

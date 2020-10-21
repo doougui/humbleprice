@@ -67,7 +67,7 @@ class Authorization extends Controller
             if ($user->isSuspended($email)) {
                 $this->redirect($allowedRoutesForSuspendedUsers[0]);
             }
-        } else if (
+        } elseif (
             currentUrl() === $allowedRoutesForSuspendedUsers[0]
             && ! $user->isSuspended($email)
         ) {

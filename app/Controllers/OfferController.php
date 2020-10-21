@@ -88,7 +88,8 @@ class OfferController extends Authorization
                 );
             }
 
-            if (strlen($link) !== 0 && strlen($name) !== 0
+            if (
+                strlen($link) !== 0 && strlen($name) !== 0
                 && strlen($oldPrice) !== 0 && strlen($newPrice) !== 0
                 && strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0
                 && ! empty($_FILES["picture"])
