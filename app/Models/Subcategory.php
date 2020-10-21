@@ -14,7 +14,7 @@ class Subcategory extends Table
 
     public function getFromCategory(string $slug): array
     {
-        $categoryId = $this->getId('slug', $slug, 'category');
+        $categoryId = $this->getId("slug", $slug, "category");
 
         $sql = "SELECT
                     id, id_category, slug, name

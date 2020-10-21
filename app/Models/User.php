@@ -179,7 +179,7 @@ class User extends Table
         return false;
     }
 
-    public function hasPermission(int $role, string $permission): bool
+    public function hasPermission(int $roleId, string $permission): bool
     {
         $ability = (new Ability())->getId("label", $permission);
 
@@ -192,7 +192,7 @@ class User extends Table
                 OR
                     id_role = :id_role AND id_ability = 1";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":id_role", $role, \PDO::PARAM_INT);
+        $sql->bindParam(":id_role", $roleId, \PDO::PARAM_INT);
         $sql->bindParam(":id_ability", $ability, \PDO::PARAM_INT);
         $sql->execute();
 

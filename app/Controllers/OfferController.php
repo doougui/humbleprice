@@ -38,10 +38,11 @@ class OfferController extends Authorization
         $subcategory = new Subcategory();
         $slugify = new Slugify();
 
-        if (isset($_POST["link"]) && isset($_POST["name"]) &&
-            isset($_POST["old-price"]) && isset($_POST["new-price"]) &&
-            isset($_POST["category"]) && isset($_POST["subcategory"]) &&
-            isset($_FILES["picture"]) && isset($_POST["end-offer"])
+        if (
+            isset($_POST["link"]) && isset($_POST["name"])
+            && isset($_POST["old-price"]) && isset($_POST["new-price"])
+            && isset($_POST["category"]) && isset($_POST["subcategory"])
+            && isset($_FILES["picture"])
         ) {
             $link = filter_input(
                 INPUT_POST,
@@ -75,19 +76,29 @@ class OfferController extends Authorization
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
             $picture = $_FILES["picture"];
-            $endOffer = filter_input(
-                INPUT_POST,
-                "end-offer",
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
 
-            if (strlen($link) !== 0 && strlen($name) !== 0 &&
-                strlen($oldPrice) !== 0 && strlen($newPrice) !== 0 &&
-                strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0 &&
-                strlen($endOffer) !== 0 && ! empty($_FILES["picture"])
+            if (
+                isset($_POST["end-offer"])
+                && ! isset($_POST["offer-end-date-not-specified"])
+            ) {
+                $endOffer = filter_input(
+                    INPUT_POST,
+                    "end-offer",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+            }
+
+            if (strlen($link) !== 0 && strlen($name) !== 0
+                && strlen($oldPrice) !== 0 && strlen($newPrice) !== 0
+                && strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0
+                && ! empty($_FILES["picture"])
             ) {
                 $oldPrice = floatval(str_replace(",",".", $oldPrice));
                 $newPrice = floatval(str_replace(",",".", $newPrice));
+
+                $endOffer = (isset($endOffer) && strlen($endOffer) !== 0)
+                        ? $endOffer
+                        : null;
 
                 $categoryId = $category->getId("slug", $categorySlug);
 

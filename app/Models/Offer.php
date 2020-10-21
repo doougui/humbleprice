@@ -32,7 +32,7 @@ class Offer extends Table
                 FROM 
                     {$this->table} 
                 WHERE 
-                    end_offer >= NOW()
+                    (end_offer >= NOW() OR end_offer is null)
                 AND
                     status = :status
                 AND 
@@ -40,8 +40,8 @@ class Offer extends Table
                 AND
                       {$subcategoryQuery}
                 ORDER BY 
-                    id 
-                DESC";
+                    end_offer 
+                ASC";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":status", $status, \PDO::PARAM_STR);
 

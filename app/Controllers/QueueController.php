@@ -32,15 +32,7 @@ class QueueController extends Authorization
 
     public function approve(string $slug = null): ?bool
     {
-        $offer = new Offer();
-
-        if (empty($slug)) {
-            $this->redirect(DIRPAGE);
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if ($offer->updateStatus($offerId, "approved")) {
+        if ($this->setOfferStatus("approved", $slug)) {
             return true;
         }
 
@@ -48,6 +40,15 @@ class QueueController extends Authorization
     }
 
     public function refuse(string $slug = null): ?bool
+    {
+        if ($this->setOfferStatus("refused", $slug)) {
+            return true;
+        }
+
+        die("Não foi possível recusar essa oferta.");
+    }
+
+    private function setOfferStatus(string $status, string $slug = null): ?bool
     {
         $offer = new Offer();
 
@@ -57,10 +58,14 @@ class QueueController extends Authorization
 
         $offerId = $offer->getId("slug", $slug);
 
-        if ($offer->updateStatus($offerId, "refused")) {
+        if (! $offerId) {
+            die("Esta oferta é inválida.");
+        }
+
+        if ($offer->updateStatus($offerId, $status)) {
             return true;
         }
 
-        die("Não foi possível recusar essa oferta.");
+        die("Não foi possível alterar o status desta oferta.");
     }
 }
