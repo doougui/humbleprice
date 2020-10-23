@@ -1,36 +1,32 @@
 $(document).ready(function() {
-  $('.refuse').click(async function(e) {
+  $('.delete').click(async function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card-item');
-    const action = `${DIRPAGE}queue/refuse/${$(card).attr('data-item')}`;
+    const action = `${DIRPAGE}offer/delete/${$(card).attr('data-item')}`;
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
-    const button = $(card).find('.approve');
 
     try {
-      const willRefuse = await swal({
+      const willDelete = await swal({
         title: "Você tem certeza?",
-        text: "Uma vez recusada, você não será capaz de recuperar e/ou aprovar esta oferta.",
+        text: "Ao realizar esta ação, esta oferta será excluida permanentemente.",
         icon: "warning",
-        buttons: ['Cancelar', 'Recusar oferta'],
+        buttons: ['Cancelar', 'Deletar oferta'],
         dangerMode: true,
       });
 
-      if (willRefuse) {
+      if (willDelete) {
         $.ajax({
           url: action,
           type: 'POST',
-          beforeSend: function() {
-            $(button).addClass('disabled');
-          }
         }).done(function(response) {
           if (response.length !== 0) {
             $(error).removeClass('d-none');
             $(error).addClass('d-block');
             $(errorMsg).html(response).fadeIn();
           } else {
-            swal("Oferta recusada com sucesso", {
+            swal("Oferta deletada com sucesso", {
               icon: "success",
             });
 
@@ -40,8 +36,6 @@ $(document).ready(function() {
           $(error).removeClass('d-none');
           $(error).addClass('d-block');
           $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
-        }).always(function() {
-          $(button).removeClass('disabled');
         });
       }
     } catch (e) {

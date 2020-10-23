@@ -55,9 +55,16 @@ h4 {
   color: #AAA;
 }
 
-a.delete {
+.delete {
   display: block;
   color: #d63031;
+  border-style: none;
+  background-color: white;
+  margin: auto;
+}
+
+.delete:hover {
+  text-decoration: underline;
 }
 
 .thead-dark th {

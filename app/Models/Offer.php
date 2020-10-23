@@ -62,7 +62,7 @@ class Offer extends Table
         return [];
     }
 
-    public function registerOffer(array $info): bool {
+    public function register(array $info): bool {
         $sql = "INSERT INTO 
                     {$this->table} 
                     (id_category, id_subcategory, slug, link, name, old_price, new_price, end_offer , image) 
@@ -107,7 +107,7 @@ class Offer extends Table
         return false;
     }
 
-    public function deleteOffer(int $id): bool
+    public function delete(int $id): bool
     {
         $sql = "DELETE FROM 
                     {$this->table} 

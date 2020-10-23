@@ -124,7 +124,7 @@ class OfferController extends Authorization
                 $type = $picture["type"];
 
                 if (in_array($type, ["image/jpeg", "image/png"])) {
-                    $imageName = md5(time().rand(0, 99999))."jpg";
+                    $imageName = md5(time().rand(0, 99999)).".jpg";
                     move_uploaded_file(
                         $picture["tmp_name"],
                         DIRREQ."public/img/products/{$imageName}"
@@ -193,7 +193,7 @@ class OfferController extends Authorization
                         "endOffer" => $endOffer
                     ];
 
-                    if ($offer->registerOffer($info)) {
+                    if ($offer->register($info)) {
                         return true;
                     }
 
@@ -205,5 +205,28 @@ class OfferController extends Authorization
         }
 
         die("Preencha todos os campos para continuar");
+    }
+
+    public function delete(string $slug = null): ?bool
+    {
+        $this->authenticated()->withPermission("MANAGE_OFFERS");
+
+        $offer = new Offer();
+
+        if (empty($slug)) {
+            die("Esta oferta é inválida.");
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            die("Esta oferta é inválida.");
+        }
+
+        if ($offer->delete($offerId)) {
+            return true;
+        }
+
+        die("Não foi possível deletar esta oferta.");
     }
 }

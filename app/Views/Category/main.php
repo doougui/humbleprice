@@ -17,9 +17,8 @@
 
             <div class="card-body">
                 <?php foreach ($offers as $offer): ?>
-                    <div class="card card-item">
+                    <div class="card card-item" data-item="<?= $offer['slug'] ?>">
                         <div class="card-body">
-
                             <div class="product-img">
                                 <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
                             </div>
@@ -32,8 +31,12 @@
                             </div>
 
                             <?php if (authorized("MANAGE_OFFERS")): ?>
-                                <a href="<?= DIRPAGE ?>offer/delete/<?= $offer['slug'] ?>" class="delete text-center">Excluir anúncio</a>
+                                <button class="delete text-center">Excluir anúncio</button>
                             <?php endif; ?>
+                        </div>
+
+                        <div class="alert alert-danger d-none error" role="alert">
+                            <p class="error-msg"></p>
                         </div>
 
                         <div class="card-footer">

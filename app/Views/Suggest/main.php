@@ -20,13 +20,23 @@
 
                 <div class="row">
                     <div class="form-group col-6">
-                        <label for="old-price">Preço antigo (R$)</label>
-                        <input type="text" name="old-price" id="old-price" class="form-control">
+                        <label for="old-price">Preço antigo</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="old-price-currency">R$</span>
+                            </div>
+                            <input type="text" name="old-price" id="old-price" class="form-control" aria-label="Old price" aria-describedby="old-price-currency">
+                        </div>
                     </div>
 
                     <div class="form-group col-6">
-                        <label for="new-price">Preço na promoção (R$)</label>
-                        <input type="text" name="new-price" id="new-price" class="form-control" required>
+                        <label for="new-price">Preço na promoção</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="new-price-currency">R$</span>
+                            </div>
+                            <input type="text" name="new-price" id="new-price" class="form-control" aria-label="New price" aria-describedby="new-price-currency">
+                        </div>
                     </div>
                 </div>
 

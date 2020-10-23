@@ -25,6 +25,10 @@
                                 <div class="old-price">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></div>
                                 <div class="new-price">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></div>
                             </div>
+
+                            <?php if (authorized("MANAGE_OFFERS")): ?>
+                                <button class="delete text-center">Excluir anúncio</button>
+                            <?php endif; ?>
                         </div>
 
                         <div class="alert alert-danger d-none error" role="alert">
