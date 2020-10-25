@@ -84,6 +84,6 @@
     <script src="https://kit.fontawesome.com/f8d095f64b.js" crossorigin="anonymous"></script>
     <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <?= $this->addExtraFooter($data) ?>
-<!--    <script src="--><?//= DIRJS ?><!--script.js"></script>-->
+    <script src="<?= DIRJS ?>script.js"></script>
 </body>
 </html>

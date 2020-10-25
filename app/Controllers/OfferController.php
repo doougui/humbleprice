@@ -30,12 +30,46 @@ class OfferController extends Authorization
             $this->redirect(DIRPAGE);
         }
 
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            $this->redirect(DIRPAGE);
+        }
+
         $this->setDir("Offer");
         $this->setTitle("Oferta | Humbleprice");
         $this->setDescription("Promoção da oferta");
         $this->setKeywords("offer, low-price, price, discount");
 
-        $this->setData("offer", $offer->getInfo("slug", $slug, ["*"]));
+        $offerData = $offer->getInfo("id", $offerId,
+            [
+                "user.name AS author",
+                "category.name AS category",
+                "subcategory.name AS subcategory",
+                "offer.link",
+                "offer.name",
+                "offer.additional_info",
+                "offer.old_price",
+                "offer.new_price",
+                "offer.published_at",
+                "offer.end_offer",
+                "offer.image",
+                "offer.views"
+            ],
+            [
+                ["user", "INNER"],
+                ["category", "INNER"],
+                ["subcategory", "INNER"]
+            ],
+            [
+                "offer.id_user = user.id",
+                "offer.id_category = category.id",
+                "offer.id_subcategory = subcategory.id"
+            ]
+        );
+
+        $this->setData("offer", $offerData);
+        $this->setData("relatedOffers", $offer->getRelatedOffers($offerId));
 
         $this->renderLayout($this->getData());
     }

@@ -165,4 +165,46 @@ class Offer extends Table
 
         return false;
     }
+
+    public function getRelatedOffers(int $offerId): array
+    {
+        $sql = "SELECT 
+                    id_category, 
+                    id_subcategory
+                FROM
+                    {$this->table}
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $offer = $sql->fetch();
+
+            $sql = "SELECT
+                        slug, name, old_price, new_price, image
+                    FROM
+                        {$this->table}
+                    WHERE
+                        id_category = :id_category
+                    AND
+                        id_subcategory = :id_subcategory
+                    AND
+                        id != :id
+                    LIMIT
+                        3";
+            $sql = $this->db->prepare($sql);
+            $sql->bindParam(":id_category", $offer["id_category"], \PDO::PARAM_INT);
+            $sql->bindParam(":id_subcategory", $offer["id_subcategory"], \PDO::PARAM_INT);
+            $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+            $sql->execute();
+
+            if ($sql->rowCount() > 0) {
+                return $sql->fetchAll();
+            }
+        }
+
+        return [];
+    }
 }

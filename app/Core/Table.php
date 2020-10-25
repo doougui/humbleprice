@@ -68,15 +68,32 @@ class Table extends Connection
     public function getInfo(
         string $byColumn,
         string $value,
-        array $fields
+        array $fields,
+        array $joins = null,
+        array $on = null
     ): array {
         $fields = implode(", ", $fields);
+
+        $joinQuery = "";
+
+        if (! empty($joins)) {
+            foreach ($joins as $key => $join) {
+                $joinQuery .=
+                    "{$join[1]} JOIN
+                        $join[0]
+                    ON
+                        {$on[$key]}
+                    ";
+            }
+        }
 
         $sql = "SELECT 
                     $fields
                 FROM 
-                     {$this->table} WHERE 
-                {$byColumn} = :{$byColumn}";
+                    {$this->table} 
+                {$joinQuery}
+                WHERE 
+                    {$this->table}.{$byColumn} = :{$byColumn}";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":{$byColumn}", $value, \PDO::PARAM_STR);
         $sql->execute();
