@@ -87,6 +87,44 @@ class Offer extends Table
         return false;
     }
 
+    public function update(array $info): bool {
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    id_category = :category,
+                    id_subcategory = :subcategory,
+                    slug = :slug,
+                    link = :link,
+                    name = :name,
+                    old_price = :oldPrice,
+                    new_price = :newPrice,
+                    ".(isset($info['picture']) ? "image = :picture," : "")."
+                    end_offer = :endOffer
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":slug", $info["slug"], \PDO::PARAM_STR);
+        $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
+        $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
+        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":id", $info["offerId"], \PDO::PARAM_STR);
+
+        if (isset($info["picture"])) {
+            $sql->bindParam(":picture", $info["picture"], \PDO::PARAM_STR);
+        }
+
+        try {
+            $sql->execute();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public function updateStatus(int $offerId, string $status): bool
     {
         $sql = "UPDATE 

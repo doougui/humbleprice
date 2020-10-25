@@ -121,116 +121,29 @@ class OfferController extends Authorization
                     die("Esta subcategoria não pertence a respectiva categoria.");
                 }
 
-                $type = $picture["type"];
+                $imageName = $this->treatImage($picture);
 
-                if (in_array($type, ["image/jpeg", "image/png"])) {
-                    $imageName = md5(time().rand(0, 99999)).".jpg";
-                    move_uploaded_file(
-                        $picture["tmp_name"],
-                        DIRREQ."public/img/products/{$imageName}"
-                    );
+                $info = [
+                    "slug" => $slug,
+                    "link" => $link,
+                    "name" => $name,
+                    "oldPrice" => $oldPrice,
+                    "newPrice" => $newPrice,
+                    "categoryId" => $categoryId,
+                    "subcategoryId" => $subcategoryId,
+                    "picture" => $imageName,
+                    "endOffer" => $endOffer
+                ];
 
-                    list(
-                        $originalWidth,
-                        $originalHeight
-                    ) = getimagesize(
-                        DIRREQ."public/img/products/{$imageName}"
-                    );
-
-                    $ratio = $originalWidth / $originalHeight;
-
-                    $width = 500;
-                    $height = 500;
-
-                    if ($width / $height > $ratio) {
-                        $width = $height * $ratio;
-                    } else {
-                        $height = $width / $ratio;
-                    }
-
-                    $img = imagecreatetruecolor($width, $height);
-
-                    if ($type == "image/jpeg") {
-                        $original = imagecreatefromjpeg(
-                            DIRREQ."public/img/products/{$imageName}"
-                        );
-                    } elseif ($type == "image/png") {
-                        $original = imagecreatefrompng(
-                            DIRREQ . "public/img/products/{$imageName}"
-                        );
-                    } else {
-                        die("A imagem deve ser do tipo JPEG, JPG ou PNG");
-                    }
-
-                    imagecopyresampled(
-                        $img,
-                        $original,
-                        0,
-                        0,
-                        0,
-                        0,
-                        $width,
-                        $height,
-                        $originalWidth,
-                        $originalHeight
-                    );
-
-                    imagejpeg(
-                        $img,
-                        DIRREQ."public/img/products/{$imageName}",
-                        80
-                    );
-
-                    $info = [
-                        "slug" => $slug,
-                        "link" => $link,
-                        "name" => $name,
-                        "oldPrice" => $oldPrice,
-                        "newPrice" => $newPrice,
-                        "categoryId" => $categoryId,
-                        "subcategoryId" => $subcategoryId,
-                        "picture" => $imageName,
-                        "endOffer" => $endOffer
-                    ];
-
-                    if ($offer->register($info)) {
-                        return true;
-                    }
-
-                    die("Algo de errado ocorreu. Tente novamente mais tarde!");
+                if ($offer->register($info)) {
+                    return true;
                 }
 
-                die("A imagem deve ser do tipo JPEG, JPG ou PNG");
+                die("Algo de errado ocorreu. Tente novamente mais tarde!");
             }
         }
 
         die("Preencha todos os campos para continuar");
-    }
-
-    public function subcategory(string $slug = null): void
-    {
-        $this->authenticated()->withPermission("MANAGE_OFFERS");
-
-        $offer = new Offer();
-        $subcategory = new Subcategory();
-
-        if (empty($slug)) {
-            die();
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
-            die();
-        }
-
-        $subcategoryId = $offer->getInfo(
-            "id",
-            $offerId,
-            ["id_subcategory"]
-        )["id_subcategory"];
-
-        die($subcategory->getInfo("id", $subcategoryId, ["slug"])["slug"]);
     }
 
     public function edit(string $slug = null): void
@@ -289,6 +202,142 @@ class OfferController extends Authorization
         $this->renderLayout($this->getData());
     }
 
+    public function update(string $slug = null): ?bool
+    {
+        $this->authenticated()->withPermission("MANAGE_OFFERS");
+
+        $offer = new Offer();
+        $category = new Category();
+        $subcategory = new Subcategory();
+        $slugify = new Slugify();
+
+        if (empty($slug)) {
+            die("Esta oferta é inválida.");
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            die("Esta oferta é inválida.");
+        }
+
+        if (
+            isset($_POST["link"]) && isset($_POST["name"])
+            && isset($_POST["old-price"]) && isset($_POST["new-price"])
+            && isset($_POST["category"]) && isset($_POST["subcategory"])
+        ) {
+            $link = filter_input(
+                INPUT_POST,
+                "link",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $name = filter_input(
+                INPUT_POST,
+                "name",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $slug = $slugify->Slugify($name);
+            $oldPrice = filter_input(
+                INPUT_POST,
+                "old-price",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $newPrice = filter_input(
+                INPUT_POST,
+                "new-price",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $categorySlug = filter_input(
+                INPUT_POST,
+                "category",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $subcategorySlug = filter_input(
+                INPUT_POST,
+                "subcategory",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+
+            if (! empty($_FILES["picture"]["size"])) {
+                $picture = $_FILES["picture"];
+            }
+
+            if (
+                isset($_POST["end-offer"])
+                && ! isset($_POST["offer-end-date-not-specified"])
+            ) {
+                $endOffer = filter_input(
+                    INPUT_POST,
+                    "end-offer",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+            }
+
+            if (
+                strlen($link) !== 0 && strlen($name) !== 0
+                && strlen($oldPrice) !== 0 && strlen($newPrice) !== 0
+                && strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0
+            ) {
+                $oldPrice = floatval(str_replace(",", ".", $oldPrice));
+                $newPrice = floatval(str_replace(",", ".", $newPrice));
+
+                $endOffer = (isset($endOffer) && strlen($endOffer) !== 0)
+                    ? $endOffer
+                    : null;
+
+                $categoryId = $category->getId("slug", $categorySlug);
+
+                if (! $categoryId) {
+                    die("Uma categoria inválida foi irformada. Por favor, selecione outra.");
+                }
+
+                $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
+
+                if (! $subcategoryId) {
+                    die("Uma subcategoria inválida foi irformada. Por favor, selecione outra.");
+                }
+
+                if (!$subcategory->isChildOf(
+                    $subcategoryId,
+                    $categoryId,
+                    "category")
+                ) {
+                    die("Esta subcategoria não pertence a respectiva categoria.");
+                }
+
+                if (isset($picture)) {
+                    $imageName = $this->treatImage($picture);
+                }
+
+                $info = [
+                    "offerId" => $offerId,
+                    "slug" => $slug,
+                    "link" => $link,
+                    "name" => $name,
+                    "oldPrice" => $oldPrice,
+                    "newPrice" => $newPrice,
+                    "categoryId" => $categoryId,
+                    "subcategoryId" => $subcategoryId,
+                    "endOffer" => $endOffer
+                ];
+
+                if (isset($imageName)) {
+                    $info["picture"] = $imageName;
+                }
+
+                if ($offer->update($info)) {
+                    return true;
+                }
+
+                die("Algo de errado ocorreu. Tente novamente mais tarde!");
+            }
+
+            die("A imagem deve ser do tipo JPEG, JPG ou PNG");
+        }
+
+        die("Preencha todos os campos para continuar");
+    }
+
     public function delete(string $slug = null): ?bool
     {
         $this->authenticated()->withPermission("MANAGE_OFFERS");
@@ -310,5 +359,99 @@ class OfferController extends Authorization
         }
 
         die("Não foi possível deletar esta oferta.");
+    }
+
+    public function subcategory(string $slug = null): void
+    {
+        $this->authenticated()->withPermission("MANAGE_OFFERS");
+
+        $offer = new Offer();
+        $subcategory = new Subcategory();
+
+        if (empty($slug)) {
+            die();
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            die();
+        }
+
+        $subcategoryId = $offer->getInfo(
+            "id",
+            $offerId,
+            ["id_subcategory"]
+        )["id_subcategory"];
+
+        die($subcategory->getInfo("id", $subcategoryId, ["slug"])["slug"]);
+    }
+
+    private function treatImage(array $picture): ?string
+    {
+        $type = $picture["type"];
+
+        if (in_array($type, ["image/jpeg", "image/png"])) {
+            $imageName = md5(time() . rand(0, 99999)) . ".jpg";
+            move_uploaded_file(
+                $picture["tmp_name"],
+                DIRREQ . "public/img/products/{$imageName}"
+            );
+
+            list(
+                $originalWidth,
+                $originalHeight
+                ) = getimagesize(
+                DIRREQ . "public/img/products/{$imageName}"
+            );
+
+            $ratio = $originalWidth / $originalHeight;
+
+            $width = 500;
+            $height = 500;
+
+            if ($width / $height > $ratio) {
+                $width = $height * $ratio;
+            } else {
+                $height = $width / $ratio;
+            }
+
+            $img = imagecreatetruecolor($width, $height);
+
+            if ($type == "image/jpeg") {
+                $original = imagecreatefromjpeg(
+                    DIRREQ . "public/img/products/{$imageName}"
+                );
+            } elseif ($type == "image/png") {
+                $original = imagecreatefrompng(
+                    DIRREQ . "public/img/products/{$imageName}"
+                );
+            } else {
+                die("A imagem deve ser do tipo JPEG, JPG ou PNG");
+            }
+
+            imagecopyresampled(
+                $img,
+                $original,
+                0,
+                0,
+                0,
+                0,
+                $width,
+                $height,
+                $originalWidth,
+                $originalHeight
+            );
+
+            imagejpeg(
+                $img,
+                DIRREQ . "public/img/products/{$imageName}",
+                80
+            );
+
+            return $imageName;
+        }
+
+        die("A imagem deve ser do tipo JPEG, JPG ou PNG");
     }
 }

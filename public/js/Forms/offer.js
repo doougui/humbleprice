@@ -5,6 +5,11 @@ $(document).ready(function() {
     const formData = new FormData(this);
     const action = $(this).attr('action');
 
+    const error = $('#error');
+    const errorMsg = $(error).find('#error-msg');
+
+    const button = $('button[type=submit]');
+
     $.ajax({
       url: action,
       type: 'POST',
@@ -12,22 +17,22 @@ $(document).ready(function() {
       processData: false,
       contentType: false,
       beforeSend: function() {
-        $('button[type=submit]').attr('disabled', '');
+        $(button).attr('disabled', '');
       }
     }).done(function(response) {
       if (response.length !== 0) {
-        $('#error').removeClass('d-none');
-        $('#error').addClass('d-block');
-        $('#error-msg').html(response).fadeIn();
+        $(error).removeClass('d-none');
+        $(error).addClass('d-block');
+        $(errorMsg).html(response).fadeIn();
       } else {
         window.location.href = DIRPAGE;
       }
     }).fail(function() {
-      $('#error').removeClass('d-none');
-      $('#error').addClass('d-block');
-      $('#error-msg').html('Ops! Algo de errado aconteceu!').fadeIn();
+      $(error).removeClass('d-none');
+      $(error).addClass('d-block');
+      $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
     }).always(function() {
-      $('button[type=submit]').removeAttr('disabled');
+      $(button).removeAttr('disabled');
     });
   });
 });
