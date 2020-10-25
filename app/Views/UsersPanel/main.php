@@ -66,7 +66,7 @@
                             </button>
                             <button
                                     type="button"
-                                    class="btn btn-outline-danger delete"
+                                    class="btn btn-outline-danger delete-user"
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])
