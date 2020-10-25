@@ -18,6 +18,13 @@
                     <input type="text" name="name" id="name" class="form-control" value="<?= $offer['name'] ?>" required>
                 </div>
 
+                <div class="form-group">
+                    <label for="editor">Informações adicionais</label>
+                    <textarea name="additional-info" id="editor">
+                        <?= $offer['additional_info'] ?>
+                    </textarea>
+                </div>
+
                 <div class="row">
                     <div class="form-group col-6">
                         <label for="old-price">Preço antigo</label>
@@ -66,12 +73,12 @@
 
                 <div class="form-group">
                     <label for="end-offer">Fim da oferta</label>
-                    <input type="date" name="end-offer" id="end-offer" class="form-control" value="<?= $offer['end_offer'] ?>" required>
+                    <input type="date" name="end-offer" id="end-offer" class="form-control" value="<?= $offer['end_offer'] ?>" <?= (empty($offer['end_offer']) ? 'disabled' : '') ?> required>
                 </div>
 
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="offer-end-date-not-specified" name="offer-end-date-not-specified">
+                        <input class="form-check-input" type="checkbox" id="offer-end-date-not-specified" name="offer-end-date-not-specified" <?= (empty($offer['end_offer']) ? 'checked' : '') ?>>
                         <label class="form-check-label" for="offer-end-date-not-specified">
                             Fim da oferta não especificado
                         </label>

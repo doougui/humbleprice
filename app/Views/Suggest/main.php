@@ -18,6 +18,11 @@
                     <input type="text" name="name" id="name" class="form-control" required>
                 </div>
 
+                <div class="form-group">
+                    <label for="editor">Informações adicionais</label>
+                    <textarea name="additional-info" id="editor"></textarea>
+                </div>
+
                 <div class="row">
                     <div class="form-group col-6">
                         <label for="old-price">Preço antigo</label>
