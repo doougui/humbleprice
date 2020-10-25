@@ -1,12 +1,12 @@
 $(document).ready(function() {
-  $('.delete').click(async function(e) {
+  $('.delete-user').click(async function(e) {
     e.preventDefault();
 
     const tr = $(this).closest('tr');
     const action = `${DIRPAGE}userspanel/delete/${$(tr).attr('data-item')}`;
     const error = $(tr).find('.actions-errors');
     const errorMsg = $(error).find('.error-msg');
-    const button = $(tr).find('.delete');
+    const button = $(this);
 
     try {
       const willDelete = await swal({

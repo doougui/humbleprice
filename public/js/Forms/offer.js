@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('#suggest').submit(function(e) {
+  $('#offer-form').submit(function(e) {
     e.preventDefault();
 
     const formData = new FormData(this);

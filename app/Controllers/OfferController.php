@@ -207,6 +207,88 @@ class OfferController extends Authorization
         die("Preencha todos os campos para continuar");
     }
 
+    public function subcategory(string $slug = null): void
+    {
+        $this->authenticated()->withPermission("MANAGE_OFFERS");
+
+        $offer = new Offer();
+        $subcategory = new Subcategory();
+
+        if (empty($slug)) {
+            die();
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            die();
+        }
+
+        $subcategoryId = $offer->getInfo(
+            "id",
+            $offerId,
+            ["id_subcategory"]
+        )["id_subcategory"];
+
+        die($subcategory->getInfo("id", $subcategoryId, ["slug"])["slug"]);
+    }
+
+    public function edit(string $slug = null): void
+    {
+        $this->authenticated()->withPermission("MANAGE_OFFERS");
+
+        $offer = new Offer();
+        $category = new Category();
+        $subcategory = new Subcategory();
+
+        if (empty($slug)) {
+            $this->redirect(DIRPAGE);
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            $this->redirect(DIRPAGE);
+        }
+
+        $this->setDir("Edit");
+        $this->setTitle("Encontre os melhores preços | Humbleprice");
+        $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
+        $this->setKeywords("ofertas, produtos, preço");
+
+        $offerData = $offer->getInfo("id", $offerId,
+            [
+                "id_category",
+                "id_subcategory",
+                "slug",
+                "link",
+                "name",
+                "old_price",
+                "new_price",
+                "image",
+                "end_offer"
+            ]
+        );
+
+        $categoryData = $category->getInfo(
+            "id",
+            $offerData["id_category"],
+            ["name", "slug"]
+        );
+
+        $subcategoryData = $subcategory->getInfo(
+            "id",
+            $offerData["id_subcategory"],
+            ["name", "slug"]
+        );
+
+        $this->setData("offer", $offerData);
+        $this->setData("currentCategory", $categoryData);
+        $this->setData("currentSubcategory", $subcategoryData);
+
+        $this->renderLayout($this->getData());
+    }
+
     public function delete(string $slug = null): ?bool
     {
         $this->authenticated()->withPermission("MANAGE_OFFERS");
