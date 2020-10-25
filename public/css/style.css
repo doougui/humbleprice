@@ -8,6 +8,10 @@ body {
   background-color: #F3F5F5;
 }
 
+.text-themed {
+  color: tomato;
+}
+
 .btn-themed {
   color: white;
   background-color: tomato;
@@ -44,11 +48,6 @@ h4 {
 
 .card-footer {
   text-align: center;
-}
-
-.card-prices {
-  display: flex;
-  justify-content: space-between;
 }
 
 .card-prices .old-price {
@@ -88,4 +87,33 @@ h4 {
 
 .tr-error {
   max-width: 300px;
+}
+
+.offer-title {
+  font-size: 28px;
+}
+
+.offer-author {
+  margin-left: 0;
+}
+
+.offer-author img {
+  width: 40px;
+}
+
+.offer-author-name {
+  max-width: 142px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#offer .card-footer button {
+  outline: none;
+  font-size: 14px;
+}
+
+#recommended-offer .prices small,
+#recommended-offer .prices p {
+  line-height: 1em;
 }

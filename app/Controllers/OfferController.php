@@ -22,6 +22,24 @@ class OfferController extends Authorization
         $this->redirect(DIRPAGE);
     }
 
+    public function view(string $slug = null): void
+    {
+        $offer = new Offer();
+
+        if (empty($slug)) {
+            $this->redirect(DIRPAGE);
+        }
+
+        $this->setDir("Offer");
+        $this->setTitle("Oferta | Humbleprice");
+        $this->setDescription("Promoção da oferta");
+        $this->setKeywords("offer, low-price, price, discount");
+
+        $this->setData("offer", $offer->getInfo("slug", $slug, ["*"]));
+
+        $this->renderLayout($this->getData());
+    }
+
     public function suggest(): void
     {
         $this->setDir("Suggest");
@@ -160,7 +178,7 @@ class OfferController extends Authorization
                     "status" => $status
                 ];
 
-                if ($offer->register($info)) {
+                if ($offer->store($info)) {
                     return true;
                 }
 
@@ -177,7 +195,6 @@ class OfferController extends Authorization
 
         $offer = new Offer();
         $category = new Category();
-        $subcategory = new Subcategory();
 
         if (empty($slug)) {
             $this->redirect(DIRPAGE);

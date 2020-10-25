@@ -81,6 +81,7 @@
     <script src="<?= DIRJS ?>jquery-3.5.1.min.js"></script>
     <script src="<?= DIRJS ?>bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/f8d095f64b.js" crossorigin="anonymous"></script>
     <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <?= $this->addExtraFooter($data) ?>
 <!--    <script src="--><?//= DIRJS ?><!--script.js"></script>-->

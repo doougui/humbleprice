@@ -62,7 +62,7 @@ class Offer extends Table
         return [];
     }
 
-    public function register(array $info): bool {
+    public function store(array $info): bool {
         $sql = "INSERT INTO 
                     {$this->table} 
                     (id_category, id_subcategory, slug, link, name, additional_info, old_price, new_price, end_offer , image, status) 
