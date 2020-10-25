@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 21, 2020 at 03:36 PM
+-- Generation Time: Oct 25, 2020 at 03:55 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -102,9 +102,10 @@ CREATE TABLE `offer` (
   `slug` varchar(255) NOT NULL,
   `link` varchar(1000) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `additional_info` text DEFAULT NULL,
   `old_price` double DEFAULT NULL,
   `new_price` double NOT NULL,
-  `end_offer` date NOT NULL,
+  `end_offer` date DEFAULT NULL,
   `image` varchar(55) NOT NULL,
   `status` enum('pending','approved','refused') NOT NULL DEFAULT 'pending'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -113,14 +114,16 @@ CREATE TABLE `offer` (
 -- Dumping data for table `offer`
 --
 
-INSERT INTO `offer` (`id`, `id_category`, `id_subcategory`, `slug`, `link`, `name`, `old_price`, `new_price`, `end_offer`, `image`, `status`) VALUES
-(1, 1, 3, 'homefront-the-revolution-expansion-pass', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Homefront®: The Revolution Expansion Pass', 45, 19, '2020-10-30', 'a834079e69463a602a5017cad39c17e5jpg', 'approved'),
-(2, 1, 6, 'the-division-2', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'The Division 2', 16, 8, '2020-10-31', 'e5e41af6de3926fdd788bf5d7c22f75cjpg', 'approved'),
-(4, 1, 2, 'metro-redux-bundle', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Metro Redux Bundle', 78, 19, '2020-10-31', '237a49bef20342b5316ffa493fbcebb5jpg', 'approved'),
-(7, 1, 4, 'playstation-4', 'https://store.playstation.com/pt-br/product/UP1001-CUSA01401_00-ANEMONEREV100000?utm_source=promobit', 'PlayStation 4', 2500, 1999, '2022-04-30', '152e081dbdf8eaf753c472d5cb9e598bjpg', 'refused'),
-(6, 3, 7, 'jogo-the-lonely-hacker-android', 'https://play.google.com/store/apps/details?utm_source=promobit&#38;id=com.TheLonelyDeveloper.TheLonelyHacker', 'Jogo The Lonely Hacker - Android', 4, 0, '2020-10-29', '66859397b50ea148b49a9a3c6b7ef47fjpg', 'approved'),
-(8, 1, 6, 'call-of-duty-black-ops-cold-war-beta-aberto', 'microsoft.com/pt-br/p/call-of-duty-black-ops-cold-war-open-beta/9nw9mbbvpnpl?ranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A&#38;epi=wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A&#38;irgwc=1&#38;OCID=AID2000142_aff_7803_1243925&#38;tduid=%28ir__echp36uwi0kftmzkkk0sohzjx32xsw9s1f6qedht00%29%287803%29%281243925%29%28wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A%29%28%29&#38;irclickid=_echp36uwi0kftmzkkk0sohzjx32xsw9s1f6qedht00&#38;activetab=pivot%3Aoverviewtab', ' Call of Duty®: Black Ops Cold War - Beta Aberto', 20, 0, '2020-11-30', '155e1047ec2a718dff40d2c4b9bb17c6jpg', 'approved'),
-(9, 1, 4, 'game-watch-dogs-2-hits-ps4', 'https://www.kabum.com.br/cgi-local/site/produtos/descricao_ofertas.cgi?codigo=112780&#38;awc=17729_1603112669_9bb2448c441de6fdded1a7f4393a1cb8&#38;utm_source=AWIN&#38;utm_medium=AFILIADOS&#38;utm_campaign=hallowin_out20&#38;utm_content=home&#38;utm_term=https%3A%2F%2Fwww.promobit.com.br', 'Game Watch Dogs 2 Hits PS4', 79, 0, '2020-10-31', '89e6ede83df78c296358d03c133aa37ajpg', 'refused');
+INSERT INTO `offer` (`id`, `id_category`, `id_subcategory`, `slug`, `link`, `name`, `additional_info`, `old_price`, `new_price`, `end_offer`, `image`, `status`) VALUES
+(1, 1, 3, 'homefront-the-revolution-expansion-pass', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Homefront®: The Revolution Expansion Pass', NULL, 45, 19, '2020-10-30', 'a834079e69463a602a5017cad39c17e5jpg', 'pending'),
+(4, 3, 7, 'metro-redux-bundle', 'https://www.microsoft.com/pt-br/p/homefront-the-revolution-expansion-pass/bx9pv7cclhgr?%3FranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;epi=wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ&#38;irgwc=1&#38;OCID=AID681541_aff_7803_1243925&#38;tduid=%28ir__xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00%29%287803%29%281243925%29%28wuBjaD0yAek-Wd3FVhWSjXHaqlRJpm6QSQ%29%28%29&#38;irclickid=_xrv2afeffgkfr3roxhyq2k3ksu2xjxyce36qe9ie00&#38;rtc=1&#38;activetab=pivot:overviewtab', 'Metro Redux Bundle', NULL, 78, 19, '2020-10-31', '5b334cf0d0c62a0471b4f74651532caa.jpg', 'approved'),
+(12, 1, 6, 'red-dead-redemption-2', 'https://www.microsoft.com/pt-br/p/red-dead-redemption-2/bpswgqbw7r3g', 'Red Dead Redemption 2', NULL, 249, 199, '2021-03-11', '4805a0b5bc10794363ba327d034141e1.jpg', 'pending'),
+(8, 1, 6, 'call-of-duty-black-ops-cold-war-beta', 'microsoft.com/pt-br/p/call-of-duty-black-ops-cold-war-open-beta/9nw9mbbvpnpl?ranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A&#38;epi=wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A&#38;irgwc=1&#38;OCID=AID2000142_aff_7803_1243925&#38;tduid=%28ir__echp36uwi0kftmzkkk0sohzjx32xsw9s1f6qedht00%29%287803%29%281243925%29%28wuBjaD0yAek-LH1pF9r70Szm1PrZl.2W2A%29%28%29&#38;irclickid=_echp36uwi0kftmzkkk0sohzjx32xsw9s1f6qedht00&#38;activetab=pivot%3Aoverviewtab', ' Call of Duty®: Black Ops Cold War - Beta ', NULL, 20, 0, '2020-11-30', '155e1047ec2a718dff40d2c4b9bb17c6jpg', 'approved'),
+(9, 1, 4, 'game-watch-dogs-2-hits-ps4', 'https://www.kabum.com.br/cgi-local/site/produtos/descricao_ofertas.cgi?codigo=112780&#38;awc=17729_1603112669_9bb2448c441de6fdded1a7f4393a1cb8&#38;utm_source=AWIN&#38;utm_medium=AFILIADOS&#38;utm_campaign=hallowin_out20&#38;utm_content=home&#38;utm_term=https%3A%2F%2Fwww.promobit.com.br', 'Game Watch Dogs 2 Hits PS4', NULL, 79, 0, '2020-10-31', '89e6ede83df78c296358d03c133aa37ajpg', 'refused'),
+(10, 1, 6, 'ori-and-the-blind-forest-definitive-edition', 'https://www.microsoft.com/pt-br/p/ori-and-the-blind-forest-definitive-edition/bw85kqb8q31m?activetab=pivot:overviewtab', 'Ori and the Blind Forest: Definitive Edition', NULL, 39, 9, NULL, 'a38e27e3f0d25750a042e04b14103ed1jpg', 'pending'),
+(11, 1, 5, 'child-of-light', 'https://www.microsoft.com/pt-br/p/child-of-light/bq9q620nc614?activetab=pivot:overviewtab', ' Child of Light', NULL, 35, 24, NULL, '14e8b348599f978cc09d11fd16290bdbjpg', 'pending'),
+(14, 1, 6, 'assassin-39-s-creed-odyssey', 'https://www.microsoft.com/PT-BR/p/assassins-creed-odyssey/BW9TWC8L4JCS?id=Pubsalegame_Week43&#38;ranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-fUfGUiMjo1zUkqwWYcsoeg&#38;epi=wuBjaD0yAek-fUfGUiMjo1zUkqwWYcsoeg&#38;irgwc=1&#38;OCID=AID2000142_aff_7803_1243925&#38;tduid=%28ir__echp36uwi0kftmzkkk0sohzjx32xs39ehn6qedhz00%29%287803%29%281243925%29%28wuBjaD0yAek-fUfGUiMjo1zUkqwWYcsoeg%29%28%29&#38;irclickid=_echp36uwi0kftmzkkk0sohzjx32xs39ehn6qedhz00&#38;activetab=pivot%3Aoverviewtab', 'Assassin&#39;s Creed® Odyssey', '&#60;p&#62;Forma de pagamento:&#38;nbsp;&#60;strong&#62;em 1x no cartão de crédito&#60;/strong&#62;.&#60;/p&#62;', 199, 49, '2020-11-05', '749fbc2093637b40410e9022cd37c59c.jpg', 'approved'),
+(15, 1, 6, 'the-witcher-3-wild-hunt-complete-edition', 'https://www.microsoft.com/pt-br/p/the-witcher-3-wild-hunt-complete-edition/c261457lcnmj?ocid=AID2000142_aff_7803_1243925#activetab=pivot:overviewtab', 'The Witcher 3: Wild Hunt – Complete Edition', '&#60;p&#62;Inclui todas as &#60;strong&#62;DLCs&#60;/strong&#62;.&#60;/p&#62;', 190, 152, NULL, 'f9c477ea2d2dba8fdd736831b33cd778.jpg', 'approved');
 
 -- --------------------------------------------------------
 
@@ -196,7 +199,6 @@ INSERT INTO `user` (`id`, `id_role`, `name`, `email`, `password`, `suspended`) V
 (1, 3, 'Admin', 'admin@admin.com', '$2y$10$/iKT/F741lJAPypnnblHQ.yEm4IH9GS4Pi7BRb3REpWJW.H9QTGmK', 0),
 (2, 1, 'Douglas Pinheiro Goulart', 'douglaspigoulart@gmail.com', '$2y$10$kXHGL/jHDIBO/HZQ4n2nHepsc16IzbeOFSCcEEcmjlh80I39xMC4a', 0),
 (4, 2, 'Moderador', 'mod@mod.com', '$2y$10$K1Cg8L54uCZZ53URBAyoBO/M8n5277NiR6cGspnQoTua7lcz2tqh.', 0),
-(5, 1, 'Luciana Ramos Pinheiro Inácio', 'luciana.rpi93@gmail.com', '$2y$10$RJkbwUGeFLI7S8qSSUVS2uRs6P3rDCATKFLd8QFN0i2SLiSznlatC', 0),
 (7, 4, 'Owner', 'owner@owner.com', '$2y$10$18Xy4ueE8D1pQYTRKfJMeuu/y89L12hRUu4O5hOyiTeLrZk8eEg8u', 0);
 
 --
@@ -264,7 +266,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `offer`
 --
 ALTER TABLE `offer`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `role`
