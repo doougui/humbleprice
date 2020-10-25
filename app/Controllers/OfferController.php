@@ -6,6 +6,7 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
+use App\Models\User;
 use Cocur\Slugify\Slugify;
 
 class OfferController extends Authorization
@@ -36,6 +37,7 @@ class OfferController extends Authorization
         $offer = new Offer();
         $category = new Category();
         $subcategory = new Subcategory();
+        $user = new User();
         $slugify = new Slugify();
 
         if (
@@ -77,6 +79,14 @@ class OfferController extends Authorization
             );
             $picture = $_FILES["picture"];
 
+            if (isset($_POST["additional-info"])) {
+                $additionalInfo = filter_input(
+                    INPUT_POST,
+                    "additional-info",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+            }
+
             if (
                 isset($_POST["end-offer"])
                 && ! isset($_POST["offer-end-date-not-specified"])
@@ -101,6 +111,13 @@ class OfferController extends Authorization
                         ? $endOffer
                         : null;
 
+                $additionalInfo = (
+                    isset($additionalInfo)
+                    && strlen($additionalInfo) !== 0
+                )
+                    ? $additionalInfo
+                    : null;
+
                 $categoryId = $category->getId("slug", $categorySlug);
 
                 if (! $categoryId) {
@@ -123,16 +140,24 @@ class OfferController extends Authorization
 
                 $imageName = $this->treatImage($picture);
 
+                $status = "pending";
+
+                if ($user->hasPermission(user()["id_role"], "MANAGE_QUEUE")) {
+                    $status = "approved";
+                }
+
                 $info = [
                     "slug" => $slug,
                     "link" => $link,
                     "name" => $name,
+                    "additionalInfo" => $additionalInfo,
                     "oldPrice" => $oldPrice,
                     "newPrice" => $newPrice,
                     "categoryId" => $categoryId,
                     "subcategoryId" => $subcategoryId,
                     "picture" => $imageName,
-                    "endOffer" => $endOffer
+                    "endOffer" => $endOffer,
+                    "status" => $status
                 ];
 
                 if ($offer->register($info)) {
@@ -176,6 +201,7 @@ class OfferController extends Authorization
                 "slug",
                 "link",
                 "name",
+                "additional_info",
                 "old_price",
                 "new_price",
                 "image",
@@ -189,15 +215,8 @@ class OfferController extends Authorization
             ["name", "slug"]
         );
 
-        $subcategoryData = $subcategory->getInfo(
-            "id",
-            $offerData["id_subcategory"],
-            ["name", "slug"]
-        );
-
         $this->setData("offer", $offerData);
         $this->setData("currentCategory", $categoryData);
-        $this->setData("currentSubcategory", $subcategoryData);
 
         $this->renderLayout($this->getData());
     }
@@ -262,6 +281,14 @@ class OfferController extends Authorization
                 $picture = $_FILES["picture"];
             }
 
+            if (isset($_POST["additional-info"])) {
+                $additionalInfo = filter_input(
+                    INPUT_POST,
+                    "additional-info",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+            }
+
             if (
                 isset($_POST["end-offer"])
                 && ! isset($_POST["offer-end-date-not-specified"])
@@ -283,6 +310,13 @@ class OfferController extends Authorization
 
                 $endOffer = (isset($endOffer) && strlen($endOffer) !== 0)
                     ? $endOffer
+                    : null;
+
+                $additionalInfo = (
+                    isset($additionalInfo)
+                    && strlen($additionalInfo) !== 0
+                )
+                    ? $additionalInfo
                     : null;
 
                 $categoryId = $category->getId("slug", $categorySlug);
@@ -314,6 +348,7 @@ class OfferController extends Authorization
                     "slug" => $slug,
                     "link" => $link,
                     "name" => $name,
+                    "additionalInfo" => $additionalInfo,
                     "oldPrice" => $oldPrice,
                     "newPrice" => $newPrice,
                     "categoryId" => $categoryId,

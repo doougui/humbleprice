@@ -80,21 +80,8 @@
     <!-- JavaScript -->
     <script src="<?= DIRJS ?>jquery-3.5.1.min.js"></script>
     <script src="<?= DIRJS ?>bootstrap.bundle.min.js"></script>
-<!--    <script src="--><?//= DIRJS ?><!--ckeditor.js"></script>-->
-<!--    <script>-->
-<!--      ClassicEditor-->
-<!--          .create( document.querySelector( '#editor' ), {-->
-<!--            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']-->
-<!--          } )-->
-<!--          .then( editor => {-->
-<!--            window.editor = editor;-->
-<!--          } )-->
-<!--          .catch( err => {-->
-<!--            console.error( err.stack );-->
-<!--          } );-->
-<!--    </script>-->
-    <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <?= $this->addExtraFooter($data) ?>
 <!--    <script src="--><?//= DIRJS ?><!--script.js"></script>-->
 </body>
