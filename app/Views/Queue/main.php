@@ -19,7 +19,7 @@
                                 <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
                             </div>
 
-                            <a href="#" class="btn btn-link"><?= $offer['name'] ?></a>
+                            <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>
 
                             <div class="card-prices">
                                 <div class="old-price">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></div>

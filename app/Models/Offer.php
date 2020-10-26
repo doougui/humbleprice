@@ -207,4 +207,23 @@ class Offer extends Table
 
         return [];
     }
+
+    public function incrementViews(int $offerId): bool
+    {
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    views = views + 1
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+
+        try {
+            $sql->execute();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

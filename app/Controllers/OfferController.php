@@ -14,7 +14,6 @@ class OfferController extends Authorization
     public function __construct()
     {
         parent::__construct();
-        $this->authenticated();
     }
 
     public function index(): void
@@ -36,10 +35,12 @@ class OfferController extends Authorization
             $this->redirect(DIRPAGE);
         }
 
-        $this->setDir("Offer");
-        $this->setTitle("Oferta | Humbleprice");
-        $this->setDescription("Promoção da oferta");
-        $this->setKeywords("offer, low-price, price, discount");
+        if (! $offer->incrementViews($offerId)) {
+            /**
+             * @todo
+             * Create log
+             */
+        }
 
         $offerData = $offer->getInfo("id", $offerId,
             [
@@ -68,6 +69,11 @@ class OfferController extends Authorization
             ]
         );
 
+        $this->setDir("Offer");
+        $this->setTitle("{$offerData['name']} | Humbleprice");
+        $this->setDescription("Encontre aqui o produto {$offerData['name']} no melhor preço possível.");
+        $this->setKeywords("offer, low-price, price, discount");
+
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $offer->getRelatedOffers($offerId));
 
@@ -76,6 +82,8 @@ class OfferController extends Authorization
 
     public function suggest(): void
     {
+        $this->authenticated();
+
         $this->setDir("Suggest");
         $this->setTitle("Sugira uma promoção | Humbleprice");
         $this->setDescription("Sugira uma oferta/promoção instingante de algum estabelecimento de nossa confiança.");
@@ -86,6 +94,8 @@ class OfferController extends Authorization
 
     public function publish(): ?bool
     {
+        $this->authenticated();
+
         $offer = new Offer();
         $category = new Category();
         $subcategory = new Subcategory();
@@ -240,11 +250,6 @@ class OfferController extends Authorization
             $this->redirect(DIRPAGE);
         }
 
-        $this->setDir("Edit");
-        $this->setTitle("Encontre os melhores preços | Humbleprice");
-        $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
-        $this->setKeywords("ofertas, produtos, preço");
-
         $offerData = $offer->getInfo("id", $offerId,
             [
                 "id_category",
@@ -259,6 +264,11 @@ class OfferController extends Authorization
                 "end_offer"
             ]
         );
+
+        $this->setDir("Edit");
+        $this->setTitle("Editando {$offerData['name']} | Humbleprice");
+        $this->setDescription("Edite a oferta {$offerData['name']} com as informações adequadas.");
+        $this->setKeywords("ofertas, produtos, preço");
 
         $categoryData = $category->getInfo(
             "id",

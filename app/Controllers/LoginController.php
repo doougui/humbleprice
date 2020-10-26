@@ -14,7 +14,7 @@ class LoginController extends Authorization
         $this->setDir("Login");
         $this->setTitle("Entre na sua conta | Humbleprice");
         $this->setDescription("Entre na sua conta.");
-        $this->setKeywords("forum, dev, entrar, login");
+        $this->setKeywords("entrar, login");
 
         $this->renderLayout($this->getData());
     }
