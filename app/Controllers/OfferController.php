@@ -75,6 +75,13 @@ class OfferController extends Authorization
         $this->setDescription("Encontre aqui o produto {$offerData['name']} no melhor preço possível.");
         $this->setKeywords("offer, low-price, price, discount");
 
+        if (
+            ! $this->authenticated()->withPermission("MANAGE_OFFERS")
+            && $offerData["status"] !== "approved"
+        ) {
+            $this->redirect(DIRPAGE);
+        }
+
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $offer->getRelatedOffers($offerId));
         $this->setData("isClosed",
