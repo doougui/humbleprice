@@ -28,23 +28,45 @@ class Authorization extends Controller
         exit;
     }
 
-    protected function authenticated(): Authorization
+    protected function authenticated(): bool
     {
         if (! isset($_SESSION["user"])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function authRequired(): Authorization
+    {
+        if (! $this->authenticated()) {
             $this->redirect(DIRPAGE);
         }
 
         return $this;
     }
 
-    protected function withPermission(string $permission): Authorization
+    protected function hasPermission(string $permission): bool
     {
         $user = new User();
+
+        if (! user()) {
+            return false;
+        }
 
         if (! $user->hasPermission(
             user()["id_role"],
             $permission
         )) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function withPermission(string $permission): Authorization
+    {
+        if (! $this->hasPermission($permission)) {
             $this->redirect(DIRPAGE);
         }
 

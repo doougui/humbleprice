@@ -76,7 +76,7 @@ class OfferController extends Authorization
         $this->setKeywords("offer, low-price, price, discount");
 
         if (
-            ! $this->authenticated()->withPermission("MANAGE_OFFERS")
+            ! $this->hasPermission("MANAGE_OFFERS")
             && $offerData["status"] !== "approved"
         ) {
             $this->redirect(DIRPAGE);
@@ -95,7 +95,7 @@ class OfferController extends Authorization
 
     public function suggest(): void
     {
-        $this->authenticated();
+        $this->authRequired();
 
         $this->setDir("Suggest");
         $this->setTitle("Sugira uma promoção | Humbleprice");
@@ -107,7 +107,7 @@ class OfferController extends Authorization
 
     public function publish(): ?bool
     {
-        $this->authenticated();
+        $this->authRequired();
 
         $offer = new Offer();
         $category = new Category();
@@ -248,7 +248,7 @@ class OfferController extends Authorization
 
     public function edit(string $slug = null): void
     {
-        $this->authenticated()->withPermission("MANAGE_OFFERS");
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
 
         $offer = new Offer();
         $category = new Category();
@@ -297,7 +297,7 @@ class OfferController extends Authorization
 
     public function update(string $slug = null): ?bool
     {
-        $this->authenticated()->withPermission("MANAGE_OFFERS");
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
 
         $offer = new Offer();
         $category = new Category();
@@ -449,7 +449,7 @@ class OfferController extends Authorization
 
     public function delete(string $slug = null): ?bool
     {
-        $this->authenticated()->withPermission("MANAGE_OFFERS");
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
 
         $offer = new Offer();
 
@@ -472,7 +472,7 @@ class OfferController extends Authorization
 
     public function subcategory(string $slug = null): void
     {
-        $this->authenticated()->withPermission("MANAGE_OFFERS");
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
 
         $offer = new Offer();
         $subcategory = new Subcategory();

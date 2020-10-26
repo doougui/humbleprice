@@ -11,7 +11,7 @@ class UserspanelController extends Authorization
     public function __construct()
     {
         parent::__construct();
-        $this->authenticated()->withPermission("MANAGE_USERS");
+        $this->authRequired()->withPermission("MANAGE_USERS");
     }
 
     public function index(): void

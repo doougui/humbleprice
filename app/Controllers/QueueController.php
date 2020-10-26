@@ -10,7 +10,7 @@ class QueueController extends Authorization
     public function __construct()
     {
         parent::__construct();
-        $this->authenticated()->withPermission("MANAGE_QUEUE");
+        $this->authRequired()->withPermission("MANAGE_QUEUE");
     }
 
     public function index(): void
