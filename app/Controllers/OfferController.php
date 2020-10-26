@@ -87,6 +87,7 @@ class OfferController extends Authorization
         $this->setData("relatedOffers", $offer->getRelatedOffers($offerId));
         $this->setData("isClosed",
             $offerData["status"] === "closed"
+            || $offerData["status"] === "refused"
             || ! empty($offerData["end_offer"])
             && date("Y-m-d") > $offerData["end_offer"]
         );

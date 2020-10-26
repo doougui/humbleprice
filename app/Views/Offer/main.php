@@ -50,7 +50,7 @@
                                     <?php endif; ?>
 
                                     <?php if (authorized("MANAGE_QUEUE") && ! $isClosed && $offer["status"] === "pending"): ?>
-                                        <div class="w-100">
+                                        <div class="w-100" id="queue-actions">
                                             <button class="btn w-100 mb-1 btn-success approve">Aprovar</button>
                                             <button class="btn w-100 mb-1 btn-danger refuse">Recusar</button>
                                         </div>
