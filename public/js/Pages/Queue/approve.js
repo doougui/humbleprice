@@ -3,10 +3,10 @@ $(document).ready(function() {
     e.preventDefault();
 
     const card = $(this).closest('.card-item');
-    const action = `${DIRPAGE}queue/approve/${$(card).attr('data-item')}`;
+    const action = `${DIRPAGE}offer/approve/${$(card).attr('data-item')}`;
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
-    const button = $(card).find('.approve');
+    const button = $(this);
 
     $.ajax({
       url: action,

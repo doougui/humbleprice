@@ -47,6 +47,7 @@ class OfferController extends Authorization
                 "user.name AS author",
                 "category.name AS category",
                 "subcategory.name AS subcategory",
+                "offer.slug",
                 "offer.link",
                 "offer.name",
                 "offer.additional_info",
@@ -494,6 +495,61 @@ class OfferController extends Authorization
         )["id_subcategory"];
 
         die($subcategory->getInfo("id", $subcategoryId, ["slug"])["slug"]);
+    }
+
+
+    public function approve(string $slug = null): ?bool
+    {
+        $this->authRequired()->withPermission("MANAGE_QUEUE");
+
+        if ($this->setStatus("approved", $slug)) {
+            return true;
+        }
+
+        die("Não foi possível aprovar essa oferta.");
+    }
+
+    public function refuse(string $slug = null): ?bool
+    {
+        $this->authRequired()->withPermission("MANAGE_QUEUE");
+
+        if ($this->setStatus("refused", $slug)) {
+            return true;
+        }
+
+        die("Não foi possível recusar essa oferta.");
+    }
+
+    public function close(string $slug = null): ?bool
+    {
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
+
+        if ($this->setStatus("closed", $slug)) {
+            return true;
+        }
+
+        die("Não foi possível fechar essa oferta.");
+    }
+
+    private function setStatus(string $status, string $slug = null): ?bool
+    {
+        $offer = new Offer();
+
+        if (empty($slug)) {
+            die("Esta oferta é inválida.");
+        }
+
+        $offerId = $offer->getId("slug", $slug);
+
+        if (! $offerId) {
+            die("Esta oferta é inválida.");
+        }
+
+        if ($offer->updateStatus($offerId, $status)) {
+            return true;
+        }
+
+        die("Não foi possível alterar o status desta oferta.");
     }
 
     private function treatImage(array $picture): ?string

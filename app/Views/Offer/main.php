@@ -2,12 +2,16 @@
     <div class="row">
         <div class="col-md-9">
             <section id="offer" class="mb-4">
-                <div class="card">
+                <div class="card" data-item="<?= $offer['slug'] ?>">
                     <div class="card-header">
                         <h4>Oferta</h4>
                     </div>
 
                     <div class="card-body">
+                        <div class="alert alert-danger d-none error" role="alert">
+                            <p class="error-msg"></p>
+                        </div>
+
                         <div class="row m-2">
                             <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="<?= $offer['name'] ?>" class="img img-thumbnail img-fluid w-25 <?= ($isClosed) ? 'grayscaled-img' : '' ?>">
 
@@ -38,7 +42,20 @@
                                     </div>
                                 </div>
 
-                                <a href="<?= $offer['link'] ?>" target="_blank" class="btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?>"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
+                                <div class="w-100 d-flex flex-md-column">
+                                    <a href="<?= $offer['link'] ?>" target="_blank" class="btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
+
+                                    <?php if (authorized("MANAGE_OFFERS") && ! $isClosed && $offer["status"] === "approved"): ?>
+                                        <button class="btn btn-danger w-100 close-offer">Fechar oferta</button>
+                                    <?php endif; ?>
+
+                                    <?php if (authorized("MANAGE_QUEUE") && ! $isClosed && $offer["status"] === "pending"): ?>
+                                        <div class="w-100">
+                                            <button class="btn w-100 mb-1 btn-success approve">Aprovar</button>
+                                            <button class="btn w-100 mb-1 btn-danger refuse">Recusar</button>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
