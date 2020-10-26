@@ -15,9 +15,11 @@
                 <?php foreach ($pendingOffers as $offer): ?>
                     <div class="card card-item" data-item="<?= $offer['slug'] ?>">
                         <div class="card-body">
-                            <div class="product-img">
-                                <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
-                            </div>
+                            <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>">
+                                <div class="product-img">
+                                    <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
+                                </div>
+                            </a>
 
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>
 

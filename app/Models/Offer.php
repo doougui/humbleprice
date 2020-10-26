@@ -39,6 +39,8 @@ class Offer extends Table
                       {$categoryQuery}
                 AND
                       {$subcategoryQuery}
+                AND
+                      status != 'closed'
                 ORDER BY 
                     end_offer 
                 ASC";
@@ -187,9 +189,13 @@ class Offer extends Table
                     FROM
                         {$this->table}
                     WHERE
+                        (end_offer >= NOW() OR end_offer is null)
+                    AND
                         id_category = :id_category
                     AND
                         id_subcategory = :id_subcategory
+                    AND
+                        status = 'approved'
                     AND
                         id != :id
                     LIMIT

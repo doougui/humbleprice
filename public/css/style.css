@@ -54,6 +54,10 @@ h4 {
   color: #AAA;
 }
 
+.grayscaled-img {
+  filter: grayscale(100%);
+}
+
 .delete {
   display: block;
   color: #d63031;

@@ -55,7 +55,8 @@ class OfferController extends Authorization
                 "offer.published_at",
                 "offer.end_offer",
                 "offer.image",
-                "offer.views"
+                "offer.views",
+                "offer.status"
             ],
             [
                 ["user", "INNER"],
@@ -76,6 +77,11 @@ class OfferController extends Authorization
 
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $offer->getRelatedOffers($offerId));
+        $this->setData("isClosed",
+            $offerData["status"] === "closed"
+            || ! empty($offerData["end_offer"])
+            && date("Y-m-d") > $offerData["end_offer"]
+        );
 
         $this->renderLayout($this->getData());
     }

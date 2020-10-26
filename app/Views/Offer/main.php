@@ -9,7 +9,7 @@
 
                     <div class="card-body">
                         <div class="row m-2">
-                            <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="<?= $offer['name'] ?>" class="img img-thumbnail img-fluid w-25">
+                            <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="<?= $offer['name'] ?>" class="img img-thumbnail img-fluid w-25 <?= ($isClosed) ? 'grayscaled-img' : '' ?>">
 
                             <div class="col-6 mx-2 d-flex flex-md-column justify-content-between">
                                 <div>
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
 
-                                <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-themed">Ir para oferta</a>
+                                <a href="<?= $offer['link'] ?>" target="_blank" class="btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?>"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                             <?php endif; ?>
 
                             <?php if (! empty($offer["end_offer"])): ?>
-                                <small>Esta oferta encerra em: <span class="font-weight-bold text-themed"><?= date("d/m/Y", strtotime($offer["end_offer"])) ?></span>.</small>
+                                <small>Esta oferta <?= ($isClosed) ? "encerrou" : "encerra" ?> em: <span class="font-weight-bold text-themed"><?= date("d/m/Y", strtotime($offer["end_offer"])) ?></span>.</small>
                             <?php endif; ?>
                         <?php else: ?>
                             <p class="text-muted">Nenhuma informação adicional disponível.</p>
@@ -104,7 +104,9 @@
                     <?php foreach($relatedOffers as $index => $relatedOffer): ?>
                         <div id="recommended-offer">
                             <div class="row">
-                                <img src="<?= DIRIMG ?>products/<?= $relatedOffer['image'] ?>" alt="<?= $relatedOffer['name'] ?>" class="img img-fluid img-thumbnail w-25 ml-2">
+                                <a class="w-25 ml-2" href="<?= DIRPAGE ?>offer/view/<?= $relatedOffer['slug'] ?>">
+                                    <img src="<?= DIRIMG ?>products/<?= $relatedOffer['image'] ?>" alt="<?= $relatedOffer['name'] ?>" class="img img-fluid img-thumbnail">
+                                </a>
 
                                 <div class="col-md d-flex flex-column justify-content-between ml-1 text-wrap">
                                     <small>
