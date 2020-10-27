@@ -121,3 +121,19 @@ h4 {
 #recommended-offer .prices p {
   line-height: 1em;
 }
+
+.swal-button--available {
+  background-color: #28a745;
+}
+
+.swal-button--available:hover {
+  background-color: #218838 !important;
+}
+
+.swal-button--unavailable {
+  background-color: #dc3545;
+}
+
+.swal-button--unavailable:hover {
+  background-color: #c82333 !important;
+}

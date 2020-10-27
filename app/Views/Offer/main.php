@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-9">
             <section id="offer" class="mb-4">
-                <div class="card" data-item="<?= $offer['slug'] ?>">
+                <div class="card" data-item="<?= $offer['slug'] ?>" data-end="<?= $offer['end_offer'] ?>">
                     <div class="card-header">
                         <h4>Oferta</h4>
                     </div>
@@ -43,7 +43,7 @@
                                 </div>
 
                                 <div class="w-100 d-flex flex-md-column">
-                                    <a href="<?= $offer['link'] ?>" target="_blank" class="btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
+                                    <a href="<?= $offer['link'] ?>" target="_blank" class="offer-link btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
 
                                     <?php if (authorized("MANAGE_OFFERS") && ! $isClosed && $offer["status"] === "approved"): ?>
                                         <button class="btn btn-danger w-100 close-offer">Fechar oferta</button>
