@@ -3,6 +3,10 @@
 namespace App\Controllers;
 
 use App\Core\Authorization;
+use App\Core\Table;
+use App\Models\Offer;
+use App\Models\Reason;
+use App\Models\Report;
 
 class ReportController extends Authorization
 {
@@ -15,10 +19,5 @@ class ReportController extends Authorization
     public function index(): void
     {
         
-    }
-
-    public function unavailable(string $slug = null): ?bool
-    {
-        return true;
     }
 }

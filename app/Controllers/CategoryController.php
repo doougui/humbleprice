@@ -20,13 +20,10 @@ class CategoryController extends Authorization
         $subcategory = new Subcategory();
         $offer = new Offer();
 
-        if (empty($slug)) {
-            $this->redirect(DIRPAGE);
-        }
-
-        $categoryId = $category->getId("slug", $slug);
-
-        if (! $categoryId) {
+        if (
+            empty($slug)
+            || ! $categoryId = $category->getId("slug", $slug)
+        ) {
             $this->redirect(DIRPAGE);
         }
 

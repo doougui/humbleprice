@@ -25,13 +25,10 @@ class OfferController extends Authorization
     {
         $offer = new Offer();
 
-        if (empty($slug)) {
-            $this->redirect(DIRPAGE);
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
             $this->redirect(DIRPAGE);
         }
 
@@ -255,13 +252,10 @@ class OfferController extends Authorization
         $offer = new Offer();
         $category = new Category();
 
-        if (empty($slug)) {
-            $this->redirect(DIRPAGE);
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
             $this->redirect(DIRPAGE);
         }
 
@@ -306,13 +300,10 @@ class OfferController extends Authorization
         $subcategory = new Subcategory();
         $slugify = new Slugify();
 
-        if (empty($slug)) {
-            die("Esta oferta é inválida.");
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
             die("Esta oferta é inválida.");
         }
 
@@ -455,13 +446,10 @@ class OfferController extends Authorization
 
         $offer = new Offer();
 
-        if (empty($slug)) {
-            die("Esta oferta é inválida.");
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
             die("Esta oferta é inválida.");
         }
 
@@ -479,13 +467,10 @@ class OfferController extends Authorization
         $offer = new Offer();
         $subcategory = new Subcategory();
 
-        if (empty($slug)) {
-            die();
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
             die();
         }
 
@@ -536,13 +521,10 @@ class OfferController extends Authorization
     {
         $offer = new Offer();
 
-        if (empty($slug)) {
-            die("Esta oferta é inválida.");
-        }
-
-        $offerId = $offer->getId("slug", $slug);
-
-        if (! $offerId) {
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
             die("Esta oferta é inválida.");
         }
 
