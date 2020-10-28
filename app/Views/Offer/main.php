@@ -72,10 +72,12 @@
                                 <span><?= $likes ?></span>
                             </button>
 
-                            <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
-                                <i class="fas fa-comments"></i>
-                                14
-                            </button>
+                            <a href="#comment">
+                                <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
+                                    <i class="fas fa-comments"></i>
+                                    14
+                                </button>
+                            </a>
                         </div>
 
                         <div>
@@ -88,7 +90,7 @@
                 </div>
             </section>
 
-            <section id="additional-info">
+            <section id="additional-info" class="mb-4">
                 <div class="card">
                     <div class="card-header">
                         <h4>Informações adicionais</h4>
@@ -106,6 +108,60 @@
                         <?php else: ?>
                             <p class="text-muted">Nenhuma informação adicional disponível.</p>
                         <?php endif; ?>
+                    </div>
+                </div>
+            </section>
+
+            <section id="comments" class="mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Comentários</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="POST" id="comment" action="<?= DIRPAGE ?>comment/publish">
+                            <div class="form-group">
+                                <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" id="editor"></textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-themed">Publicar comentário</button>
+                            </div>
+                        </form>
+
+                        <hr>
+
+                        <div class="comment d-flex mx-2 pt-3 align-items-start">
+                            <img class="img img-fluid rounded rounded-circle mr-3" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
+
+                            <div>
+                                <div class="comment-header">
+                                    <p class="mb-0 font-weight-bold comment-author-name">Douglas Pinheiro Goulart</p>
+                                    <small class="text-muted">4 horas atrás</small>
+                                </div>
+
+                                <div class="comment-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam error hic minima reiciendis. Consequatur dolor excepturi ipsum possimus sapiente!</p>
+                                </div>
+
+                                <div class="comment-actions d-flex justify-content-end">
+                                    <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
+                                        <i class="fas fa-thumbs-up"></i>
+                                        <span>14</span>
+                                    </button>
+
+                                    <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
+                                        <i class="fas fa-comments"></i>
+                                        Responder
+                                    </button>
+
+                                    <button class="btn badge btn-secondary px-3 py-2 mr-2">
+                                        <i class="fas fa-flag"></i>
+                                        Reportar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

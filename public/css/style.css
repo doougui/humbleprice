@@ -1,7 +1,11 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -136,4 +140,12 @@ h4 {
 
 .swal-button--unavailable:hover {
   background-color: #c82333 !important;
+}
+
+.comment img {
+  width: 10%;
+}
+
+.comment-author-name {
+  line-height: 1;
 }
