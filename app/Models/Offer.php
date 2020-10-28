@@ -9,7 +9,7 @@ class Offer extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'offer';
+        $this->table = "offers";
     }
 
     public function getLastOffers(

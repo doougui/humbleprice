@@ -67,9 +67,9 @@
                                 Reportar
                             </button>
 
-                            <button class="btn badge <?= ($upvoted) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2 upvote" <?= (! user()) ? 'disabled' : '' ?>>
+                            <button class="btn badge <?= ($liked) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2 like" <?= (! user()) ? 'disabled' : '' ?>>
                                 <i class="fas fa-thumbs-up"></i>
-                                <span><?= $upvotes ?></span>
+                                <span><?= $likes ?></span>
                             </button>
 
                             <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>

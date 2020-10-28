@@ -9,7 +9,7 @@ class User extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = "user";
+        $this->table = "users";
     }
 
     public function isSuspended(string $email): bool

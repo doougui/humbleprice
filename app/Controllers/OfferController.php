@@ -6,7 +6,7 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
-use App\Models\Upvote;
+use App\Models\Like;
 use App\Models\User;
 use Cocur\Slugify\Slugify;
 
@@ -25,7 +25,7 @@ class OfferController extends Authorization
     public function view(string $slug = null): void
     {
         $offer = new Offer();
-        $upvote = new Upvote();
+        $like = new Like();
 
         if (
             empty($slug)
@@ -43,30 +43,30 @@ class OfferController extends Authorization
 
         $offerData = $offer->getInfo("id", $offerId,
             [
-                "user.name AS author",
-                "category.name AS category",
-                "subcategory.name AS subcategory",
-                "offer.slug",
-                "offer.link",
-                "offer.name",
-                "offer.additional_info",
-                "offer.old_price",
-                "offer.new_price",
-                "offer.published_at",
-                "offer.end_offer",
-                "offer.image",
-                "offer.views",
-                "offer.status"
+                "users.name AS author",
+                "categories.name AS category",
+                "subcategories.name AS subcategory",
+                "offers.slug",
+                "offers.link",
+                "offers.name",
+                "offers.additional_info",
+                "offers.old_price",
+                "offers.new_price",
+                "offers.published_at",
+                "offers.end_offer",
+                "offers.image",
+                "offers.views",
+                "offers.status"
             ],
             [
-                ["user", "INNER"],
-                ["category", "INNER"],
-                ["subcategory", "INNER"]
+                ["users", "INNER"],
+                ["categories", "INNER"],
+                ["subcategories", "INNER"]
             ],
             [
-                "offer.id_user = user.id",
-                "offer.id_category = category.id",
-                "offer.id_subcategory = subcategory.id"
+                "offers.id_user = users.id",
+                "offers.id_category = categories.id",
+                "offers.id_subcategory = subcategories.id"
             ]
         );
 
@@ -88,16 +88,16 @@ class OfferController extends Authorization
             || $offerData["status"] === "refused"
             || ! empty($offerData["end_offer"])
             && date("Y-m-d") > $offerData["end_offer"];
-        $upvoteCount = $upvote->count($offerId);
-        $upvoted = ($this->authenticated())
-            ? $upvote->upvoted($offerId, user()["id"])
+        $likeCount = $like->count($offerId);
+        $liked = ($this->authenticated())
+            ? $like->liked($offerId, user()["id"])
             : false;
 
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $latestOffers);
         $this->setData("isClosed", $isClosed);
-        $this->setData("upvotes", $upvoteCount);
-        $this->setData("upvoted", $upvoted);
+        $this->setData("likes", $likeCount);
+        $this->setData("liked", $liked);
 
         $this->renderLayout($this->getData());
     }

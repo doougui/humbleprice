@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Core\Table;
 
-class Upvote extends Table
+class Like extends Table
 {
     public function __construct()
     {
         parent::__construct();
-        $this->table = "upvote";
+        $this->table = "likes";
     }
 
     public function count(int $offerId): ?int
@@ -19,7 +19,7 @@ class Upvote extends Table
                 AS 
                     amount
                 FROM
-                    upvote
+                    {$this->table}
                 WHERE
                     id_offer = :id_offer
         ";
@@ -34,12 +34,12 @@ class Upvote extends Table
         return null;
     }
 
-    public function upvoted(int $offerId, int $userId): bool
+    public function liked(int $offerId, int $userId): bool
     {
         $sql = "SELECT
                     id
                 FROM
-                    upvote
+                    {$this->table}
                 WHERE
                     id_offer = :id_offer
                 AND

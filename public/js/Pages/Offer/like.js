@@ -1,37 +1,37 @@
 $(document).ready(function() {
-  $('.upvote').click(function(e) {
+  $('.like').click(function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card');
-    const action = `${DIRPAGE}upvote/add/${$(card).attr('data-item')}`;
+    const action = `${DIRPAGE}like/add/${$(card).attr('data-item')}`;
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
     const button = $(this);
 
-    function removeUpvote() {
+    function removeLike() {
       $(button).removeClass('btn-success');
       $(button).addClass('btn-secondary');
-      $(upvotes).html(--count);
+      $(likes).html(--count);
     }
 
-    function addUpvote() {
+    function addLike() {
       $(button).addClass('btn-success');
       $(button).removeClass('btn-secondary');
-      $(upvotes).html(++count);
+      $(likes).html(++count);
     }
 
-    const upvotes = $(button).find('span');
-    let count = parseInt(upvotes.html());
+    const likes = $(button).find('span');
+    let count = parseInt(likes.html());
 
-    function checkUpvote() {
+    function checkLike() {
       if ($(button).hasClass('btn-success')) {
-        removeUpvote();
+        removeLike();
       } else {
-        addUpvote();
+        addLike();
       }
     }
 
-    checkUpvote();
+    checkLike();
 
     $.ajax({
       url: action,
@@ -41,13 +41,13 @@ $(document).ready(function() {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
         $(errorMsg).html(response).fadeIn();
-        checkUpvote();
+        checkLike();
       }
     }).fail(function() {
       $(error).removeClass('d-none');
       $(error).addClass('d-block');
       $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
-      checkUpvote();
+      checkLike();
     });
   });
 });

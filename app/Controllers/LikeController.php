@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Authorization;
 use App\Models\Offer;
-use App\Models\Upvote;
+use App\Models\Like;
 
-class UpvoteController extends Authorization
+class LikeController extends Authorization
 {
     public function __construct()
     {
@@ -21,7 +21,7 @@ class UpvoteController extends Authorization
     public function add(string $slug = null): void
     {
         $offer = new Offer();
-        $upvote = new Upvote();
+        $like = new Like();
 
         if (
             empty($slug)
@@ -34,13 +34,13 @@ class UpvoteController extends Authorization
             die("Você precisa estar logado para realizar esta ação.");
         }
 
-        $upvoted = $upvote->upvoted($offerId, user()["id"]);
+        $liked = $like->liked($offerId, user()["id"]);
 
-        if ($upvoted) {
-            $upvote->remove($offerId, user()["id"]);
+        if ($liked) {
+            $like->remove($offerId, user()["id"]);
             die();
         }
 
-        $upvote->add($offerId, user()["id"]);
+        $like->add($offerId, user()["id"]);
     }
 }

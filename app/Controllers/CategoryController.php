@@ -69,16 +69,20 @@ class CategoryController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function subcategories(string $category = null): void
+    public function subcategories(string $slug = null): void
     {
         $subcategory = new Subcategory();
+        $category = new Category();
 
-        if (empty($category)) {
+        if (
+            empty($slug)
+            || ! $categoryId = $category->getId("slug", $slug)
+        ) {
             die(json_encode([]));
         }
 
         die(json_encode(
-            $subcategory->getFromCategory($category)
+            $subcategory->getFromCategory($categoryId)
         ));
     }
 }

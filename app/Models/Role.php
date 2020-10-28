@@ -9,6 +9,6 @@ class Role extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = "role";
+        $this->table = "roles";
     }
 }

@@ -9,13 +9,11 @@ class Subcategory extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'subcategory';
+        $this->table = "subcategories";
     }
 
-    public function getFromCategory(string $slug): array
+    public function getFromCategory(int $categoryId): array
     {
-        $categoryId = $this->getId("slug", $slug, "category");
-
         $sql = "SELECT
                     id, id_category, slug, name
                 FROM
