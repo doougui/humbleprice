@@ -18,7 +18,7 @@ function user(): ?array
         return $user->getInfo(
             "id",
             $_SESSION["user"],
-            ["name", "email", "password", "id_role"]
+            ["id", "name", "email", "password", "id_role"]
         );
     }
 

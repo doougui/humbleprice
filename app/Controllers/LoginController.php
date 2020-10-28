@@ -19,7 +19,7 @@ class LoginController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function signin(): ?bool
+    public function signin(): void
     {
         $this->logout(false);
 
@@ -44,7 +44,7 @@ class LoginController extends Authorization
 
             if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->login($email, $password)) {
-                    return true;
+                    die();
                 }
 
                 die("Usuário e/ou senha incorretos.");

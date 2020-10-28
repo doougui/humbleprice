@@ -6,6 +6,7 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Subcategory;
+use App\Models\Upvote;
 use App\Models\User;
 use Cocur\Slugify\Slugify;
 
@@ -24,6 +25,7 @@ class OfferController extends Authorization
     public function view(string $slug = null): void
     {
         $offer = new Offer();
+        $upvote = new Upvote();
 
         if (
             empty($slug)
@@ -80,14 +82,22 @@ class OfferController extends Authorization
             $this->redirect(DIRPAGE);
         }
 
-        $this->setData("offer", $offerData);
-        $this->setData("relatedOffers", $offer->getRelatedOffers($offerId));
-        $this->setData("isClosed",
+        $latestOffers = $offer->getRelatedOffers($offerId);
+        $isClosed =
             $offerData["status"] === "closed"
             || $offerData["status"] === "refused"
             || ! empty($offerData["end_offer"])
-            && date("Y-m-d") > $offerData["end_offer"]
-        );
+            && date("Y-m-d") > $offerData["end_offer"];
+        $upvoteCount = $upvote->count($offerId);
+        $upvoted = ($this->authenticated())
+            ? $upvote->upvoted($offerId, user()["id"])
+            : false;
+
+        $this->setData("offer", $offerData);
+        $this->setData("relatedOffers", $latestOffers);
+        $this->setData("isClosed", $isClosed);
+        $this->setData("upvotes", $upvoteCount);
+        $this->setData("upvoted", $upvoted);
 
         $this->renderLayout($this->getData());
     }
@@ -104,7 +114,7 @@ class OfferController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function publish(): ?bool
+    public function publish(): void
     {
         $this->authRequired();
 
@@ -235,7 +245,7 @@ class OfferController extends Authorization
                 ];
 
                 if ($offer->store($info)) {
-                    return true;
+                    die();
                 }
 
                 die("Algo de errado ocorreu. Tente novamente mais tarde!");
@@ -291,7 +301,7 @@ class OfferController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function update(string $slug = null): ?bool
+    public function update(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
@@ -428,7 +438,7 @@ class OfferController extends Authorization
                 }
 
                 if ($offer->update($info)) {
-                    return true;
+                    die();
                 }
 
                 die("Algo de errado ocorreu. Tente novamente mais tarde!");
@@ -440,7 +450,7 @@ class OfferController extends Authorization
         die("Preencha todos os campos para continuar");
     }
 
-    public function delete(string $slug = null): ?bool
+    public function delete(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
@@ -454,7 +464,7 @@ class OfferController extends Authorization
         }
 
         if ($offer->delete($offerId)) {
-            return true;
+            die();
         }
 
         die("Não foi possível deletar esta oferta.");
@@ -484,40 +494,40 @@ class OfferController extends Authorization
     }
 
 
-    public function approve(string $slug = null): ?bool
+    public function approve(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
         if ($this->setStatus("approved", $slug)) {
-            return true;
+            die();
         }
 
         die("Não foi possível aprovar essa oferta.");
     }
 
-    public function refuse(string $slug = null): ?bool
+    public function refuse(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
         if ($this->setStatus("refused", $slug)) {
-            return true;
+            die();
         }
 
         die("Não foi possível recusar essa oferta.");
     }
 
-    public function close(string $slug = null): ?bool
+    public function close(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
         if ($this->setStatus("closed", $slug)) {
-            return true;
+            die();
         }
 
         die("Não foi possível fechar essa oferta.");
     }
 
-    private function setStatus(string $status, string $slug = null): ?bool
+    private function setStatus(string $status, string $slug = null): void
     {
         $offer = new Offer();
 
@@ -529,7 +539,7 @@ class OfferController extends Authorization
         }
 
         if ($offer->updateStatus($offerId, $status)) {
-            return true;
+            die();
         }
 
         die("Não foi possível alterar o status desta oferta.");

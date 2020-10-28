@@ -63,13 +63,13 @@
                     <div class="card-footer d-flex justify-content-between">
                         <div>
                             <button class="btn badge btn-secondary px-3 py-2 mr-2">
-                                <i class="fas fa-thumbs-up"></i>
+                                <i class="fas fa-flag"></i>
                                 Reportar
                             </button>
 
-                            <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
+                            <button class="btn badge <?= ($upvoted) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2 upvote" <?= (! user()) ? 'disabled' : '' ?>>
                                 <i class="fas fa-thumbs-up"></i>
-                                435
+                                <span><?= $upvotes ?></span>
                             </button>
 
                             <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
@@ -142,6 +142,10 @@
 
                         <?= ($index !== array_key_last($relatedOffers)) ? "<hr>" : '' ?>
                     <?php endforeach; ?>
+
+                    <?php if (empty($relatedOffers)): ?>
+                        <p class="text-muted text-center">Não há ofertas relacionadas.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>

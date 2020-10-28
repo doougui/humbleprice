@@ -44,7 +44,7 @@ class UserspanelController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function suspend(string $email = null): ?bool
+    public function suspend(string $email = null): void
     {
         $user = new User();
 
@@ -69,13 +69,13 @@ class UserspanelController extends Authorization
         }
 
         if ($user->toggleSuspension($userId)) {
-            return true;
+            die();
         }
 
         die("Não foi possível suspender este usuário.");
     }
 
-    public function delete(string $email = null): ?bool
+    public function delete(string $email = null): void
     {
         $user = new User();
 
@@ -100,7 +100,7 @@ class UserspanelController extends Authorization
         }
 
         if ($user->delete($userId)) {
-            return true;
+            die();
         }
 
         die("Não foi possível deletar a conta deste usuário.");
@@ -109,7 +109,7 @@ class UserspanelController extends Authorization
     public function assignRole(
         string $email = null,
         string $roleLabel = null
-    ): ?bool {
+    ): void {
         $user = new User();
         $role = new Role();
 
@@ -140,7 +140,7 @@ class UserspanelController extends Authorization
         }
 
         if ($user->assignRole($userId, $roleId)) {
-            return true;
+            die();
         }
 
         die("Não foi possível mudar o cargo deste usuário.");

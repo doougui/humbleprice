@@ -48,6 +48,10 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+
+                <?php if (empty($pendingOffers)): ?>
+                    <p class="text-muted text-center">Não há ofertas pendentes.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>

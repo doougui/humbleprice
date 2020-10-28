@@ -79,6 +79,10 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
+
+                <?php if (empty($users)): ?>
+                    <p class="text-muted text-center">Listagem de usuários vazia.</p>
+                <?php endif; ?>
             </tbody>
         </table>
     </section>

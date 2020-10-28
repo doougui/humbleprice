@@ -17,7 +17,7 @@ class RegisterController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function signup(): ?bool
+    public function signup(): void
     {
         $this->logout(false);
 
@@ -54,7 +54,7 @@ class RegisterController extends Authorization
 
             if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->register($name, $email, $password)) {
-                    return true;
+                    die();
                 } else {
                     die("Usuário já cadastrado. <a href='".DIRPAGE."login'>Faça seu login.</a>");
                 }

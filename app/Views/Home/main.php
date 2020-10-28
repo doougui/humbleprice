@@ -43,6 +43,10 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+
+                <?php if (empty($offers)): ?>
+                    <p class="text-muted text-center">Não há ofertas disponíveis.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>
