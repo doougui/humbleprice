@@ -7,6 +7,11 @@ use App\Models\Offer;
 
 class HomeController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $offer = new Offer();

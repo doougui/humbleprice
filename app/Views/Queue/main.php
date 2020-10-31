@@ -14,7 +14,7 @@
             <div class="card-body">
                 <?php foreach ($pendingOffers as $offer): ?>
                     <div class="card card-item" data-item="<?= $offer['slug'] ?>">
-                        <div class="card-body">
+                        <div class="card-body d-flex align-items-center flex-md-column">
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>">
                                 <div class="product-img">
                                     <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
@@ -23,7 +23,7 @@
 
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>
 
-                            <div class="card-prices">
+                            <div class="card-prices d-flex justify-content-between w-100">
                                 <div class="old-price">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></div>
                                 <div class="new-price">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></div>
                             </div>

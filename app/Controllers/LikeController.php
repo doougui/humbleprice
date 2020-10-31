@@ -29,6 +29,19 @@ class LikeController extends Authorization
             die("Você precisa estar logado para realizar esta ação.");
         }
 
+        $offerData = $offer->getInfo("id", $offerId, ["status"]);
+
+        if ($_SERVER["HTTP_REFERER"] !== DIRPAGE."offer/view/{$slug}") {
+            die();
+        }
+
+        if (
+            ! $this->hasPermission("MANAGE_OFFERS")
+            && $offerData["status"] !== "approved"
+        ) {
+            die("Você não tem permissão para realizar esta ação.");
+        }
+
         $liked = $like->liked($offerId, user()["id"]);
 
         if ($liked) {

@@ -36,13 +36,6 @@ class OfferController extends Authorization
             $this->redirect(DIRPAGE);
         }
 
-        if (! $offer->incrementViews($offerId)) {
-            /**
-             * @todo
-             * Create log
-             */
-        }
-
         $offerData = $offer->getInfo("id", $offerId,
             [
                 "users.name AS author",
@@ -66,7 +59,7 @@ class OfferController extends Authorization
                 ["subcategories", "INNER"]
             ],
             [
-                "offers.id_user = users.id",
+                "offers.id_author = users.id",
                 "offers.id_category = categories.id",
                 "offers.id_subcategory = subcategories.id"
             ]
@@ -84,6 +77,13 @@ class OfferController extends Authorization
             && $offerData["status"] !== "approved"
         ) {
             $this->redirect(DIRPAGE);
+        }
+
+        if (! $offer->incrementViews($offerId)) {
+            /**
+             * @todo
+             * Create log
+             */
         }
 
         $latestOffers = $offer->getRelatedOffers($offerId);
@@ -514,9 +514,7 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
-        if ($this->setStatus("refused", $slug)) {
-            die();
-        }
+        $this->setStatus("refused", $slug);
 
         die("Não foi possível recusar essa oferta.");
     }
@@ -525,9 +523,7 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
-        if ($this->setStatus("closed", $slug)) {
-            die();
-        }
+        $this->setStatus("closed", $slug);
 
         die("Não foi possível fechar essa oferta.");
     }

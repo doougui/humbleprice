@@ -39,12 +39,12 @@ $(document).ready(function() {
                     </div>
 
                     <div class="comment-actions d-flex justify-content-end">
-                        <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
+                        <button class="btn btn-link btn-sm py-2 mr-1">
                             <i class="fas fa-thumbs-up"></i>
                             <span>14</span>
                         </button>
 
-                        <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
+                        <button class="btn btn-link btn-sm py-2 mr-1">
                             <i class="fas fa-comments"></i>
                             Responder
                         </button>

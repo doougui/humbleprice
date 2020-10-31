@@ -9,6 +9,11 @@ use App\Models\Subcategory;
 
 class CategoryController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->redirect(DIRPAGE);

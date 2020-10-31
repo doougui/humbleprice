@@ -120,7 +120,7 @@
 
                     <div class="card-body">
                         <?php if (user()): ?>
-                            <form method="POST" id="comment" action="<?= DIRPAGE ?>comment/publish">
+                            <form method="POST" id="comment" action="<?= DIRPAGE ?>comment/publish/<?= $offer['slug'] ?>">
                                 <div class="alert alert-danger d-none error" role="alert">
                                     <p class="error-msg"></p>
                                 </div>

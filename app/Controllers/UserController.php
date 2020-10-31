@@ -7,6 +7,11 @@ use App\Models\User;
 
 class UserController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->redirect(DIRPAGE);

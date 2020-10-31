@@ -77,4 +77,47 @@ class Comment extends Table
 
         return [];
     }
+
+    public function store(array $info): array
+    {
+        $sql = "INSERT INTO
+                    {$this->table}
+                    (id_offer, id_author, comment)
+                VALUES
+                    (:id_offer, :id_author, :comment)";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id_offer", $info["offerId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_author", user()["id"], \PDO::PARAM_INT);
+        $sql->bindParam(":comment", $info["comment"], \PDO::PARAM_STR);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $commentId = $this->db->lastInsertId();
+
+            $sql = "SELECT
+                    id_parent, 
+                    users.name AS author,
+                    users.avatar AS avatar,
+                    comment,
+                    created_at
+                FROM
+                    comments
+                INNER JOIN
+                    users
+                ON
+                    comments.id_author = users.id
+                WHERE 
+                    comments.id = :id_comment
+            ";
+            $sql = $this->db->prepare($sql);
+            $sql->bindValue(":id_comment", $commentId);
+            $sql->execute();
+
+            if ($sql->rowCount() > 0) {
+                return $sql->fetch();
+            }
+        }
+
+        return [];
+    }
 }

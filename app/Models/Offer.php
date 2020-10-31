@@ -67,20 +67,21 @@ class Offer extends Table
     public function store(array $info): bool {
         $sql = "INSERT INTO 
                     {$this->table} 
-                    (id_category, id_subcategory, slug, link, name, additional_info, old_price, new_price, end_offer , image, status) 
+                    (id_author, id_category, id_subcategory, slug, link, name, additional_info, old_price, new_price, end_offer , image, status) 
                 VALUES 
-                    (:category, :subcategory, :slug, :link, :name, :additionalInfo, :oldPrice, :newPrice, :endOffer, :picture, :status)";
+                    (:id_author, :id_category, :id_subcategory, :slug, :link, :name, :additional_info, :old_price, :new_price, :end_offer, :picture, :status)";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_author", user()["id"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
         $sql->bindParam(":slug", $info["slug"], \PDO::PARAM_STR);
         $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
         $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
-        $sql->bindParam(":additionalInfo", $info["additionalInfo"], \PDO::PARAM_STR);
-        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":additional_info", $info["additionalInfo"], \PDO::PARAM_STR);
+        $sql->bindParam(":old_price", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":new_price", $info["newPrice"], \PDO::PARAM_INT);
         $sql->bindParam(":picture", $info["picture"], \PDO::PARAM_STR);
-        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":end_offer", $info["endOffer"], \PDO::PARAM_STR);
         $sql->bindParam(":status", $info["status"], \PDO::PARAM_STR);
         $sql->execute();
 
@@ -95,28 +96,28 @@ class Offer extends Table
         $sql = "UPDATE
                     {$this->table}
                 SET
-                    id_category = :category,
-                    id_subcategory = :subcategory,
+                    id_category = :id_category,
+                    id_subcategory = :id_subcategory,
                     slug = :slug,
                     link = :link,
                     name = :name,
-                    additional_info = :additionalInfo,
-                    old_price = :oldPrice,
-                    new_price = :newPrice,
+                    additional_info = :additional_info,
+                    old_price = :old_price,
+                    new_price = :new_price,
                     ".(isset($info['picture']) ? "image = :picture," : "")."
-                    end_offer = :endOffer
+                    end_offer = :end_offer
                 WHERE
                     id = :id";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
         $sql->bindParam(":slug", $info["slug"], \PDO::PARAM_STR);
         $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
         $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
-        $sql->bindParam(":additionalInfo", $info["additionalInfo"], \PDO::PARAM_STR);
-        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":additional_info", $info["additionalInfo"], \PDO::PARAM_STR);
+        $sql->bindParam(":old_price", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":new_price", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":end_offer", $info["endOffer"], \PDO::PARAM_STR);
         $sql->bindParam(":id", $info["offerId"], \PDO::PARAM_STR);
 
         if (isset($info["picture"])) {
