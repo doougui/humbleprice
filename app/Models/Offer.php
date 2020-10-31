@@ -134,7 +134,7 @@ class Offer extends Table
     public function updateStatus(int $offerId, string $status): bool
     {
         $sql = "UPDATE 
-                    offer 
+                    {$this->table} 
                 SET 
                     status = :status 
                 WHERE 

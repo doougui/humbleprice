@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Authorization;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Offer;
 use App\Models\Subcategory;
 use App\Models\Like;
@@ -26,6 +27,7 @@ class OfferController extends Authorization
     {
         $offer = new Offer();
         $like = new Like();
+        $comment = new Comment();
 
         if (
             empty($slug)
@@ -70,6 +72,8 @@ class OfferController extends Authorization
             ]
         );
 
+        $comments = $comment->getOfferComments($offerId);
+
         $this->setDir("Offer");
         $this->setTitle("{$offerData['name']} | Humbleprice");
         $this->setDescription("Encontre aqui o produto {$offerData['name']} no melhor preço possível.");
@@ -98,6 +102,7 @@ class OfferController extends Authorization
         $this->setData("isClosed", $isClosed);
         $this->setData("likes", $likeCount);
         $this->setData("liked", $liked);
+        $this->setData("comments", $comments);
 
         $this->renderLayout($this->getData());
     }

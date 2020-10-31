@@ -149,3 +149,7 @@ h4 {
 .comment-author-name {
   line-height: 1;
 }
+
+.child-comment {
+  margin-left: 70px;
+}

@@ -13,11 +13,6 @@ class LikeController extends Authorization
         parent::__construct();
     }
 
-    public function index()
-    {
-
-    }
-
     public function add(string $slug = null): void
     {
         $offer = new Offer();

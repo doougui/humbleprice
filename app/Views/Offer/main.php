@@ -119,48 +119,94 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="POST" id="comment" action="<?= DIRPAGE ?>comment/publish">
-                            <div class="form-group">
-                                <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" id="editor"></textarea>
-                            </div>
-
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-themed">Publicar comentário</button>
-                            </div>
-                        </form>
-
-                        <hr>
-
-                        <div class="comment d-flex mx-2 pt-3 align-items-start">
-                            <img class="img img-fluid rounded rounded-circle mr-3" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
-
-                            <div>
-                                <div class="comment-header">
-                                    <p class="mb-0 font-weight-bold comment-author-name">Douglas Pinheiro Goulart</p>
-                                    <small class="text-muted">4 horas atrás</small>
+                        <?php if (user()): ?>
+                            <form method="POST" id="comment" action="<?= DIRPAGE ?>comment/publish">
+                                <div class="alert alert-danger d-none error" role="alert">
+                                    <p class="error-msg"></p>
                                 </div>
 
-                                <div class="comment-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam error hic minima reiciendis. Consequatur dolor excepturi ipsum possimus sapiente!</p>
+                                <div class="form-group">
+                                    <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" id="editor"></textarea>
                                 </div>
 
-                                <div class="comment-actions d-flex justify-content-end">
-                                    <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
-                                        <i class="fas fa-thumbs-up"></i>
-                                        <span>14</span>
-                                    </button>
-
-                                    <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
-                                        <i class="fas fa-comments"></i>
-                                        Responder
-                                    </button>
-
-                                    <button class="btn badge btn-secondary px-3 py-2 mr-2">
-                                        <i class="fas fa-flag"></i>
-                                        Reportar
-                                    </button>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-themed">Publicar comentário</button>
                                 </div>
-                            </div>
+                            </form>
+
+                            <hr>
+                        <?php endif; ?>
+
+                        <div class="comments">
+                            <?php foreach ($comments as $comment): ?>
+                                <div class="comment d-flex mx-2 pt-3 align-items-start">
+                                    <img class="img img-fluid rounded rounded-circle mr-3" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
+
+                                    <div class="w-100">
+                                        <div class="comment-header">
+                                            <p class="mb-0 font-weight-bold comment-author-name"><?= $comment["author"] ?></p>
+                                            <small class="text-muted">Postado em: <?= date("d/m/Y H:i", strtotime($comment["created_at"])) ?></small>
+                                        </div>
+
+                                        <div class="comment-content">
+                                            <p><?= $comment["comment"] ?></p>
+                                        </div>
+
+                                        <div class="comment-actions d-flex justify-content-end">
+                                            <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
+                                                <i class="fas fa-thumbs-up"></i>
+                                                <span>14</span>
+                                            </button>
+
+                                            <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
+                                                <i class="fas fa-comments"></i>
+                                                Responder
+                                            </button>
+
+                                            <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar">
+                                                <i class="fas fa-flag"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php foreach ($comment["children"] as $child): ?>
+                                    <div class="comment d-flex mr-2 pt-3 align-items-start child-comment">
+                                        <img class="img img-fluid rounded rounded-circle mr-3" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
+
+                                        <div class="w-100">
+                                            <div class="comment-header">
+                                                <p class="mb-0 font-weight-bold comment-author-name"><?= $child["author"] ?></p>
+                                                <small class="text-muted">Postado em: <?= date("d/m/Y H:i", strtotime($child["created_at"])) ?></small>
+                                            </div>
+
+                                            <div class="comment-content">
+                                                <p><?= $child["comment"] ?></p>
+                                            </div>
+
+                                            <div class="comment-actions d-flex justify-content-end">
+                                                <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                    <span>14</span>
+                                                </button>
+
+                                                <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
+                                                    <i class="fas fa-comments"></i>
+                                                    Responder
+                                                </button>
+
+                                                <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar">
+                                                    <i class="fas fa-flag"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+
+                            <?php if (empty($comments)): ?>
+                                <p class="text-muted text-center">Ainda não há comentários disponíveis. Que tal fazer um?</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
