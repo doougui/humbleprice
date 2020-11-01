@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Authorization;
 use App\Models\Comment;
+use App\Models\CommentLike;
 use App\Models\Offer;
 
 class CommentController extends Authorization
@@ -17,6 +18,7 @@ class CommentController extends Authorization
     {
         $offer = new Offer();
         $comment = new Comment();
+        $commentLike = new CommentLike();
 
         if ($_SERVER["HTTP_REFERER"] !== DIRPAGE."offer/view/{$slug}") {
             die(json_encode([]));
@@ -47,6 +49,33 @@ class CommentController extends Authorization
         }
 
         $comments = $comment->getOfferComments($offerId);
+
+        foreach ($comments as $commentKey => $commentValue) {
+            $comments[$commentKey]["likes"] =
+                $commentLike->count(
+                    "id_comment",
+                    $commentValue["id"]
+                );
+
+            $comments[$commentKey]["liked"] = ($this->authenticated())
+                ? $commentLike->liked($commentValue["id"],user()["id"])
+                : false;
+
+            foreach (
+                $comments[$commentKey]["children"] as
+                $replyKey => $replyValue
+            ) {
+                $comments[$commentKey]["children"][$replyKey]["likes"] =
+                    $commentLike->count(
+                        "id_comment",
+                        $replyValue["id"]
+                    );
+
+                $comments[$commentKey]["children"][$replyKey]["liked"] = ($this->authenticated())
+                    ? $commentLike->liked($replyValue["id"],user()["id"])
+                    : false;
+            }
+        }
 
         die(
             json_encode(

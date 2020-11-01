@@ -55,9 +55,9 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link btn-sm py-2 mr-1" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
-                                <span>14</span>
+                                <span>${item.likes}</span>
                             </button>
       
                             <button class="btn btn-link btn-sm py-2 mr-1 reply" ${(!logged) ? 'disabled' : ''}>
@@ -107,9 +107,9 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link btn-sm py-2 mr-1" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(child.liked) ? 'text-success' : ''} btn-sm py-2 mr-1 like" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
-                                <span>14</span>
+                                <span>${child.likes}</span>
                             </button>
       
                             <button class="btn btn-link btn-sm py-2 mr-1 reply" ${(!logged) ? 'disabled' : ''}>

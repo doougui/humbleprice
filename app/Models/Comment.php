@@ -15,14 +15,14 @@ class Comment extends Table
     public function getOfferComments(int $offerId): array
     {
         $sql = "SELECT
-                    comments.id,
+                    comments.id AS id,
                     id_parent, 
                     users.name AS author,
                     users.avatar AS avatar,
                     comment,
                     created_at
                 FROM
-                    comments
+                    {$this->table}
                 INNER JOIN
                     users
                 ON
@@ -51,7 +51,7 @@ class Comment extends Table
                     comment,
                     created_at
                 FROM
-                    comments
+                    {$this->table}
                 INNER JOIN
                     users
                 ON
