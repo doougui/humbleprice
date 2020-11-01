@@ -80,10 +80,29 @@
     <!-- JavaScript -->
     <script src="<?= DIRJS ?>jquery-3.5.1.min.js"></script>
     <script src="<?= DIRJS ?>bootstrap.bundle.min.js"></script>
+    <script src="<?= DIRJS ?>ckeditor.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/f8d095f64b.js" crossorigin="anonymous"></script>
     <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <?= $this->addExtraFooter($data) ?>
     <script src="<?= DIRJS ?>script.js"></script>
+    <script>
+      const editors = document.querySelectorAll('.editor');
+
+      editors.forEach(editor => {
+        if (editor) {
+          ClassicEditor
+              .create(editor, {
+                toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']
+              })
+              .then(editor => {
+                window.editor = editor;
+              })
+              .catch(err => {
+                console.error(err.stack);
+              });
+        }
+      });
+    </script>
 </body>
 </html>

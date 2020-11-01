@@ -20,7 +20,7 @@
 
                 <div class="form-group">
                     <label for="editor">Informações adicionais</label>
-                    <textarea name="additional-info" id="editor">
+                    <textarea name="additional-info" class="editor">
                         <?= $offer['additional_info'] ?>
                     </textarea>
                 </div>

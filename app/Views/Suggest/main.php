@@ -20,7 +20,7 @@
 
                 <div class="form-group">
                     <label for="editor">Informações adicionais</label>
-                    <textarea name="additional-info" id="editor"></textarea>
+                    <textarea name="additional-info" class="editor"></textarea>
                 </div>
 
                 <div class="row">

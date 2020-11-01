@@ -1,9 +1,56 @@
 $(document).ready(function() {
   const cardBody = $('#comments .card-body');
+  const offerSlug = $('#offer').find('.card').attr('data-item');
   const error = $(cardBody).find($('.error'));
   const errorMsg = $(error).find('.error-msg');
 
   const button = $(cardBody).find('form').find($('button[type=submit]'));
+
+  function showReplyForm() {
+    $('.reply').click(function() {
+      const thread = $(this).closest('.thread');
+      const parentComment = $(thread).find('.parent-comment');
+
+      const author = $(this)
+          .closest('.comment-actions')
+          .siblings('.comment-header')
+          .find('.comment-author-name')
+          .html();
+
+      console.log(author);
+
+      $('.reply-form').remove();
+
+      const replyForm = `
+        <form method="POST" class="comment-form reply-form" action="${DIRPAGE}comment/publish/${offerSlug}">
+            <div class="form-group">
+                <textarea name="comment" class="editor">
+                    @${author} 
+                </textarea>
+            </div>
+  
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-themed">Publicar resposta</button>
+            </div>
+        </form>
+      `;
+
+      $(replyForm).insertAfter(parentComment);
+
+      const editor = $(thread).find('.editor');
+
+      ClassicEditor
+          .create(editor[0], {
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']
+          })
+          .then(editor => {
+            window.editor = editor;
+          })
+          .catch(err => {
+            console.error(err.stack);
+          });
+    });
+  }
 
   function renderComments() {
     const action = `${DIRPAGE}comment/list/${$('.card').attr('data-item')}`;
@@ -48,7 +95,7 @@ $(document).ready(function() {
 
           comments += `
             <div class="thread" data-parent="${item.id}">
-                <div class="comment d-flex mx-2 pt-3 align-items-start">
+                <div class="comment d-flex mx-2 pt-3 align-items-start parent-comment">
                     <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}default.jpg" alt="Usuário">
     
                     <div class="w-100">
@@ -119,7 +166,7 @@ $(document).ready(function() {
                                 <span>14</span>
                             </button>
       
-                            <button class="btn btn-link btn-sm py-2 mr-1" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link btn-sm py-2 mr-1 reply" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-comments"></i>
                                 Responder
                             </button>
@@ -154,6 +201,8 @@ $(document).ready(function() {
 
         $(commentList).removeClass('d-none');
         $(commentList).fadeIn();
+
+        showReplyForm();
       }
     }).fail(function() {
       $(error).removeClass('d-none');
@@ -199,7 +248,6 @@ $(document).ready(function() {
       $(error).addClass('d-block');
       $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
     }).always(function() {
-      ClassicEditor.setData("");
       if (button) {
         $(button).removeAttr('disabled');
       }

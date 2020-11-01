@@ -158,6 +158,7 @@ h4 {
   margin: 5px 0;
 }
 
-.replies .comment {
+.replies .comment,
+.thread .comment-form {
   margin: 5px 0 5px 70px;
 }

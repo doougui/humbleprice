@@ -72,7 +72,7 @@
                                 <span><?= $likes ?></span>
                             </button>
 
-                            <a href="#comment">
+                            <a href="#comments">
                                 <button class="btn badge btn-secondary px-3 py-2 mr-2" id="amount-comments" <?= (! user()) ? 'disabled' : '' ?>>
                                     <i class="fas fa-comments"></i>
                                     <span></span>
@@ -126,7 +126,7 @@
                         <?php if (user()): ?>
                             <form method="POST" class="comment-form" action="<?= DIRPAGE ?>comment/publish/<?= $offer['slug'] ?>">
                                 <div class="form-group">
-                                    <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" id="editor"></textarea>
+                                    <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" class="editor"></textarea>
                                 </div>
 
                                 <div class="d-flex justify-content-end">
