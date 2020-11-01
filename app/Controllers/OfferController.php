@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Offer;
 use App\Models\Subcategory;
-use App\Models\Like;
+use App\Models\OfferLike;
 use App\Models\User;
 use Cocur\Slugify\Slugify;
 
@@ -26,7 +26,7 @@ class OfferController extends Authorization
     public function view(string $slug = null): void
     {
         $offer = new Offer();
-        $like = new Like();
+        $offerLike = new OfferLike();
         $comment = new Comment();
 
         if (
@@ -90,9 +90,9 @@ class OfferController extends Authorization
             || $offerData["status"] === "refused"
             || ! empty($offerData["end_offer"])
             && date("Y-m-d") > $offerData["end_offer"];
-        $likeCount = $like->count("id_offer", $offerId);
+        $likeCount = $offerLike->count("id_offer", $offerId);
         $liked = ($this->authenticated())
-            ? $like->liked($offerId, user()["id"])
+            ? $offerLike->liked($offerId, user()["id"])
             : false;
         $commentCount = $comment->count("id_offer", $offerId);
 

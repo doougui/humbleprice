@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Authorization;
 use App\Models\Offer;
-use App\Models\Like;
+use App\Models\OfferLike;
 
-class LikeController extends Authorization
+class OfferlikeController extends Authorization
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class LikeController extends Authorization
     public function add(string $slug = null): void
     {
         $offer = new Offer();
-        $like = new Like();
+        $like = new OfferLike();
 
         if (
             empty($slug)

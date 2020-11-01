@@ -3,7 +3,7 @@ $(document).ready(function() {
     e.preventDefault();
 
     const card = $(this).closest('.card');
-    const action = `${DIRPAGE}like/add/${$(card).attr('data-item')}`;
+    const action = `${DIRPAGE}offerlike/add/${$(card).attr('data-item')}`;
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
     const button = $(this);

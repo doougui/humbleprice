@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Core\Table;
 
-class Like extends Table
+class OfferLike extends Table
 {
     public function __construct()
     {
         parent::__construct();
-        $this->table = "likes";
+        $this->table = "offer_likes";
     }
 
     public function liked(int $offerId, int $userId): bool
