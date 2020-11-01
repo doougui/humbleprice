@@ -93,12 +93,39 @@ class CommentController extends Authorization
         if (isset($_POST["comment"])) {
             $commentData = $_POST["comment"];
 
-            $info = [
-                "comment" => $commentData,
-                "offerId" => $offerId
-            ];
+            if (isset($_POST['id_parent'])) {
+                $parentId = filter_input(
+                    INPUT_POST,
+                    'id_parent',
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+            }
 
             if (strlen($commentData) !== 0) {
+                $parentId = (
+                    isset($parentId)
+                    && strlen($parentId) !== 0
+                )
+                    ? $parentId
+                    : null;
+
+                if (
+                    $parentId
+                    && ! $comment->getInfo("id", $parentId, ["id"])
+                ) {
+                    die(
+                        json_encode(
+                            ["error" => "O comentário que você tentou responder não existe."]
+                        )
+                    );
+                }
+
+                $info = [
+                    "comment" => $commentData,
+                    "offerId" => $offerId,
+                    "parentId" => $parentId
+                ];
+
                 if ($comment->store($info)) {
                     die(json_encode([]));
                 }

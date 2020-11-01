@@ -85,10 +85,11 @@ class Comment extends Table
     {
         $sql = "INSERT INTO
                     {$this->table}
-                    (id_offer, id_author, comment)
+                    (id_parent, id_offer, id_author, comment)
                 VALUES
-                    (:id_offer, :id_author, :comment)";
+                    (:id_parent, :id_offer, :id_author, :comment)";
         $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id_parent", $info["parentId"], \PDO::PARAM_INT);
         $sql->bindParam(":id_offer", $info["offerId"], \PDO::PARAM_INT);
         $sql->bindParam(":id_author", user()["id"], \PDO::PARAM_INT);
         $sql->bindParam(":comment", $info["comment"], \PDO::PARAM_STR);
