@@ -13,12 +13,14 @@ class CommentController extends Authorization
         parent::__construct();
     }
 
-    public function publish(string $slug = null): void
+    public function list(string $slug = null): void
     {
-        $this->authRequired();
-
         $offer = new Offer();
         $comment = new Comment();
+
+        if ($_SERVER["HTTP_REFERER"] !== DIRPAGE."offer/view/{$slug}") {
+            die(json_encode([]));
+        }
 
         if (
             empty($slug)
@@ -33,9 +35,49 @@ class CommentController extends Authorization
 
         $offerData = $offer->getInfo("id", $offerId, ["status"]);
 
+        if (
+            ! $this->hasPermission("MANAGE_OFFERS")
+            && $offerData["status"] !== "approved"
+        ) {
+            die(
+                json_encode(
+                    ["error" => "Você não tem permissão para realizar esta ação."]
+                )
+            );
+        }
+
+        $comments = $comment->getOfferComments($offerId);
+
+        die(
+            json_encode(
+                $comments
+            )
+        );
+    }
+
+    public function publish(string $slug = null): void
+    {
+        $this->authRequired();
+
+        $offer = new Offer();
+        $comment = new Comment();
+
         if ($_SERVER["HTTP_REFERER"] !== DIRPAGE."offer/view/{$slug}") {
             die(json_encode([]));
         }
+
+        if (
+            empty($slug)
+            || ! $offerId = $offer->getId("slug", $slug)
+        ) {
+            die(
+                json_encode(
+                    ["error" => "Oferta inválida."]
+                )
+            );
+        }
+
+        $offerData = $offer->getInfo("id", $offerId, ["status"]);
 
         if (
             ! $this->hasPermission("MANAGE_OFFERS")
@@ -49,11 +91,7 @@ class CommentController extends Authorization
         }
 
         if (isset($_POST["comment"])) {
-            $commentData = filter_input(
-                INPUT_POST,
-                "comment",
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
+            $commentData = $_POST["comment"];
 
             $info = [
                 "comment" => $commentData,
@@ -62,11 +100,7 @@ class CommentController extends Authorization
 
             if (strlen($commentData) !== 0) {
                 if ($comment->store($info)) {
-                    die(
-                        json_encode(
-                            $comment->store($info)
-                        )
-                    );
+                    die(json_encode([]));
                 }
 
                 die(

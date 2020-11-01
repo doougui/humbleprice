@@ -150,6 +150,14 @@ h4 {
   line-height: 1;
 }
 
-.child-comment {
-  margin-left: 70px;
+.comment-content p {
+  margin-bottom: 0;
+}
+
+.thread {
+  margin: 5px 0;
+}
+
+.replies .comment {
+  margin: 5px 0 5px 70px;
 }

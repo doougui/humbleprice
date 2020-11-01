@@ -31,6 +31,9 @@ class Comment extends Table
                     id_offer = :id_offer
                 AND 
                     id_parent is null
+                ORDER BY
+                    created_at
+                DESC
         ";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id_offer", $offerId, \PDO::PARAM_INT);
@@ -41,7 +44,7 @@ class Comment extends Table
 
             foreach ($comments as $key => $comment) {
                 $sql = "SELECT
-                    comments.id,
+                    comments.id AS id,
                     id_parent, 
                     users.name AS author,
                     users.avatar AS avatar,
@@ -95,6 +98,7 @@ class Comment extends Table
             $commentId = $this->db->lastInsertId();
 
             $sql = "SELECT
+                    comments.id AS id,
                     id_parent, 
                     users.name AS author,
                     users.avatar AS avatar,

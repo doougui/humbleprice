@@ -12,28 +12,6 @@ class Like extends Table
         $this->table = "likes";
     }
 
-    public function count(int $offerId): ?int
-    {
-        $sql = "SELECT
-                    count(id)
-                AS 
-                    amount
-                FROM
-                    {$this->table}
-                WHERE
-                    id_offer = :id_offer
-        ";
-        $sql = $this->db->prepare($sql);
-        $sql->bindParam(":id_offer", $offerId, \PDO::PARAM_INT);
-        $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            return $sql->fetch()["amount"];
-        }
-
-        return null;
-    }
-
     public function liked(int $offerId, int $userId): bool
     {
         $sql = "SELECT

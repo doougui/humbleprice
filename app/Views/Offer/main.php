@@ -1,5 +1,5 @@
 <div class="container my-5">
-    <div class="row">
+    <div class="row flex-wrap">
         <div class="col-md-9">
             <section id="offer" class="mb-4">
                 <div class="card" data-item="<?= $offer['slug'] ?>" data-end="<?= $offer['end_offer'] ?>">
@@ -15,7 +15,7 @@
                         <div class="row m-2">
                             <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="<?= $offer['name'] ?>" class="img img-thumbnail img-fluid w-25 <?= ($isClosed) ? 'grayscaled-img' : '' ?>">
 
-                            <div class="col-6 mx-2 d-flex flex-md-column justify-content-between">
+                            <div class="col-sm-6 mx-2 d-flex flex-md-column justify-content-between">
                                 <div>
                                     <h1 class="offer-title font-weight-bold my-0"><?= $offer["name"] ?></h1>
                                     <p class="mt-2 text-muted"><?= $offer["category"] ?>・<?= $offer["subcategory"] ?></p>
@@ -73,9 +73,9 @@
                             </button>
 
                             <a href="#comment">
-                                <button class="btn badge btn-secondary px-3 py-2 mr-2" <?= (! user()) ? 'disabled' : '' ?>>
+                                <button class="btn badge btn-secondary px-3 py-2 mr-2" id="amount-comments" <?= (! user()) ? 'disabled' : '' ?>>
                                     <i class="fas fa-comments"></i>
-                                    14
+                                    <span></span>
                                 </button>
                             </a>
                         </div>
@@ -99,7 +99,7 @@
                     <div class="card-body">
                         <?php if (! empty($offer["additional_info"]) || ! empty($offer["end_offer"])): ?>
                             <?php if (! empty($offer["additional_info"])): ?>
-                                <p><?= htmlspecialchars_decode($offer["additional_info"]); ?></p>
+                                <p><?= $offer["additional_info"]; ?></p>
                             <?php endif; ?>
 
                             <?php if (! empty($offer["end_offer"])): ?>
@@ -119,12 +119,12 @@
                     </div>
 
                     <div class="card-body">
-                        <?php if (user()): ?>
-                            <form method="POST" id="comment" action="<?= DIRPAGE ?>comment/publish/<?= $offer['slug'] ?>">
-                                <div class="alert alert-danger d-none error" role="alert">
-                                    <p class="error-msg"></p>
-                                </div>
+                        <div class="alert alert-danger d-none error" role="alert">
+                            <p class="error-msg"></p>
+                        </div>
 
+                        <?php if (user()): ?>
+                            <form method="POST" class="comment-form" action="<?= DIRPAGE ?>comment/publish/<?= $offer['slug'] ?>">
                                 <div class="form-group">
                                     <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" id="editor"></textarea>
                                 </div>
@@ -137,77 +137,7 @@
                             <hr>
                         <?php endif; ?>
 
-                        <div class="comments">
-                            <?php foreach ($comments as $comment): ?>
-                                <div class="comment d-flex mx-2 pt-3 align-items-start">
-                                    <img class="img img-fluid rounded rounded-circle mr-3" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
-
-                                    <div class="w-100">
-                                        <div class="comment-header">
-                                            <p class="mb-0 font-weight-bold comment-author-name"><?= $comment["author"] ?></p>
-                                            <small class="text-muted">Postado em: <?= date("d/m/Y H:i", strtotime($comment["created_at"])) ?></small>
-                                        </div>
-
-                                        <div class="comment-content">
-                                            <p><?= $comment["comment"] ?></p>
-                                        </div>
-
-                                        <div class="comment-actions d-flex justify-content-end">
-                                            <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
-                                                <i class="fas fa-thumbs-up"></i>
-                                                <span>14</span>
-                                            </button>
-
-                                            <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
-                                                <i class="fas fa-comments"></i>
-                                                Responder
-                                            </button>
-
-                                            <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar">
-                                                <i class="fas fa-flag"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <?php foreach ($comment["children"] as $child): ?>
-                                    <div class="comment d-flex mr-2 pt-3 align-items-start child-comment">
-                                        <img class="img img-fluid rounded rounded-circle mr-3" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
-
-                                        <div class="w-100">
-                                            <div class="comment-header">
-                                                <p class="mb-0 font-weight-bold comment-author-name"><?= $child["author"] ?></p>
-                                                <small class="text-muted">Postado em: <?= date("d/m/Y H:i", strtotime($child["created_at"])) ?></small>
-                                            </div>
-
-                                            <div class="comment-content">
-                                                <p><?= $child["comment"] ?></p>
-                                            </div>
-
-                                            <div class="comment-actions d-flex justify-content-end">
-                                                <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
-                                                    <i class="fas fa-thumbs-up"></i>
-                                                    <span>14</span>
-                                                </button>
-
-                                                <button class="btn btn-link btn-sm py-2 mr-1" <?= (! user()) ? 'disabled' : '' ?>>
-                                                    <i class="fas fa-comments"></i>
-                                                    Responder
-                                                </button>
-
-                                                <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar">
-                                                    <i class="fas fa-flag"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php endforeach; ?>
-
-                            <?php if (empty($comments)): ?>
-                                <p class="text-muted text-center">Ainda não há comentários disponíveis. Que tal fazer um?</p>
-                            <?php endif; ?>
-                        </div>
+                        <div class="comments d-none" id="commentList"></div>
                     </div>
                 </div>
             </section>

@@ -65,8 +65,6 @@ class OfferController extends Authorization
             ]
         );
 
-        $comments = $comment->getOfferComments($offerId);
-
         $this->setDir("Offer");
         $this->setTitle("{$offerData['name']} | Humbleprice");
         $this->setDescription("Encontre aqui o produto {$offerData['name']} no melhor preço possível.");
@@ -92,17 +90,18 @@ class OfferController extends Authorization
             || $offerData["status"] === "refused"
             || ! empty($offerData["end_offer"])
             && date("Y-m-d") > $offerData["end_offer"];
-        $likeCount = $like->count($offerId);
+        $likeCount = $like->count("id_offer", $offerId);
         $liked = ($this->authenticated())
             ? $like->liked($offerId, user()["id"])
             : false;
+        $commentCount = $comment->count("id_offer", $offerId);
 
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $latestOffers);
         $this->setData("isClosed", $isClosed);
         $this->setData("likes", $likeCount);
         $this->setData("liked", $liked);
-        $this->setData("comments", $comments);
+        $this->setData("comments", $commentCount);
 
         $this->renderLayout($this->getData());
     }
@@ -169,11 +168,7 @@ class OfferController extends Authorization
             $picture = $_FILES["picture"];
 
             if (isset($_POST["additional-info"])) {
-                $additionalInfo = filter_input(
-                    INPUT_POST,
-                    "additional-info",
-                    FILTER_SANITIZE_SPECIAL_CHARS
-                );
+                $additionalInfo = $_POST["additional-info"];
             }
 
             if (
@@ -364,11 +359,7 @@ class OfferController extends Authorization
             }
 
             if (isset($_POST["additional-info"])) {
-                $additionalInfo = filter_input(
-                    INPUT_POST,
-                    "additional-info",
-                    FILTER_SANITIZE_SPECIAL_CHARS
-                );
+                $additionalInfo = $_POST["additional-info"];
             }
 
             if (

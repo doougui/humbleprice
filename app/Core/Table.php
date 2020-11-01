@@ -126,4 +126,26 @@ class Table extends Connection
 
         return false;
     }
+
+    public function count(string $byColumn, string $value): ?int
+    {
+        $sql = "SELECT
+                    count(id)
+                AS 
+                    amount
+                FROM
+                    {$this->table}
+                WHERE
+                    {$byColumn} = :{$byColumn}
+        ";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":{$byColumn}", $value, \PDO::PARAM_STR);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return $sql->fetch()["amount"];
+        }
+
+        return null;
+    }
 }
