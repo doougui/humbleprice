@@ -7,6 +7,11 @@ use App\Models\User;
 
 class UserController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->redirect(DIRPAGE);
@@ -34,7 +39,7 @@ class UserController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function editUser(): ?bool
+    public function editUser(): void
     {
         $user = new User();
 
@@ -78,7 +83,7 @@ class UserController extends Authorization
             }
 
             if ($user->editUser($id, $name, $email, $password)) {
-                return true;
+                die();
             } else {
                 die("Não foi possível atualizar as informações.");
             }
@@ -87,7 +92,7 @@ class UserController extends Authorization
         }
     }
 
-    public function deleteUser(): ?bool
+    public function deleteUser(): void
     {
         $user = new User();
 
@@ -96,7 +101,7 @@ class UserController extends Authorization
 
             if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $id) {
                 if ($user->deleteUser($id)) {
-                    return true;
+                    die();
                 } else {
                     echo "Não foi possível deletar sua conta.";
                 }

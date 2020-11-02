@@ -18,25 +18,27 @@
             <div class="card-body">
                 <?php foreach ($offers as $offer): ?>
                     <div class="card card-item" data-item="<?= $offer['slug'] ?>">
-                        <div class="card-body">
-                            <div class="product-img">
-                                <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
-                            </div>
+                        <div class="card-body d-flex align-items-center flex-md-column">
+                            <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>">
+                                <div class="product-img">
+                                    <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
+                                </div>
+                            </a>
 
-                            <a href="#" class="btn btn-link"><?= $offer['name'] ?></a>
+                            <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>
 
-                            <div class="card-prices">
+                            <div class="card-prices d-flex justify-content-between w-100">
                                 <div class="old-price">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></div>
                                 <div class="new-price">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></div>
                             </div>
 
                             <?php if (authorized("MANAGE_OFFERS")): ?>
-                                <a class="d-block text-center card-link my-2" href="<?= DIRPAGE ?>offer/edit/<?= $offer['slug'] ?>">Editar anúncio</a>
-                                <button class="delete text-center">Excluir anúncio</button>
+                                <a class="d-block text-center card-link my-2" href="<?= DIRPAGE ?>offer/edit/<?= $offer['slug'] ?>">Editar oferta</a>
+                                <button class="delete text-center" data-btn="delete">Excluir oferta</button>
                             <?php endif; ?>
                         </div>
 
-                        <div class="alert alert-danger d-none error" role="alert">
+                        <div class="alert alert-danger d-none" data-error="offer-card" role="alert">
                             <p class="error-msg"></p>
                         </div>
 
@@ -45,6 +47,10 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+
+                <?php if (empty($offers)): ?>
+                    <p class="text-muted text-center">Não há ofertas disponíveis.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>

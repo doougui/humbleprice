@@ -18,7 +18,7 @@ function user(): ?array
         return $user->getInfo(
             "id",
             $_SESSION["user"],
-            ["name", "email", "password", "id_role"]
+            ["id", "name", "email", "password", "id_role"]
         );
     }
 
@@ -34,7 +34,11 @@ function authorized(string $permission): bool
 {
     $user = new User();
 
-    return $user->hasPermission(user()["id_role"], $permission);
+    if (! empty(user()["id_role"])) {
+        return $user->hasPermission(user()["id_role"], $permission);
+    }
+
+    return false;
 }
 
 function startsWith(string $startString, string $string): bool

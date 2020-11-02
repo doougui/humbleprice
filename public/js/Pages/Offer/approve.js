@@ -1,11 +1,15 @@
 $(document).ready(function() {
-  $('[data-select="role"]').change(function() {
-    const tr = $(this).closest('tr');
-    const selectedRole = $(this).val();
-    const action = `${DIRPAGE}userspanel/assignRole/${$(tr).attr('data-item')}/${selectedRole}`;
+  $('[data-btn="approve"]').click(function(e) {
+    e.preventDefault();
 
-    const error = $(tr).find($('[data-error="roles"]'));
+    const card = $(this).closest('.card');
+    const action = `${DIRPAGE}offer/approve/${$(card).attr('data-item')}`;
+
+    const error = $('[data-error="offer"]');
     const errorMsg = $(error).find('.error-msg');
+
+    const button = $(this);
+    const buttons = $('#queue-actions');
 
     $.ajax({
       url: action,
@@ -13,18 +17,23 @@ $(document).ready(function() {
       dataType: 'json',
       processData: false,
       contentType: false,
+      beforeSend: function() {
+        $(button).addClass('disabled');
+      }
     }).done(function(response) {
       if (response.error) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
         $(errorMsg).html(response.error).fadeIn();
       } else {
-        window.location.href = `${DIRPAGE}userspanel`;
+        $(buttons).fadeOut();
       }
     }).fail(function() {
       $(error).removeClass('d-none');
       $(error).addClass('d-block');
       $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
+    }).always(function() {
+      $(button).removeClass('disabled');
     });
   });
 });

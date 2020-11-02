@@ -1,12 +1,14 @@
 $(document).ready(function() {
-  $('.refuse').click(async function(e) {
+  $('[data-btn="refuse"]').click(async function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card-item');
-    const action = `${DIRPAGE}queue/refuse/${$(card).attr('data-item')}`;
-    const error = $(card).find('.error');
+    const action = `${DIRPAGE}offer/refuse/${$(card).attr('data-item')}`;
+
+    const error = $(card).find('[data-error="offer-card"]');
     const errorMsg = $(error).find('.error-msg');
-    const button = $(card).find('.approve');
+
+    const button = $(this);
 
     try {
       const willRefuse = await swal({
@@ -21,14 +23,17 @@ $(document).ready(function() {
         $.ajax({
           url: action,
           type: 'POST',
+          dataType: 'json',
+          processData: false,
+          contentType: false,
           beforeSend: function() {
             $(button).addClass('disabled');
           }
         }).done(function(response) {
-          if (response.length !== 0) {
+          if (response.error) {
             $(error).removeClass('d-none');
             $(error).addClass('d-block');
-            $(errorMsg).html(response).fadeIn();
+            $(errorMsg).html(response.error).fadeIn();
           } else {
             swal("Oferta recusada com sucesso", {
               icon: "success",

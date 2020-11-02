@@ -7,6 +7,11 @@ use App\Models\User;
 
 class RegisterController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->setDir("Register");
@@ -17,7 +22,7 @@ class RegisterController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function signup(): ?bool
+    public function signup(): void
     {
         $this->logout(false);
 
@@ -35,7 +40,11 @@ class RegisterController extends Authorization
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             } else {
-                die("Insira um e-mail válido para continuar.");
+                die(
+                    json_encode(
+                        ["error" => "Insira um e-mail válido para continuar."]
+                    )
+                );
             }
 
             $name = filter_input(
@@ -54,13 +63,24 @@ class RegisterController extends Authorization
 
             if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->register($name, $email, $password)) {
-                    return true;
-                } else {
-                    die("Usuário já cadastrado. <a href='".DIRPAGE."login'>Faça seu login.</a>");
+                    die(json_encode([]));
                 }
+
+                die(
+                    json_encode(
+                        [
+                            "error" => "Usuário já cadastrado. 
+                            <a href='".DIRPAGE."login'>Faça seu login.</a>"
+                        ]
+                    )
+                );
             }
-        } else {
-            die("Preencha todos os campos para continuar.");
         }
+
+        die(
+            json_encode(
+                ["error" => "Preencha todos os campos para continuar."]
+            )
+        );
     }
 }

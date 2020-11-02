@@ -1,29 +1,30 @@
 $(document).ready(function() {
-  $('#offer-form').submit(function(e) {
+  $('[data-form="offer-form"]').submit(function(e) {
     e.preventDefault();
 
     const formData = new FormData(this);
     const action = $(this).attr('action');
 
-    const error = $('#error');
-    const errorMsg = $(error).find('#error-msg');
+    const button = $(this).find('button[type=submit]');
 
-    const button = $('button[type=submit]');
+    const error = $('[data-error="offer-form"]');
+    const errorMsg = $(error).find('.error-msg');
 
     $.ajax({
       url: action,
       type: 'POST',
       data: formData,
+      dataType: 'json',
       processData: false,
       contentType: false,
       beforeSend: function() {
         $(button).attr('disabled', '');
       }
     }).done(function(response) {
-      if (response.length !== 0) {
+      if (response.error) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
-        $(errorMsg).html(response).fadeIn();
+        $(errorMsg).html(response.error).fadeIn();
       } else {
         window.location.href = DIRPAGE;
       }

@@ -21,10 +21,11 @@
                         <td><?= $user["name"] ?></td>
                         <td><?= $user["email"] ?></td>
                         <td class="form-group">
-                            <div class="alert alert-danger roles-errors tr-error d-none" role="alert">
+                            <div class="alert alert-danger tr-error d-none" data-error="roles" role="alert">
                                 <p class="error-msg"></p>
                             </div>
-                            <select name="role" id="role" class="role form-control">
+
+                            <select name="role" data-select="role" class="form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
                                         value="<?= $role['label'] ?>"
@@ -46,19 +47,21 @@
                             </select>
                         </td>
                         <td>
-                            <div class="alert alert-danger actions-errors tr-error d-none" role="alert">
+                            <div class="alert alert-danger tr-error d-none" data-error="actions" role="alert">
                                 <p class="error-msg"></p>
                             </div>
+
                             <button
                                 type="button"
                                 class="btn btn-outline-<?= ($user["suspended"])
                                     ? 'info'
                                     : "warning"
-                                ?> suspend"
+                                ?>"
+                                data-btn="suspend"
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])
-                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual que o seu."'
+                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual ao seu."'
                                     : ''
                                 ?>
                             >
@@ -66,11 +69,12 @@
                             </button>
                             <button
                                     type="button"
-                                    class="btn btn-outline-danger delete-user"
+                                    class="btn btn-outline-danger"
+                                    data-btn="delete-user"
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])
-                                    ? 'disabled title="Você não pode deletar uma conta com o nível hierárquico maior ou igual que o seu."'
+                                    ? 'disabled title="Você não pode deletar uma conta com o nível hierárquico maior ou igual ao seu."'
                                     : ''
                                 ?>
                             >
@@ -79,6 +83,10 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
+
+                <?php if (empty($users)): ?>
+                    <p class="text-muted text-center">Listagem de usuários vazia.</p>
+                <?php endif; ?>
             </tbody>
         </table>
     </section>

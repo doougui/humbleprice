@@ -6,6 +6,11 @@ use App\Core\Authorization;
 
 class NotfoundController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->setDir("404");

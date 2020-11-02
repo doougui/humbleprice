@@ -9,6 +9,11 @@ use App\Models\Subcategory;
 
 class CategoryController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->redirect(DIRPAGE);
@@ -20,13 +25,10 @@ class CategoryController extends Authorization
         $subcategory = new Subcategory();
         $offer = new Offer();
 
-        if (empty($slug)) {
-            $this->redirect(DIRPAGE);
-        }
-
-        $categoryId = $category->getId("slug", $slug);
-
-        if (! $categoryId) {
+        if (
+            empty($slug)
+            || ! $categoryId = $category->getId("slug", $slug)
+        ) {
             $this->redirect(DIRPAGE);
         }
 
@@ -72,16 +74,20 @@ class CategoryController extends Authorization
         $this->renderLayout($this->getData());
     }
 
-    public function subcategories(string $category = null): void
+    public function subcategories(string $slug = null): void
     {
         $subcategory = new Subcategory();
+        $category = new Category();
 
-        if (empty($category)) {
+        if (
+            empty($slug)
+            || ! $categoryId = $category->getId("slug", $slug)
+        ) {
             die(json_encode([]));
         }
 
         die(json_encode(
-            $subcategory->getFromCategory($category)
+            $subcategory->getFromCategory($categoryId)
         ));
     }
 }

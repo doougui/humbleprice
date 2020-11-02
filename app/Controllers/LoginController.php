@@ -7,6 +7,11 @@ use App\Models\User;
 
 class LoginController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
         $this->logout();
@@ -14,12 +19,12 @@ class LoginController extends Authorization
         $this->setDir("Login");
         $this->setTitle("Entre na sua conta | Humbleprice");
         $this->setDescription("Entre na sua conta.");
-        $this->setKeywords("forum, dev, entrar, login");
+        $this->setKeywords("entrar, login");
 
         $this->renderLayout($this->getData());
     }
 
-    public function signin(): ?bool
+    public function signin(): void
     {
         $this->logout(false);
 
@@ -33,7 +38,11 @@ class LoginController extends Authorization
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             } else {
-                die("Insira um e-mail válido para continuar.");
+                die(
+                    json_encode(
+                        ["error" => "Insira um e-mail válido para continuar."]
+                    )
+                );
             }
 
             $password = filter_input(
@@ -44,15 +53,21 @@ class LoginController extends Authorization
 
             if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->login($email, $password)) {
-                    return true;
+                    die(json_encode([]));
                 }
 
-                die("Usuário e/ou senha incorretos.");
+                die(
+                    json_encode(
+                        ["error" => "Usuário e/ou senha incorretos."]
+                    )
+                );
             }
-
-            die("Preencha todos os campos para continuar.");
         }
 
-        die("Preencha todos os campos para continuar.");
+        die(
+            json_encode(
+                ["error" => "Preencha todos os campos para continuar."]
+            )
+        );
     }
 }

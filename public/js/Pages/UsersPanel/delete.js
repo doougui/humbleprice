@@ -1,11 +1,13 @@
 $(document).ready(function() {
-  $('.delete-user').click(async function(e) {
+  $('[data-btn="delete-user"]').click(async function(e) {
     e.preventDefault();
 
     const tr = $(this).closest('tr');
     const action = `${DIRPAGE}userspanel/delete/${$(tr).attr('data-item')}`;
-    const error = $(tr).find('.actions-errors');
+
+    const error = $(tr).find($('[data-error="actions"]'));
     const errorMsg = $(error).find('.error-msg');
+
     const button = $(this);
 
     try {
@@ -21,14 +23,17 @@ $(document).ready(function() {
         $.ajax({
           url: action,
           type: 'POST',
+          dataType: 'json',
+          processData: false,
+          contentType: false,
           beforeSend: function() {
             $(button).attr('disabled', '');
           }
         }).done(function(response) {
-          if (response.length !== 0) {
+          if (response.error) {
             $(error).removeClass('d-none');
             $(error).addClass('d-block');
-            $(errorMsg).html(response).fadeIn();
+            $(errorMsg).html(response.error).fadeIn();
           } else {
             window.location.href = `${DIRPAGE}userspanel`;
           }

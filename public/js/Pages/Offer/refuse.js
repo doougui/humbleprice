@@ -1,45 +1,55 @@
 $(document).ready(function() {
-  $('[data-btn="delete"]').click(async function(e) {
+  $('[data-btn="refuse"]').click(async function(e) {
     e.preventDefault();
 
-    const card = $(this).closest('.card-item');
-    const action = `${DIRPAGE}offer/delete/${$(card).attr('data-item')}`;
+    const card = $(this).closest('.card');
+    const action = `${DIRPAGE}offer/refuse/${$(card).attr('data-item')}`;
 
-    const error = $(card).find('[data-error="offer-card"]');
+    const error = $('[data-error="offer"]');
     const errorMsg = $(error).find('.error-msg');
 
+    const button = $(this);
+    const buttons = $('#queue-actions');
+
     try {
-      const willDelete = await swal({
+      const willRefuse = await swal({
         title: "Você tem certeza?",
-        text: "Ao realizar esta ação, esta oferta será excluida permanentemente.",
+        text: "Uma vez recusada, você não será capaz de recuperar e/ou aprovar esta oferta.",
         icon: "warning",
-        buttons: ['Cancelar', 'Deletar oferta'],
+        buttons: ['Cancelar', 'Recusar oferta'],
         dangerMode: true,
       });
 
-      if (willDelete) {
+      if (willRefuse) {
         $.ajax({
           url: action,
           type: 'POST',
           dataType: 'json',
           processData: false,
           contentType: false,
-        }).done(function(response) {
+          beforeSend: function() {
+            $(button).addClass('disabled');
+          }
+        }).done(async function(response) {
           if (response.error) {
             $(error).removeClass('d-none');
             $(error).addClass('d-block');
             $(errorMsg).html(response.error).fadeIn();
           } else {
-            swal("Oferta deletada com sucesso", {
+            await swal("Oferta recusada com sucesso", {
               icon: "success",
             });
 
-            $(card).fadeOut();
+            await $(buttons).fadeOut();
+
+            window.location.href = `${DIRPAGE}offer/view/${$(card).attr('data-item')}`;
           }
         }).fail(function() {
           $(error).removeClass('d-none');
           $(error).addClass('d-block');
           $(errorMsg).html('Ops! Algo de errado aconteceu!').fadeIn();
+        }).always(function() {
+          $(button).removeClass('disabled');
         });
       }
     } catch (e) {

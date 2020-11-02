@@ -1,7 +1,7 @@
 $(document).ready(function() {
-  $('#offer-end-date-not-specified').change(function() {
-    const endOffer = $('#end-offer');
+  const endOffer = $('#end-offer');
 
+  $('#offer-end-date-not-specified').change(function() {
     if (this.checked) {
       $(endOffer).attr('disabled', '');
     } else {

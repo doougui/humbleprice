@@ -3,11 +3,13 @@
         <div class="card-header">
             <h4>Crie uma conta</h4>
         </div>
+
         <div class="card-body">
-            <div id="error" class="alert alert-danger d-none" role="alert">
-                <p id="error-msg"></p>
+            <div class="alert alert-danger d-none" data-error="register" role="alert">
+                <p class="error-msg"></p>
             </div>
-            <form method="POST" id="register" action="<?= DIRPAGE ?>register/signup">
+
+            <form method="POST" data-form="register" action="<?= DIRPAGE ?>register/signup">
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" name="name" id="name" class="form-control" required>

@@ -1,11 +1,19 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: #F3F5F5;
+}
+
+.text-themed {
+  color: tomato;
 }
 
 .btn-themed {
@@ -46,13 +54,12 @@ h4 {
   text-align: center;
 }
 
-.card-prices {
-  display: flex;
-  justify-content: space-between;
-}
-
 .card-prices .old-price {
   color: #AAA;
+}
+
+.grayscaled-img {
+  filter: grayscale(100%);
 }
 
 .delete {
@@ -88,4 +95,74 @@ h4 {
 
 .tr-error {
   max-width: 300px;
+}
+
+.offer-title {
+  font-size: 28px;
+}
+
+.offer-author {
+  margin-left: 0;
+}
+
+.offer-author img {
+  width: 40px;
+}
+
+.offer-author-name {
+  max-width: 142px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#offer .card-footer button:not([data-btn="delete"]) {
+  outline: none;
+  font-size: 14px;
+}
+
+button[data-btn="delete"] {
+  background-color: transparent;
+}
+
+#recommended-offer .prices small,
+#recommended-offer .prices p {
+  line-height: 1em;
+}
+
+.swal-button--available {
+  background-color: #28a745;
+}
+
+.swal-button--available:hover {
+  background-color: #218838 !important;
+}
+
+.swal-button--unavailable {
+  background-color: #dc3545;
+}
+
+.swal-button--unavailable:hover {
+  background-color: #c82333 !important;
+}
+
+.comment img {
+  width: 10%;
+}
+
+.comment-author-name {
+  line-height: 1;
+}
+
+.comment-content p {
+  margin-bottom: 0;
+}
+
+.thread {
+  margin: 5px 0;
+}
+
+.replies .comment,
+.thread .reply-form {
+  margin: 5px 0 5px 70px;
 }

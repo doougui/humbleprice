@@ -9,7 +9,7 @@ class Offer extends Table
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'offer';
+        $this->table = "offers";
     }
 
     public function getLastOffers(
@@ -39,6 +39,8 @@ class Offer extends Table
                       {$categoryQuery}
                 AND
                       {$subcategoryQuery}
+                AND
+                      status != 'closed'
                 ORDER BY 
                     end_offer 
                 ASC";
@@ -62,23 +64,24 @@ class Offer extends Table
         return [];
     }
 
-    public function register(array $info): bool {
+    public function store(array $info): bool {
         $sql = "INSERT INTO 
                     {$this->table} 
-                    (id_category, id_subcategory, slug, link, name, additional_info, old_price, new_price, end_offer , image, status) 
+                    (id_author, id_category, id_subcategory, slug, link, name, additional_info, old_price, new_price, end_offer , image, status) 
                 VALUES 
-                    (:category, :subcategory, :slug, :link, :name, :additionalInfo, :oldPrice, :newPrice, :endOffer, :picture, :status)";
+                    (:id_author, :id_category, :id_subcategory, :slug, :link, :name, :additional_info, :old_price, :new_price, :end_offer, :picture, :status)";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_author", user()["id"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
         $sql->bindParam(":slug", $info["slug"], \PDO::PARAM_STR);
         $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
         $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
-        $sql->bindParam(":additionalInfo", $info["additionalInfo"], \PDO::PARAM_STR);
-        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":additional_info", $info["additionalInfo"], \PDO::PARAM_STR);
+        $sql->bindParam(":old_price", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":new_price", $info["newPrice"], \PDO::PARAM_INT);
         $sql->bindParam(":picture", $info["picture"], \PDO::PARAM_STR);
-        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":end_offer", $info["endOffer"], \PDO::PARAM_STR);
         $sql->bindParam(":status", $info["status"], \PDO::PARAM_STR);
         $sql->execute();
 
@@ -93,28 +96,28 @@ class Offer extends Table
         $sql = "UPDATE
                     {$this->table}
                 SET
-                    id_category = :category,
-                    id_subcategory = :subcategory,
+                    id_category = :id_category,
+                    id_subcategory = :id_subcategory,
                     slug = :slug,
                     link = :link,
                     name = :name,
-                    additional_info = :additionalInfo,
-                    old_price = :oldPrice,
-                    new_price = :newPrice,
+                    additional_info = :additional_info,
+                    old_price = :old_price,
+                    new_price = :new_price,
                     ".(isset($info['picture']) ? "image = :picture," : "")."
-                    end_offer = :endOffer
+                    end_offer = :end_offer
                 WHERE
                     id = :id";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":category", $info["categoryId"], \PDO::PARAM_INT);
-        $sql->bindParam(":subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_category", $info["categoryId"], \PDO::PARAM_INT);
+        $sql->bindParam(":id_subcategory", $info["subcategoryId"], \PDO::PARAM_INT);
         $sql->bindParam(":slug", $info["slug"], \PDO::PARAM_STR);
         $sql->bindParam(":link", $info["link"], \PDO::PARAM_STR);
         $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
-        $sql->bindParam(":additionalInfo", $info["additionalInfo"], \PDO::PARAM_STR);
-        $sql->bindParam(":oldPrice", $info["oldPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":newPrice", $info["newPrice"], \PDO::PARAM_INT);
-        $sql->bindParam(":endOffer", $info["endOffer"], \PDO::PARAM_STR);
+        $sql->bindParam(":additional_info", $info["additionalInfo"], \PDO::PARAM_STR);
+        $sql->bindParam(":old_price", $info["oldPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":new_price", $info["newPrice"], \PDO::PARAM_INT);
+        $sql->bindParam(":end_offer", $info["endOffer"], \PDO::PARAM_STR);
         $sql->bindParam(":id", $info["offerId"], \PDO::PARAM_STR);
 
         if (isset($info["picture"])) {
@@ -132,7 +135,7 @@ class Offer extends Table
     public function updateStatus(int $offerId, string $status): bool
     {
         $sql = "UPDATE 
-                    offer 
+                    {$this->table} 
                 SET 
                     status = :status 
                 WHERE 
@@ -164,5 +167,70 @@ class Offer extends Table
         }
 
         return false;
+    }
+
+    public function getRelatedOffers(int $offerId): array
+    {
+        $sql = "SELECT 
+                    id_category, 
+                    id_subcategory
+                FROM
+                    {$this->table}
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $offer = $sql->fetch();
+
+            $sql = "SELECT
+                        slug, name, old_price, new_price, image
+                    FROM
+                        {$this->table}
+                    WHERE
+                        (end_offer >= NOW() OR end_offer is null)
+                    AND
+                        id_category = :id_category
+                    AND
+                        id_subcategory = :id_subcategory
+                    AND
+                        status = 'approved'
+                    AND
+                        id != :id
+                    LIMIT
+                        3";
+            $sql = $this->db->prepare($sql);
+            $sql->bindParam(":id_category", $offer["id_category"], \PDO::PARAM_INT);
+            $sql->bindParam(":id_subcategory", $offer["id_subcategory"], \PDO::PARAM_INT);
+            $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+            $sql->execute();
+
+            if ($sql->rowCount() > 0) {
+                return $sql->fetchAll();
+            }
+        }
+
+        return [];
+    }
+
+    public function incrementViews(int $offerId): bool
+    {
+        $sql = "UPDATE
+                    {$this->table}
+                SET
+                    views = views + 1
+                WHERE
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":id", $offerId, \PDO::PARAM_INT);
+
+        try {
+            $sql->execute();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
