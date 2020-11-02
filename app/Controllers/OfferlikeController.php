@@ -30,11 +30,22 @@ class OfferlikeController extends Authorization
             empty($slug)
             || ! $offerId = $offer->getId("slug", $slug)
         ) {
-            die("Esta oferta é inválida.");
+            die(
+                json_encode(
+                    ["error" => "Esta oferta é inválida."]
+                )
+            );
         }
 
         if (! $this->authenticated()) {
-            die("Você precisa estar logado para realizar esta ação.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você precisa estar logado para 
+                            realizar esta ação."
+                    ]
+                )
+            );
         }
 
         $offerData = $offer->getInfo("id", $offerId, ["status"]);
@@ -43,16 +54,24 @@ class OfferlikeController extends Authorization
             ! $this->hasPermission("MANAGE_OFFERS")
             && $offerData["status"] !== "approved"
         ) {
-            die("Você não tem permissão para realizar esta ação.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você não tem permissão para 
+                        realizar esta ação."
+                    ]
+                )
+            );
         }
 
         $liked = $offerLike->liked($offerId, user()["id"]);
 
         if ($liked) {
             $offerLike->remove($offerId, user()["id"]);
-            die();
+            die(json_encode([]));
         }
 
         $offerLike->add($offerId, user()["id"]);
+        die(json_encode([]));
     }
 }

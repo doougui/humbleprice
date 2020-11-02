@@ -14,16 +14,17 @@ $(document).ready(function() {
       url: action,
       type: 'POST',
       data: formData,
+      dataType: 'json',
       processData: false,
       contentType: false,
       beforeSend: function() {
         $(button).attr('disabled', '');
       }
     }).done(function(response) {
-      if (response.length !== 0) {
+      if (response.error) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
-        $(errorMsg).html(response).fadeIn();
+        $(errorMsg).html(response.error).fadeIn();
       } else {
         window.location.href = DIRPAGE;
       }

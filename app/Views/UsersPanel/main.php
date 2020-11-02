@@ -25,7 +25,7 @@
                                 <p class="error-msg"></p>
                             </div>
 
-                            <select name="role" id="role" class="form-control">
+                            <select name="role" data-select="role" class="form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
                                         value="<?= $role['label'] ?>"
@@ -61,7 +61,7 @@
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])
-                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual que o seu."'
+                                    ? 'disabled title="Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual ao seu."'
                                     : ''
                                 ?>
                             >
@@ -74,7 +74,7 @@
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])
-                                    ? 'disabled title="Você não pode deletar uma conta com o nível hierárquico maior ou igual que o seu."'
+                                    ? 'disabled title="Você não pode deletar uma conta com o nível hierárquico maior ou igual ao seu."'
                                     : ''
                                 ?>
                             >

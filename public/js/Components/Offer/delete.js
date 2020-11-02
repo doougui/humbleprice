@@ -21,11 +21,14 @@ $(document).ready(function() {
         $.ajax({
           url: action,
           type: 'POST',
+          dataType: 'json',
+          processData: false,
+          contentType: false,
         }).done(function(response) {
-          if (response.length !== 0) {
+          if (response.error) {
             $(error).removeClass('d-none');
             $(error).addClass('d-block');
-            $(errorMsg).html(response).fadeIn();
+            $(errorMsg).html(response.error).fadeIn();
           } else {
             swal("Oferta deletada com sucesso", {
               icon: "success",

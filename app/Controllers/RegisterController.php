@@ -40,7 +40,11 @@ class RegisterController extends Authorization
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             } else {
-                die("Insira um e-mail válido para continuar.");
+                die(
+                    json_encode(
+                        ["error" => "Insira um e-mail válido para continuar."]
+                    )
+                );
             }
 
             $name = filter_input(
@@ -59,13 +63,24 @@ class RegisterController extends Authorization
 
             if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->register($name, $email, $password)) {
-                    die();
-                } else {
-                    die("Usuário já cadastrado. <a href='".DIRPAGE."login'>Faça seu login.</a>");
+                    die(json_encode([]));
                 }
+
+                die(
+                    json_encode(
+                        [
+                            "error" => "Usuário já cadastrado. 
+                            <a href='".DIRPAGE."login'>Faça seu login.</a>"
+                        ]
+                    )
+                );
             }
-        } else {
-            die("Preencha todos os campos para continuar.");
         }
+
+        die(
+            json_encode(
+                ["error" => "Preencha todos os campos para continuar."]
+            )
+        );
     }
 }

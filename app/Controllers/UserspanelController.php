@@ -49,13 +49,21 @@ class UserspanelController extends Authorization
         $user = new User();
 
         if (empty($email)) {
-            $this->redirect(DIRPAGE."userspanel");
+            die(
+                json_encode(
+                    ["error" => "Imforme um email válido."]
+                )
+            );
         }
 
         $userId = $user->getId("email", $email);
 
         if (! $userId) {
-            die("O usuário informado é inválido.");
+            die(
+                json_encode(
+                    ["error" => "O usuário informado é inválido."]
+                )
+            );
         }
 
         if ($userId === $_SESSION["user"] ||
@@ -65,14 +73,28 @@ class UserspanelController extends Authorization
                 ["id_role"]
             )["id_role"] >= user()["id_role"]
         ) {
-            die("Você não pode suspender ou re-ativar uma conta com o nível hierárquico maior ou igual que o seu.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você não pode suspender ou re-ativar uma 
+                        conta com o nível hierárquico maior ou igual ao seu."
+                    ]
+                )
+            );
         }
 
         if ($user->toggleSuspension($userId)) {
-            die();
+            die(json_encode([]));
         }
 
-        die("Não foi possível suspender este usuário.");
+        die(
+            json_encode(
+                [
+                    "error" => "Não foi possível suspender ou re-ativar a conta
+                    deste usuário."
+                ]
+            )
+        );
     }
 
     public function delete(string $email = null): void
@@ -80,13 +102,21 @@ class UserspanelController extends Authorization
         $user = new User();
 
         if (empty($email)) {
-            die("Imforme um email válido.");
+            die(
+                json_encode(
+                    ["error" => "Imforme um email válido."]
+                )
+            );
         }
 
         $userId = $user->getId("email", $email);
 
         if (! $userId) {
-            die("O usuário informado é inválido.");
+            die(
+                json_encode(
+                    ["error" => "O usuário informado é inválido."]
+                )
+            );
         }
 
         if ($userId === $_SESSION["user"] ||
@@ -96,14 +126,25 @@ class UserspanelController extends Authorization
                 ["id_role"]
             )["id_role"] >= user()["id_role"]
         ) {
-            die("Você não pode deletar uma conta com o nível hierárquico maior ou igual que o seu.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você não pode deletar uma conta com o nível 
+                        hierárquico maior ou igual ao seu."
+                    ]
+                )
+            );
         }
 
         if ($user->delete($userId)) {
-            die();
+            die(json_encode([]));
         }
 
-        die("Não foi possível deletar a conta deste usuário.");
+        die(
+            json_encode(
+                ["error" => "Não foi possível deletar a conta deste usuário."]
+            )
+        );
     }
 
     public function assignRole(
@@ -114,19 +155,31 @@ class UserspanelController extends Authorization
         $role = new Role();
 
         if (empty($email) || empty($roleLabel)) {
-            die("O email ou o cargo informado são inválidos.");
+            die(
+                json_encode(
+                    ["error" => "O email ou o cargo informado são inválidos."]
+                )
+            );
         }
 
         $userId = $user->getId("email", $email);
 
         if (! $userId) {
-            die("O usuário informado é inválido.");
+            die(
+                json_encode(
+                    ["error" => "O usuário informado é inválido."]
+                )
+            );
         }
 
         $roleId = $role->getId("label", $roleLabel);
 
         if (! $roleId) {
-            die("O cargo informado é inválido.");
+            die(
+                json_encode(
+                    ["error" => "O cargo informado é inválido."]
+                )
+            );
         }
 
         if ($roleId >= user()["id_role"]
@@ -136,13 +189,25 @@ class UserspanelController extends Authorization
                 ["id_role"]
             )["id_role"] >= user()["id_role"]
         ) {
-            die("Você não pode atribuir um cargo maior ou mudar o cargo de alguém com o nível hierárquico maior ou igual ao seu.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você não pode atribuir um cargo maior 
+                        ou mudar o cargo de alguém com o nível hierárquico 
+                        maior ou igual ao seu."
+                    ]
+                )
+            );
         }
 
         if ($user->assignRole($userId, $roleId)) {
-            die();
+            die(json_encode([]));
         }
 
-        die("Não foi possível mudar o cargo deste usuário.");
+        die(
+            json_encode(
+                ["error" => "Não foi possível mudar o cargo deste usuário."]
+            )
+        );
     }
 }

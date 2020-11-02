@@ -12,9 +12,17 @@ $(document).ready(function() {
       url: action,
       type: 'POST',
       async: false,
+      dataType: 'json',
+      processData: false,
+      contentType: false,
     }).done(function(response) {
-      if (response.length > 0) {
+      if (response.subcategory) {
         return true;
+      } else if (response.error) {
+        $(error).removeClass('d-none');
+        $(error).addClass('d-block');
+        $(errorMsg).html(response.error).fadeIn();
+        return false;
       }
     }).fail(function() {
       $(error).removeClass('d-none');
@@ -23,7 +31,7 @@ $(document).ready(function() {
       return false;
     });
 
-    return subcategoryAjaxCall.responseText;
+    return JSON.parse(subcategoryAjaxCall.responseText).subcategory;
   }
 
   function getSubcategories() {

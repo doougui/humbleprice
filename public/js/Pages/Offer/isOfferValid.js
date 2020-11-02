@@ -25,11 +25,14 @@ $(document).ready(function() {
           $.ajax({
             url: action,
             type: 'POST',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
           }).done(async function(response) {
-            if (response.length !== 0) {
+            if (response.error) {
               $(error).removeClass('d-none');
               $(error).addClass('d-block');
-              $(errorMsg).html(response).fadeIn();
+              $(errorMsg).html(response.error).fadeIn();
             } else {
               await swal("Agradecemos pelo seu aviso.", {
                 icon: "success",

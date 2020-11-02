@@ -33,11 +33,22 @@ class CommentlikeController extends Authorization
             empty($id)
             || ! $commentData = $comment->getInfo("id", $id, ["id_offer"])
         ) {
-            die("Este comentário é inválido.");
+            die(
+                json_encode(
+                    ["error" => "Este comentário é inválido."]
+                )
+            );
         }
 
         if (! $this->authenticated()) {
-            die("Você precisa estar logado para realizar esta ação.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você precisa estar logado para 
+                        realizar esta ação."
+                    ]
+                )
+            );
         }
 
         $offerData = $offer->getInfo(
@@ -50,16 +61,24 @@ class CommentlikeController extends Authorization
             ! $this->hasPermission("MANAGE_OFFERS")
             && $offerData["status"] !== "approved"
         ) {
-            die("Você não tem permissão para realizar esta ação.");
+            die(
+                json_encode(
+                    [
+                        "error" => "Você não tem permissão para 
+                        realizar esta ação."
+                    ]
+                )
+            );
         }
 
         $liked = $commentLike->liked($id, user()["id"]);
 
         if ($liked) {
             $commentLike->remove($id, user()["id"]);
-            die();
+            die(json_encode([]));
         }
 
         $commentLike->add($id, user()["id"]);
+        die(json_encode([]));
     }
 }

@@ -205,13 +205,27 @@ class OfferController extends Authorization
                 $categoryId = $category->getId("slug", $categorySlug);
 
                 if (! $categoryId) {
-                    die("Uma categoria inválida foi irformada. Por favor, selecione outra.");
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Uma categoria inválida foi 
+                                selecionada. Por favor, selecione outra."
+                            ]
+                        )
+                    );
                 }
 
                 $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
 
                 if (! $subcategoryId) {
-                    die("Uma subcategoria inválida foi irformada. Por favor, selecione outra.");
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Uma subcategoria inválida foi 
+                                selecionada. Por favor, selecione outra."
+                            ]
+                        )
+                    );
                 }
 
                 if (! $subcategory->isChildOf(
@@ -219,7 +233,14 @@ class OfferController extends Authorization
                     $categoryId,
                     "category")
                 ) {
-                    die("Esta subcategoria não pertence a respectiva categoria.");
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Esta subcategoria não pertence a 
+                                respectiva categoria."
+                            ]
+                        )
+                    );
                 }
 
                 $imageName = $this->treatImage($picture);
@@ -245,14 +266,25 @@ class OfferController extends Authorization
                 ];
 
                 if ($offer->store($info)) {
-                    die();
+                    die(json_encode([]));
                 }
 
-                die("Algo de errado ocorreu. Tente novamente mais tarde!");
+                die(
+                    json_encode(
+                        [
+                            "error" => "Algo de errado ocorreu. 
+                            Tente novamente mais tarde!"
+                        ]
+                    )
+                );
             }
         }
 
-        die("Preencha todos os campos para continuar");
+        die(
+            json_encode(
+                ["error" => "Preencha todos os campos para continuar"]
+            )
+        );
     }
 
     public function edit(string $slug = null): void
@@ -314,7 +346,11 @@ class OfferController extends Authorization
             empty($slug)
             || ! $offerId = $offer->getId("slug", $slug)
         ) {
-            die("Esta oferta é inválida.");
+            die(
+                json_encode(
+                    ["error" => "Esta oferta é inválida."]
+                )
+            );
         }
 
         if (
@@ -395,13 +431,27 @@ class OfferController extends Authorization
                 $categoryId = $category->getId("slug", $categorySlug);
 
                 if (! $categoryId) {
-                    die("Uma categoria inválida foi irformada. Por favor, selecione outra.");
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Uma categoria inválida foi 
+                                selecionada. Por favor, selecione outra."
+                            ]
+                        )
+                    );
                 }
 
                 $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
 
                 if (! $subcategoryId) {
-                    die("Uma subcategoria inválida foi irformada. Por favor, selecione outra.");
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Uma subcategoria inválida foi 
+                                    selecionada. Por favor, selecione outra."
+                            ]
+                        )
+                    );
                 }
 
                 if (!$subcategory->isChildOf(
@@ -409,7 +459,14 @@ class OfferController extends Authorization
                     $categoryId,
                     "category")
                 ) {
-                    die("Esta subcategoria não pertence a respectiva categoria.");
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Esta subcategoria não pertence a 
+                                    respectiva categoria."
+                            ]
+                        )
+                    );
                 }
 
                 if (isset($picture)) {
@@ -434,16 +491,27 @@ class OfferController extends Authorization
                 }
 
                 if ($offer->update($info)) {
-                    die();
+                    die(json_encode([]));
                 }
 
-                die("Algo de errado ocorreu. Tente novamente mais tarde!");
+                die(
+                    json_encode(
+                        [
+                            "error" => "Algo de errado ocorreu. 
+                            Tente novamente mais tarde!"
+                        ]
+                    )
+                );
             }
-
-            die("A imagem deve ser do tipo JPEG, JPG ou PNG");
         }
 
-        die("Preencha todos os campos para continuar");
+        die(
+            json_encode(
+                [
+                    "error" => "Preencha todos os campos para continuar"
+                ]
+            )
+        );
     }
 
     public function delete(string $slug = null): void
@@ -456,14 +524,23 @@ class OfferController extends Authorization
             empty($slug)
             || ! $offerId = $offer->getId("slug", $slug)
         ) {
-            die("Esta oferta é inválida.");
+            die(
+                json_encode(
+                    ["error" => "Esta oferta é inválida."]
+                )
+            );
         }
 
         if ($offer->delete($offerId)) {
-            die();
+            die(json_encode([]));
         }
 
-        die("Não foi possível deletar esta oferta.");
+        die(
+            json_encode(
+                ["error" => "Não foi possível deletar esta oferta."]
+            )
+        );
+
     }
 
     public function subcategory(string $slug = null): void
@@ -477,7 +554,7 @@ class OfferController extends Authorization
             empty($slug)
             || ! $offerId = $offer->getId("slug", $slug)
         ) {
-            die();
+            die(json_encode(["error" => "A oferta especificada é inválida."]));
         }
 
         $subcategoryId = $offer->getInfo(
@@ -486,7 +563,15 @@ class OfferController extends Authorization
             ["id_subcategory"]
         )["id_subcategory"];
 
-        die($subcategory->getInfo("id", $subcategoryId, ["slug"])["slug"]);
+        die(
+            json_encode(
+                [
+                    "subcategory" => $subcategory
+                        ->getInfo("id", $subcategoryId, ["slug"])
+                        ["slug"]
+                ]
+            )
+        );
     }
 
 
@@ -494,11 +579,13 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
-        if ($this->setStatus("approved", $slug)) {
-            die();
-        }
+        $this->setStatus("approved", $slug);
 
-        die("Não foi possível aprovar essa oferta.");
+        die(
+            json_encode([
+                "error" =>  "Não foi possível aprovar essa oferta."
+            ])
+        );
     }
 
     public function refuse(string $slug = null): void
@@ -507,7 +594,11 @@ class OfferController extends Authorization
 
         $this->setStatus("refused", $slug);
 
-        die("Não foi possível recusar essa oferta.");
+        die(
+            json_encode([
+                "error" =>  "Não foi possível recusar essa oferta."
+            ])
+        );
     }
 
     public function close(string $slug = null): void
@@ -516,7 +607,11 @@ class OfferController extends Authorization
 
         $this->setStatus("closed", $slug);
 
-        die("Não foi possível encerrar essa oferta.");
+        die(
+            json_encode([
+                "error" =>  "Não foi possível encerrar essa oferta."
+            ])
+        );
     }
 
     private function setStatus(string $status, string $slug = null): void
@@ -527,14 +622,22 @@ class OfferController extends Authorization
             empty($slug)
             || ! $offerId = $offer->getId("slug", $slug)
         ) {
-            die("Esta oferta é inválida.");
+            die(
+                json_encode([
+                    "error" =>  "Esta oferta é inválida."
+                ])
+            );
         }
 
         if ($offer->updateStatus($offerId, $status)) {
-            die();
+            die(json_encode([]));
         }
 
-        die("Não foi possível alterar o status desta oferta.");
+        die(
+            json_encode([
+                "error" =>  "Não foi possível alterar o status desta oferta."
+            ])
+        );
     }
 
     private function treatImage(array $picture): ?string
@@ -577,7 +680,11 @@ class OfferController extends Authorization
                     DIRREQ . "public/img/products/{$imageName}"
                 );
             } else {
-                die("A imagem deve ser do tipo JPEG, JPG ou PNG");
+                die(
+                    json_encode([
+                        "error" =>  "A imagem deve ser do tipo JPEG, JPG ou PNG"
+                    ])
+                );
             }
 
             imagecopyresampled(
@@ -602,6 +709,10 @@ class OfferController extends Authorization
             return $imageName;
         }
 
-        die("A imagem deve ser do tipo JPEG, JPG ou PNG");
+        die(
+            json_encode([
+                "error" =>  "A imagem deve ser do tipo JPEG, JPG ou PNG"
+            ])
+        );
     }
 }
