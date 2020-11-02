@@ -2,21 +2,22 @@ $(document).ready(function() {
   $(document).on('click', '.comment-actions .like', function(e) {
     e.preventDefault();
 
+    const id = $(this).closest('.comment').attr('data-id');
+
     const card = $(this).closest('.card');
-    const action = `${DIRPAGE}commentlike/add/${$(card).attr('data-item')}`;
+    const action = `${DIRPAGE}commentlike/add/${id}`;
+
     const error = $(card).find('.error');
     const errorMsg = $(error).find('.error-msg');
     const button = $(this);
 
     function removeLike() {
-      $(button).removeClass('btn-success');
-      $(button).addClass('btn-secondary');
+      $(button).removeClass('text-success');
       $(likes).html(--count);
     }
 
     function addLike() {
-      $(button).addClass('btn-success');
-      $(button).removeClass('btn-secondary');
+      $(button).addClass('text-success');
       $(likes).html(++count);
     }
 
@@ -24,7 +25,7 @@ $(document).ready(function() {
     let count = parseInt(likes.html());
 
     function checkLike() {
-      if ($(button).hasClass('btn-success')) {
+      if ($(button).hasClass('text-success')) {
         removeLike();
       } else {
         addLike();

@@ -516,7 +516,7 @@ class OfferController extends Authorization
 
         $this->setStatus("closed", $slug);
 
-        die("Não foi possível fechar essa oferta.");
+        die("Não foi possível encerrar essa oferta.");
     }
 
     private function setStatus(string $status, string $slug = null): void

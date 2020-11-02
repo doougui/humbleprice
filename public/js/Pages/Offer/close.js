@@ -13,7 +13,7 @@ $(document).ready(function() {
         title: "Você tem certeza?",
         text: "Uma vez fechada, esta oferta se tornará inválida.",
         icon: "warning",
-        buttons: ['Cancelar', 'Fechar oferta'],
+        buttons: ['Cancelar', 'Encerrar oferta'],
         dangerMode: true,
       });
 

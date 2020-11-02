@@ -46,7 +46,7 @@
                                     <a href="<?= $offer['link'] ?>" target="_blank" class="offer-link btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
 
                                     <?php if (authorized("MANAGE_OFFERS") && ! $isClosed && $offer["status"] === "approved"): ?>
-                                        <button class="btn btn-danger w-100 close-offer">Fechar oferta</button>
+                                        <button class="btn btn-danger w-100 close-offer">Encerrar oferta</button>
                                     <?php endif; ?>
 
                                     <?php if (authorized("MANAGE_QUEUE") && ! $isClosed && $offer["status"] === "pending"): ?>

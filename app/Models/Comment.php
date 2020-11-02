@@ -43,6 +43,8 @@ class Comment extends Table
             $comments = $sql->fetchAll();
 
             foreach ($comments as $key => $comment) {
+                $comments[$key]["children"] = [];
+
                 $sql = "SELECT
                     comments.id AS id,
                     id_parent, 

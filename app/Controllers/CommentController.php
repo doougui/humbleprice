@@ -20,8 +20,12 @@ class CommentController extends Authorization
         $comment = new Comment();
         $commentLike = new CommentLike();
 
-        if ($_SERVER["HTTP_REFERER"] !== DIRPAGE."offer/view/{$slug}") {
-            die(json_encode([]));
+        if (! $this->isAjax()) {
+            die(
+                json_encode(
+                    ["error" => "Direct access not allowed"]
+                )
+            );
         }
 
         if (
@@ -58,7 +62,7 @@ class CommentController extends Authorization
                 );
 
             $comments[$commentKey]["liked"] = ($this->authenticated())
-                ? $commentLike->liked($commentValue["id"],user()["id"])
+                ? $commentLike->liked($commentValue["id"], user()["id"])
                 : false;
 
             foreach (
@@ -72,7 +76,7 @@ class CommentController extends Authorization
                     );
 
                 $comments[$commentKey]["children"][$replyKey]["liked"] = ($this->authenticated())
-                    ? $commentLike->liked($replyValue["id"],user()["id"])
+                    ? $commentLike->liked($replyValue["id"], user()["id"])
                     : false;
             }
         }
@@ -91,8 +95,12 @@ class CommentController extends Authorization
         $offer = new Offer();
         $comment = new Comment();
 
-        if ($_SERVER["HTTP_REFERER"] !== DIRPAGE."offer/view/{$slug}") {
-            die(json_encode([]));
+        if (! $this->isAjax()) {
+            die(
+                json_encode(
+                    ["error" => "Direct access not allowed"]
+                )
+            );
         }
 
         if (

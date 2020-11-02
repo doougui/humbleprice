@@ -3,20 +3,23 @@
 namespace App\Controllers;
 
 use App\Core\Authorization;
+use App\Models\Comment;
+use App\Models\CommentLike;
 use App\Models\Offer;
 use App\Models\OfferLike;
 
-class OfferlikeController extends Authorization
+class CommentlikeController extends Authorization
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function add(string $slug = null): void
+    public function add(string $id = null): void
     {
+        $comment = new Comment();
+        $commentLike = new CommentLike();
         $offer = new Offer();
-        $offerLike = new OfferLike();
 
         if (! $this->isAjax()) {
             die(
@@ -27,17 +30,21 @@ class OfferlikeController extends Authorization
         }
 
         if (
-            empty($slug)
-            || ! $offerId = $offer->getId("slug", $slug)
+            empty($id)
+            || ! $commentData = $comment->getInfo("id", $id, ["id_offer"])
         ) {
-            die("Esta oferta é inválida.");
+            die("Este comentário é inválido.");
         }
 
         if (! $this->authenticated()) {
             die("Você precisa estar logado para realizar esta ação.");
         }
 
-        $offerData = $offer->getInfo("id", $offerId, ["status"]);
+        $offerData = $offer->getInfo(
+            "id",
+            $commentData["id_offer"],
+            ["slug", "status"]
+        );
 
         if (
             ! $this->hasPermission("MANAGE_OFFERS")
@@ -46,13 +53,13 @@ class OfferlikeController extends Authorization
             die("Você não tem permissão para realizar esta ação.");
         }
 
-        $liked = $offerLike->liked($offerId, user()["id"]);
+        $liked = $commentLike->liked($id, user()["id"]);
 
         if ($liked) {
-            $offerLike->remove($offerId, user()["id"]);
+            $commentLike->remove($id, user()["id"]);
             die();
         }
 
-        $offerLike->add($offerId, user()["id"]);
+        $commentLike->add($id, user()["id"]);
     }
 }

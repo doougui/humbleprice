@@ -3,7 +3,6 @@ $(document).ready(function () {
 
   $(document).on('click', '.reply', function() {
     const thread = $(this).closest('.thread');
-    const parentComment = $(thread).find('.parent-comment');
 
     const author = $(this)
         .closest('.comment-actions')
@@ -28,16 +27,17 @@ $(document).ready(function () {
         </form>
       `;
 
-    $(replyForm).insertAfter(parentComment);
+    $(thread).append(replyForm);
 
     const editor = $(thread).find('.editor');
+    let replyEditor;
 
     ClassicEditor
         .create(editor[0], {
           toolbar: ['heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']
         })
         .then(editor => {
-          window.editor = editor;
+          replyEditor = editor;
         })
         .catch(err => {
           console.error(err.stack);

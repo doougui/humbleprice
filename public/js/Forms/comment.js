@@ -41,7 +41,7 @@ $(document).ready(function() {
 
           comments += `
             <div class="thread" data-parent="${item.id}">
-                <div class="comment d-flex mx-2 pt-3 align-items-start parent-comment">
+                <div class="comment d-flex mx-2 pt-3 align-items-start parent-comment" data-id="${item.id}">
                     <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}default.jpg" alt="Usuário">
     
                     <div class="w-100">
@@ -55,7 +55,7 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1 like" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span>${item.likes}</span>
                             </button>
@@ -93,7 +93,7 @@ $(document).ready(function() {
               const createdAt = new Intl.DateTimeFormat('pt-BR', options).format(date);
 
               comments += `
-                <div class="comment d-flex mr-2 pt-3 align-items-start">
+                <div class="comment d-flex mr-2 pt-3 align-items-start" data-id="${child.id}">
                     <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}default.jpg" alt="Usuário">
     
                     <div class="w-100">
@@ -158,10 +158,10 @@ $(document).ready(function() {
   renderComments();
 
   $(document).on('submit', '.comment-form', function(e) {
-    const parent = $(this).closest('.thread').attr('data-parent');
-    const button = $(this).find('button[type=submit]');
-
     e.preventDefault();
+
+    const parent = $(this).closest('.thread').find('.comment').attr('data-id');
+    const button = $(this).find('button[type=submit]');
 
     const formData = new FormData(this);
     const action = $(this).attr('action');
@@ -189,6 +189,10 @@ $(document).ready(function() {
         $(errorMsg).html(response.error).fadeIn();
       } else {
         renderComments();
+
+        if (!parent) {
+          window.editor.setData('');
+        }
       }
     }).fail(function() {
       $(error).removeClass('d-none');
