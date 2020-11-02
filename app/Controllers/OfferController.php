@@ -39,6 +39,7 @@ class OfferController extends Authorization
         $offerData = $offer->getInfo("id", $offerId,
             [
                 "users.name AS author",
+                "users.avatar AS avatar",
                 "categories.name AS category",
                 "subcategories.name AS subcategory",
                 "offers.slug",

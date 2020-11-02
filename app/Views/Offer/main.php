@@ -33,7 +33,7 @@
                                     <p>Oferta publicada por:</p>
 
                                     <div class="offer-author row">
-                                        <img class="img img-fluid rounded rounded-circle" src="<?= DIRIMG ?>default.jpg" alt="Usuário">
+                                        <img class="img img-fluid rounded rounded-circle" src="<?= DIRIMG ?><?= $offer['avatar'] ?>" alt="Usuário">
 
                                         <div class="d-flex flex-column ml-2">
                                             <small class="text-themed font-weight-bold offer-author-name" title="<?= $offer['author'] ?>"><?= $offer["author"] ?></small>

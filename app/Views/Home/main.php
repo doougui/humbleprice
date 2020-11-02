@@ -29,8 +29,8 @@
                             </div>
 
                             <?php if (user() && authorized("MANAGE_OFFERS")): ?>
-                                <a class="d-block text-center card-link my-2" href="<?= DIRPAGE ?>offer/edit/<?= $offer['slug'] ?>">Editar anúncio</a>
-                                <button class="delete text-center" data-btn="delete">Excluir anúncio</button>
+                                <a class="d-block text-center card-link my-2" href="<?= DIRPAGE ?>offer/edit/<?= $offer['slug'] ?>">Editar oferta</a>
+                                <button class="delete text-center" data-btn="delete">Excluir oferta</button>
                             <?php endif; ?>
                         </div>
 

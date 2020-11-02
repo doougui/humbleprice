@@ -116,9 +116,13 @@ h4 {
   text-overflow: ellipsis;
 }
 
-#offer .card-footer button {
+#offer .card-footer button:not([data-btn="delete"]) {
   outline: none;
   font-size: 14px;
+}
+
+button[data-btn="delete"] {
+  background-color: transparent;
 }
 
 #recommended-offer .prices small,
