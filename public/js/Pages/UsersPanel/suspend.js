@@ -4,8 +4,10 @@ $(document).ready(function() {
 
     const tr = $(this).closest('tr');
     const action = `${DIRPAGE}userspanel/suspend/${$(tr).attr('data-item')}`;
-    const error = $(tr).find('.actions-errors');
+
+    const error = $('[data-error="actions"]');
     const errorMsg = $(error).find('.error-msg');
+
     const button = $(this);
     const buttonText = $.trim($(button).text());
 

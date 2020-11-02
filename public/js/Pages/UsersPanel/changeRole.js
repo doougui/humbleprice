@@ -3,7 +3,8 @@ $(document).ready(function() {
     const tr = $(this).closest('tr');
     const selectedRole = $(this).val();
     const action = `${DIRPAGE}userspanel/assignRole/${$(tr).attr('data-item')}/${selectedRole}`;
-    const error = $(tr).find('.roles-errors');
+
+    const error = $('[data-error="roles"]');
     const errorMsg = $(error).find('.error-msg');
 
     $.ajax({

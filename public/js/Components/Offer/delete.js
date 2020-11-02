@@ -4,7 +4,8 @@ $(document).ready(function() {
 
     const card = $(this).closest('.card-item');
     const action = `${DIRPAGE}offer/delete/${$(card).attr('data-item')}`;
-    const error = $(card).find('.error');
+
+    const error = $(card).find('[data-error="offer-card"]');
     const errorMsg = $(error).find('.error-msg');
 
     try {

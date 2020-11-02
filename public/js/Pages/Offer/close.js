@@ -4,8 +4,10 @@ $(document).ready(function() {
 
     const card = $(this).closest('.card');
     const action = `${DIRPAGE}offer/close/${$(card).attr('data-item')}`;
-    const error = $(card).find('.error');
+
+    const error = $('[data-error="offer"]');
     const errorMsg = $(error).find('.error-msg');
+
     const button = $(this);
 
     try {

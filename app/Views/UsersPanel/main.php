@@ -21,9 +21,10 @@
                         <td><?= $user["name"] ?></td>
                         <td><?= $user["email"] ?></td>
                         <td class="form-group">
-                            <div class="alert alert-danger roles-errors tr-error d-none" role="alert">
+                            <div class="alert alert-danger tr-error d-none" data-error="roles" role="alert">
                                 <p class="error-msg"></p>
                             </div>
+
                             <select name="role" id="role" class="form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
@@ -46,9 +47,10 @@
                             </select>
                         </td>
                         <td>
-                            <div class="alert alert-danger actions-errors tr-error d-none" role="alert">
+                            <div class="alert alert-danger tr-error d-none" data-error="actions" role="alert">
                                 <p class="error-msg"></p>
                             </div>
+
                             <button
                                 type="button"
                                 class="btn btn-outline-<?= ($user["suspended"])

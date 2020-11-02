@@ -8,7 +8,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-danger d-none error" role="alert">
+                        <div class="alert alert-danger d-none" data-error="offer" role="alert">
                             <p class="error-msg"></p>
                         </div>
 
@@ -119,7 +119,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="alert alert-danger d-none error" role="alert">
+                        <div class="alert alert-danger d-none" data-error="comments" role="alert">
                             <p class="error-msg"></p>
                         </div>
 

@@ -1,7 +1,7 @@
 $(document).ready(function () {
   const offerSlug = $('#offer').find('.card').attr('data-item');
 
-  $(document).on('click', '.reply', function() {
+  $(document).on('click', '[data-btn="reply"]', function() {
     const thread = $(this).closest('.thread');
 
     const author = $(this)

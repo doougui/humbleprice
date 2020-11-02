@@ -3,11 +3,13 @@
         <div class="card-header">
             <h4>Editar Oferta</h4>
         </div>
+
         <div class="card-body">
             <form method="POST" data-form="offer-form" enctype="multipart/form-data" data-item="<?= $offer['slug'] ?>" action="<?= DIRPAGE ?>offer/update/<?= $offer['slug'] ?>">
-                <div id="error" class="alert alert-danger d-none" role="alert">
-                    <p id="error-msg"></p>
+                <div class="alert alert-danger d-none" data-error="offer-form" role="alert">
+                    <p class="error-msg"></p>
                 </div>
+
                 <div class="form-group">
                     <label for="link">Link do produto</label>
                     <input type="text" name="link" id="link" class="form-control" value="<?= $offer['link'] ?>" required>

@@ -2,8 +2,10 @@ $(document).ready(function() {
   $('[data-btn="offer-link"]').click(async function() {
     const card = $(this).closest('.card');
     const action = `${DIRPAGE}report/unavailable/${$(card).attr('data-item')}`;
+
     const endOffer = $(card).attr('data-end');
-    const error = $(card).find('.error');
+
+    const error = $('[data-error="offer"]');
     const errorMsg = $(error).find('.error-msg');
 
     if (!endOffer) {

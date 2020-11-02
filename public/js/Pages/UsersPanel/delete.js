@@ -4,8 +4,10 @@ $(document).ready(function() {
 
     const tr = $(this).closest('tr');
     const action = `${DIRPAGE}userspanel/delete/${$(tr).attr('data-item')}`;
-    const error = $(tr).find('.actions-errors');
+
+    const error = $('[data-error="actions"]');
     const errorMsg = $(error).find('.error-msg');
+
     const button = $(this);
 
     try {

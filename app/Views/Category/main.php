@@ -38,7 +38,7 @@
                             <?php endif; ?>
                         </div>
 
-                        <div class="alert alert-danger d-none error" role="alert">
+                        <div class="alert alert-danger d-none" data-error="offer-card" role="alert">
                             <p class="error-msg"></p>
                         </div>
 

@@ -5,10 +5,10 @@ $(document).ready(function() {
     const formData = new FormData(this);
     const action = $(this).attr('action');
 
-    const error = $('#error');
-    const errorMsg = $(error).find('#error-msg');
+    const button = $(this).find('button[type=submit]');
 
-    const button = $('button[type=submit]');
+    const error = $('[data-error="offer-form"]');
+    const errorMsg = $(error).find('.error-msg');
 
     $.ajax({
       url: action,

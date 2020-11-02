@@ -3,12 +3,11 @@ $(document).ready(function() {
     e.preventDefault();
 
     const id = $(this).closest('.comment').attr('data-id');
-
-    const card = $(this).closest('.card');
     const action = `${DIRPAGE}commentlike/add/${id}`;
 
-    const error = $(card).find('.error');
+    const error = $('[data-error="comments"]');
     const errorMsg = $(error).find('.error-msg');
+
     const button = $(this);
 
     function removeLike() {

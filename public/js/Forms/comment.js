@@ -1,6 +1,5 @@
 $(document).ready(function() {
-  const cardBody = $('#comments .card-body');
-  const error = $(cardBody).find($('.error'));
+  const error = $('[data-error="comments"]');
   const errorMsg = $(error).find('.error-msg');
 
   function renderComments() {
@@ -60,7 +59,7 @@ $(document).ready(function() {
                                 <span>${item.likes}</span>
                             </button>
       
-                            <button class="btn btn-link btn-sm py-2 mr-1 reply" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link btn-sm py-2 mr-1" data-btn="reply" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-comments"></i>
                                 Responder
                             </button>
@@ -160,7 +159,7 @@ $(document).ready(function() {
   $(document).on('submit', '[data-form="comment-form"]', function(e) {
     e.preventDefault();
 
-    const parent = $(this).closest('.thread').find('.comment').attr('data-id');
+    const parent = $(this).siblings('.comment').attr('data-id');
     const button = $(this).find('button[type=submit]');
 
     const formData = new FormData(this);
