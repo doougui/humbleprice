@@ -144,7 +144,7 @@ class OfferController extends Authorization
                 "name",
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
-            $slug = $slugify->Slugify($name);
+            $slug = $slugify->Slugify($name)."-".substr(time(), -5);
             $oldPrice = filter_input(
                 INPUT_POST,
                 "old-price",
@@ -368,7 +368,7 @@ class OfferController extends Authorization
                 "name",
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
-            $slug = $slugify->Slugify($name);
+            $slug = $slugify->Slugify($name)."-".substr(time(), -5);
             $oldPrice = filter_input(
                 INPUT_POST,
                 "old-price",
