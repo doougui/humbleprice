@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('.delete-user').click(async function(e) {
+  $('[data-btn="delete-user"]').click(async function(e) {
     e.preventDefault();
 
     const tr = $(this).closest('tr');

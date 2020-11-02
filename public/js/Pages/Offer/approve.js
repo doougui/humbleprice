@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('.approve').click(function(e) {
+  $('[data-btn="approve"]').click(function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card');

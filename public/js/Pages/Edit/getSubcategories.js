@@ -28,7 +28,7 @@ function getSubcategories() {
   const error = $('#error');
   const errorMsg = error.find('#error-msg');
 
-  const offer = $('#offer-form').attr('data-item');
+  const offer = $('[data-form="offer-form"]').attr('data-item');
   const currentSubcategory = getCurrentSubcategory(offer);
 
   if (!currentSubcategory) {

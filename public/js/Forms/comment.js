@@ -55,7 +55,7 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1 like" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" data-btn="like-comment" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span>${item.likes}</span>
                             </button>
@@ -107,7 +107,7 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link ${(child.liked) ? 'text-success' : ''} btn-sm py-2 mr-1 like" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(child.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" data-btn="like-comment" ${(!logged) ? 'disabled' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span>${child.likes}</span>
                             </button>
@@ -157,7 +157,7 @@ $(document).ready(function() {
 
   renderComments();
 
-  $(document).on('submit', '.comment-form', function(e) {
+  $(document).on('submit', '[data-form="comment-form"]', function(e) {
     e.preventDefault();
 
     const parent = $(this).closest('.thread').find('.comment').attr('data-id');

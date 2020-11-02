@@ -4,7 +4,7 @@
             <h4>Adicionar Oferta</h4>
         </div>
         <div class="card-body">
-            <form method="POST" id="offer-form" enctype="multipart/form-data" action="<?= DIRPAGE ?>offer/publish">
+            <form method="POST" data-form="offer-form" enctype="multipart/form-data" action="<?= DIRPAGE ?>offer/publish">
                 <div id="error" class="alert alert-danger d-none" role="alert">
                     <p id="error-msg"></p>
                 </div>

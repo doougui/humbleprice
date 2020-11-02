@@ -43,16 +43,16 @@
                                 </div>
 
                                 <div class="w-100 d-flex flex-md-column">
-                                    <a href="<?= $offer['link'] ?>" target="_blank" class="offer-link btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
+                                    <a href="<?= $offer['link'] ?>" target="_blank" data-btn="offer-link" class="btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
 
                                     <?php if (authorized("MANAGE_OFFERS") && ! $isClosed && $offer["status"] === "approved"): ?>
-                                        <button class="btn btn-danger w-100 close-offer">Encerrar oferta</button>
+                                        <button class="btn btn-danger w-100" data-btn="close-offer">Encerrar oferta</button>
                                     <?php endif; ?>
 
                                     <?php if (authorized("MANAGE_QUEUE") && ! $isClosed && $offer["status"] === "pending"): ?>
                                         <div class="w-100" id="queue-actions">
-                                            <button class="btn w-100 mb-1 btn-success approve">Aprovar</button>
-                                            <button class="btn w-100 mb-1 btn-danger refuse">Recusar</button>
+                                            <button class="btn w-100 mb-1 btn-success approve" data-btn="approve">Aprovar</button>
+                                            <button class="btn w-100 mb-1 btn-danger refuse" data-btn="refuse">Recusar</button>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -67,7 +67,7 @@
                                 Reportar
                             </button>
 
-                            <button class="btn badge <?= ($liked) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2 like" <?= (! user()) ? 'disabled' : '' ?>>
+                            <button class="btn badge <?= ($liked) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2" data-btn="like-offer" <?= (! user()) ? 'disabled' : '' ?>>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span><?= $likes ?></span>
                             </button>
@@ -124,7 +124,7 @@
                         </div>
 
                         <?php if (user()): ?>
-                            <form method="POST" class="comment-form" action="<?= DIRPAGE ?>comment/publish/<?= $offer['slug'] ?>">
+                            <form method="POST" data-form="comment-form" action="<?= DIRPAGE ?>comment/publish/<?= $offer['slug'] ?>">
                                 <div class="form-group">
                                     <textarea placeholder="O que achou desta oferta? Compartilhe aqui sua opinião" name="comment" class="editor"></textarea>
                                 </div>

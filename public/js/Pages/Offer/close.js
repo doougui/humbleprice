@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('.close-offer').click(async function(e) {
+  $('[data-btn="close-offer"]').click(async function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card');

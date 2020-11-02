@@ -13,7 +13,7 @@ $(document).ready(function () {
     $('.reply-form').remove();
 
     const replyForm = `
-        <form method="POST" class="comment-form reply-form" action="${DIRPAGE}comment/publish/${offerSlug}">
+        <form method="POST" class="reply-form" data-form="comment-form" action="${DIRPAGE}comment/publish/${offerSlug}">
             <div class="form-group">
                 <textarea name="comment" class="editor">
                     @${author} 
@@ -21,7 +21,7 @@ $(document).ready(function () {
             </div>
   
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-link cancel">Cancelar</button>
+                <button type="button" class="btn btn-link" data-btn="cancel">Cancelar</button>
                 <button type="submit" class="btn btn-themed">Publicar resposta</button>
             </div>
         </form>

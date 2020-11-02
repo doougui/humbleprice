@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('.refuse').click(async function(e) {
+  $('[data-btn="refuse"]').click(async function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card-item');

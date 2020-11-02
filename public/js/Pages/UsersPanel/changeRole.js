@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('.role').change(function() {
+  $('#role').change(function() {
     const tr = $(this).closest('tr');
     const selectedRole = $(this).val();
     const action = `${DIRPAGE}userspanel/assignRole/${$(tr).attr('data-item')}/${selectedRole}`;

@@ -30,7 +30,7 @@
 
                             <?php if (authorized("MANAGE_OFFERS")): ?>
                                 <a class="d-block text-center card-link my-2" href="<?= DIRPAGE ?>offer/edit/<?= $offer['slug'] ?>">Editar anúncio</a>
-                                <button class="delete text-center">Excluir anúncio</button>
+                                <button class="delete text-center" data-btn="delete">Excluir anúncio</button>
                             <?php endif; ?>
                         </div>
 
@@ -42,8 +42,8 @@
                             <a href="<?= $offer['link'] ?>" target="_blank" class="btn btn-themed mb-2">Avaliar oferta</a>
 
                             <div class="row justify-content-center">
-                                <button class="btn btn-success m-1 approve">Aprovar</button>
-                                <button class="btn btn-danger m-1 refuse">Recusar</button>
+                                <button class="btn btn-success m-1" data-btn="approve">Aprovar</button>
+                                <button class="btn btn-danger m-1" data-btn="refuse">Recusar</button>
                             </div>
                         </div>
                     </div>

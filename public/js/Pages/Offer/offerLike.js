@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('.like').click(function(e) {
+  $('[data-btn="like-offer"]').click(function(e) {
     e.preventDefault();
 
     const card = $(this).closest('.card');

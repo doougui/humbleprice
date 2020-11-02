@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $(document).on('click', '.comment-actions .like', function(e) {
+  $(document).on('click', '[data-btn="like-comment"]', function(e) {
     e.preventDefault();
 
     const id = $(this).closest('.comment').attr('data-id');

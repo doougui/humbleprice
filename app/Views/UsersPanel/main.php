@@ -24,7 +24,7 @@
                             <div class="alert alert-danger roles-errors tr-error d-none" role="alert">
                                 <p class="error-msg"></p>
                             </div>
-                            <select name="role" id="role" class="role form-control">
+                            <select name="role" id="role" class="form-control">
                                 <?php foreach ($roles as $role): ?>
                                     <option
                                         value="<?= $role['label'] ?>"
@@ -54,7 +54,8 @@
                                 class="btn btn-outline-<?= ($user["suspended"])
                                     ? 'info'
                                     : "warning"
-                                ?> suspend"
+                                ?>"
+                                data-btn="suspend"
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])
@@ -66,7 +67,8 @@
                             </button>
                             <button
                                     type="button"
-                                    class="btn btn-outline-danger delete-user"
+                                    class="btn btn-outline-danger"
+                                    data-btn="delete-user"
 
                                 <?= ($user["email"] === user()["email"]
                                     || $user["id_role"] >= user()["id_role"])

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('#login').submit(function(e) {
+  $('[data-form="login"]').submit(function(e) {
     e.preventDefault();
 
     const formData = new FormData(this);

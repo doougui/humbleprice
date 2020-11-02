@@ -34,7 +34,7 @@
 
                             <?php if (authorized("MANAGE_OFFERS")): ?>
                                 <a class="d-block text-center card-link my-2" href="<?= DIRPAGE ?>offer/edit/<?= $offer['slug'] ?>">Editar anúncio</a>
-                                <button class="delete text-center">Excluir anúncio</button>
+                                <button class="delete text-center" data-btn="delete">Excluir anúncio</button>
                             <?php endif; ?>
                         </div>
 

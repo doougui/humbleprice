@@ -4,7 +4,7 @@
             <h4>Editar Oferta</h4>
         </div>
         <div class="card-body">
-            <form method="POST" id="offer-form" enctype="multipart/form-data" data-item="<?= $offer['slug'] ?>" action="<?= DIRPAGE ?>offer/update/<?= $offer['slug'] ?>">
+            <form method="POST" data-form="offer-form" enctype="multipart/form-data" data-item="<?= $offer['slug'] ?>" action="<?= DIRPAGE ?>offer/update/<?= $offer['slug'] ?>">
                 <div id="error" class="alert alert-danger d-none" role="alert">
                     <p id="error-msg"></p>
                 </div>
