@@ -47,7 +47,7 @@ h4 {
 }
 
 .card-item .card-body a.btn {
-  height: 110px;
+  min-height: 110px;
 }
 
 .card-footer {

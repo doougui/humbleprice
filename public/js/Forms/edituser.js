@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('[data-form="register"]').submit(function(e) {
+  $('[data-form="user-form"]').submit(function(e) {
     e.preventDefault();
 
     const formData = new FormData(this);
@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     const button = $(this).find('button[type=submit]');
 
-    const error = $('[data-error="register"]');
+    const error = $('[data-error="user-form"]');
     const errorMsg = $(error).find('.error-msg');
 
     $.ajax({
@@ -20,12 +20,17 @@ $(document).ready(function() {
       beforeSend: function() {
         $(button).attr('disabled', '');
       }
-    }).done(function(response) {
+    }).done(async function(response) {
       if (response.error) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
         $(errorMsg).html(response.error).fadeIn();
       } else {
+        await swal("Dados editados com sucesso.", {
+          icon: "success",
+          timer: 1250,
+        });
+
         window.location.href = DIRPAGE;
       }
     }).fail(function() {

@@ -50,7 +50,9 @@
                                     <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
                                 </li>
                             <?php endif; ?>
-                            <li class="nav-item nav-link"><?= user()['name'] ?></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= DIRPAGE ?>user/edit"><?= user()['name'] ?></a>
+                            </li>
                             <li class="nav-item alert-link">
                                 <a class="nav-link" href="<?= DIRPAGE ?>login/logout">Sair</a>
                             </li>

@@ -244,7 +244,7 @@ class OfferController extends Authorization
                     );
                 }
 
-                $imageName = $this->treatImage($picture);
+                $imageName = $this->treatImage($picture, "products");
 
                 $status = "pending";
 
@@ -455,7 +455,7 @@ class OfferController extends Authorization
                     );
                 }
 
-                if (!$subcategory->isChildOf(
+                if (! $subcategory->isChildOf(
                     $subcategoryId,
                     $categoryId,
                     "category")
@@ -471,7 +471,7 @@ class OfferController extends Authorization
                 }
 
                 if (isset($picture)) {
-                    $imageName = $this->treatImage($picture);
+                    $imageName = $this->treatImage($picture, "products");
                 }
 
                 $info = [
@@ -637,82 +637,6 @@ class OfferController extends Authorization
         die(
             json_encode([
                 "error" =>  "Não foi possível alterar o status desta oferta."
-            ])
-        );
-    }
-
-    private function treatImage(array $picture): ?string
-    {
-        $type = $picture["type"];
-
-        if (in_array($type, ["image/jpeg", "image/png"])) {
-            $imageName = md5(time() . rand(0, 99999)) . ".jpg";
-            move_uploaded_file(
-                $picture["tmp_name"],
-                DIRREQ . "public/img/products/{$imageName}"
-            );
-
-            list(
-                $originalWidth,
-                $originalHeight
-                ) = getimagesize(
-                DIRREQ . "public/img/products/{$imageName}"
-            );
-
-            $ratio = $originalWidth / $originalHeight;
-
-            $width = 500;
-            $height = 500;
-
-            if ($width / $height > $ratio) {
-                $width = $height * $ratio;
-            } else {
-                $height = $width / $ratio;
-            }
-
-            $img = imagecreatetruecolor($width, $height);
-
-            if ($type == "image/jpeg") {
-                $original = imagecreatefromjpeg(
-                    DIRREQ . "public/img/products/{$imageName}"
-                );
-            } elseif ($type == "image/png") {
-                $original = imagecreatefrompng(
-                    DIRREQ . "public/img/products/{$imageName}"
-                );
-            } else {
-                die(
-                    json_encode([
-                        "error" =>  "A imagem deve ser do tipo JPEG, JPG ou PNG"
-                    ])
-                );
-            }
-
-            imagecopyresampled(
-                $img,
-                $original,
-                0,
-                0,
-                0,
-                0,
-                $width,
-                $height,
-                $originalWidth,
-                $originalHeight
-            );
-
-            imagejpeg(
-                $img,
-                DIRREQ . "public/img/products/{$imageName}",
-                80
-            );
-
-            return $imageName;
-        }
-
-        die(
-            json_encode([
-                "error" =>  "A imagem deve ser do tipo JPEG, JPG ou PNG"
             ])
         );
     }
