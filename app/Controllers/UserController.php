@@ -17,98 +17,164 @@ class UserController extends Authorization
         $this->redirect(DIRPAGE);
     }
 
-    public function edit(int $id = null): void
+    public function edit(): void
     {
+        $this->authRequired();
+
         $user = new User();
 
-        if (
-            empty($id)
-            || ! isset($_SESSION['user'])
-            || $id !== $_SESSION['user']['id']
-        ) {
-            $this->redirect(DIRPAGE);
-        }
-
         $this->setDir('EditUser');
-        $this->setTitle('Forum - Editar perfil');
-        $this->setDescription('Edite seu perfil.');
-        $this->setKeywords('forum, dev, editar perfil, perfil');
+        $this->setTitle('Edite seu perfil | Humbleprice');
+        $this->setDescription('Aqui você pode editar todas as informações do seu perfil de usuário.');
+        $this->setKeywords('offer, profile, editar, perfil');
 
-        $this->setData("user", $user->getInfo("id", $id, ["name", "email"]));
+        $this->setData("user", $user->getInfo("id", user()["id"],
+                ["name", "email", "avatar"]
+            )
+        );
 
         $this->renderLayout($this->getData());
     }
 
-    public function editUser(): void
+    public function update(): void
     {
-        $user = new User();
+        $this->authRequired();
 
-        if (
-            isset($_POST['id']) && ! empty($_POST['id'])
-            && isset($_POST['name']) && ! empty($_POST['name'])
-            && isset($_POST['email']) && ! empty($_POST['email'])
-        ) {
-            if (filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL)) {
-                $email = filter_input(
-                    INPUT_POST,
-                    'email',
-                    FILTER_SANITIZE_SPECIAL_CHARS
-                );
-            } else {
-                die("Insira um e-mail válido para continuar.");
-            }
-
-            $id = filter_input(
-                INPUT_POST,
-                'id',
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
+        if (isset($_POST["name"]) && isset($_POST["email"])) {
             $name = filter_input(
                 INPUT_POST,
-                'name',
+                "name",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $email = filter_input(
+                INPUT_POST,
+                "email",
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (isset($_POST['password']) && ! empty($_POST['password'])) {
-                $password = password_hash(
-                    filter_input(
-                        INPUT_POST,
-                        'password',
-                        FILTER_SANITIZE_SPECIAL_CHARS
-                    ),
-                    PASSWORD_DEFAULT
-                );
-            } else {
-                $password = '';
+            if (! empty($_FILES["picture"]["size"])) {
+                $picture = $_FILES["picture"];
             }
 
-            if ($user->editUser($id, $name, $email, $password)) {
-                die();
-            } else {
-                die("Não foi possível atualizar as informações.");
+            if (
+                isset($_POST["end-offer"])
+                && ! isset($_POST["offer-end-date-not-specified"])
+            ) {
+                $endOffer = filter_input(
+                    INPUT_POST,
+                    "end-offer",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
             }
-        } else {
-            die("Todos os campos devem estar preenchidos.");
+
+            if (
+                strlen($link) !== 0 && strlen($name) !== 0
+                && strlen($oldPrice) !== 0 && strlen($newPrice) !== 0
+                && strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0
+            ) {
+                $oldPrice = floatval(str_replace(",", ".", $oldPrice));
+                $newPrice = floatval(str_replace(",", ".", $newPrice));
+
+                $endOffer = (isset($endOffer) && strlen($endOffer) !== 0)
+                    ? $endOffer
+                    : null;
+
+                $additionalInfo = (
+                    isset($additionalInfo)
+                    && strlen($additionalInfo) !== 0
+                )
+                    ? $additionalInfo
+                    : null;
+
+                $categoryId = $category->getId("slug", $categorySlug);
+
+                if (! $categoryId) {
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Uma categoria inválida foi 
+                                selecionada. Por favor, selecione outra."
+                            ]
+                        )
+                    );
+                }
+
+                $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
+
+                if (! $subcategoryId) {
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Uma subcategoria inválida foi 
+                                    selecionada. Por favor, selecione outra."
+                            ]
+                        )
+                    );
+                }
+
+                if (!$subcategory->isChildOf(
+                    $subcategoryId,
+                    $categoryId,
+                    "category")
+                ) {
+                    die(
+                        json_encode(
+                            [
+                                "error" => "Esta subcategoria não pertence a 
+                                    respectiva categoria."
+                            ]
+                        )
+                    );
+                }
+
+                if (isset($picture)) {
+                    $imageName = $this->treatImage($picture);
+                }
+
+                $info = [
+                    "offerId" => $offerId,
+                    "slug" => $slug,
+                    "link" => $link,
+                    "name" => $name,
+                    "additionalInfo" => $additionalInfo,
+                    "oldPrice" => $oldPrice,
+                    "newPrice" => $newPrice,
+                    "categoryId" => $categoryId,
+                    "subcategoryId" => $subcategoryId,
+                    "endOffer" => $endOffer
+                ];
+
+                if (isset($imageName)) {
+                    $info["picture"] = $imageName;
+                }
+
+                if ($offer->update($info)) {
+                    die(json_encode([]));
+                }
+
+                die(
+                    json_encode(
+                        [
+                            "error" => "Algo de errado ocorreu. 
+                            Tente novamente mais tarde!"
+                        ]
+                    )
+                );
+            }
         }
+
+        die(
+            json_encode(
+                [
+                    "error" => "Preencha todos os campos para continuar"
+                ]
+            )
+        );
     }
 
-    public function deleteUser(): void
+    public function delete(): void
     {
-        $user = new User();
 
-        if (isset($_POST['id']) && !empty($_POST['id'])) {
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
-
-            if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $id) {
-                if ($user->deleteUser($id)) {
-                    die();
-                } else {
-                    echo "Não foi possível deletar sua conta.";
-                }
-            }
-        } else {
-            echo "Preencha todos os campos para continuar.";
-        }
     }
 
     public function suspended(string $email = null): void

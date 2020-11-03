@@ -244,7 +244,7 @@ class OfferController extends Authorization
                     );
                 }
 
-                $imageName = $this->treatImage($picture);
+                $imageName = $this->treatImage($picture, "products");
 
                 $status = "pending";
 
@@ -455,7 +455,7 @@ class OfferController extends Authorization
                     );
                 }
 
-                if (!$subcategory->isChildOf(
+                if (! $subcategory->isChildOf(
                     $subcategoryId,
                     $categoryId,
                     "category")
@@ -471,7 +471,7 @@ class OfferController extends Authorization
                 }
 
                 if (isset($picture)) {
-                    $imageName = $this->treatImage($picture);
+                    $imageName = $this->treatImage($picture, "products");
                 }
 
                 $info = [
@@ -641,7 +641,7 @@ class OfferController extends Authorization
         );
     }
 
-    private function treatImage(array $picture): ?string
+    private function treatImage(array $picture, string $folder): ?string
     {
         $type = $picture["type"];
 
@@ -649,14 +649,14 @@ class OfferController extends Authorization
             $imageName = md5(time() . rand(0, 99999)) . ".jpg";
             move_uploaded_file(
                 $picture["tmp_name"],
-                DIRREQ . "public/img/products/{$imageName}"
+                DIRREQ . "public/img/{$folder}/{$imageName}"
             );
 
             list(
                 $originalWidth,
                 $originalHeight
                 ) = getimagesize(
-                DIRREQ . "public/img/products/{$imageName}"
+                DIRREQ . "public/img/{$folder}/{$imageName}"
             );
 
             $ratio = $originalWidth / $originalHeight;
@@ -674,11 +674,11 @@ class OfferController extends Authorization
 
             if ($type == "image/jpeg") {
                 $original = imagecreatefromjpeg(
-                    DIRREQ . "public/img/products/{$imageName}"
+                    DIRREQ . "public/img/{$folder}/{$imageName}"
                 );
             } elseif ($type == "image/png") {
                 $original = imagecreatefrompng(
-                    DIRREQ . "public/img/products/{$imageName}"
+                    DIRREQ . "public/img/{$folder}/{$imageName}"
                 );
             } else {
                 die(
@@ -703,7 +703,7 @@ class OfferController extends Authorization
 
             imagejpeg(
                 $img,
-                DIRREQ . "public/img/products/{$imageName}",
+                DIRREQ . "public/img/{$folder}/{$imageName}",
                 80
             );
 
