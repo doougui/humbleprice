@@ -98,15 +98,20 @@ class User extends Table
         return false;
     }
 
-    public function editUser(
-        int $id,
-        string $name,
-        string $email,
-        string $password
-    ): bool {
-        $pass = "";
-        if (! empty($password)) {
-            $pass = ", password = :password";
+    public function update(array $info): bool
+    {
+        if ($this->emailExists($info["email"])) {
+            return false;
+        }
+
+        $password = "";
+        if (! empty($info["password"])) {
+            $password = ", password = :password";
+        }
+
+        $avatar = "";
+        if (! empty($info["avatar"])) {
+            $avatar = ", avatar = :avatar";
         }
 
         $sql = "UPDATE 
@@ -114,25 +119,26 @@ class User extends Table
                 SET 
                     name = :name, 
                     email = :email 
-                    {$pass} 
+                    {$password} 
+                    {$avatar}
                 WHERE 
                     id = :id";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":name", $name, \PDO::PARAM_STR);
-        $sql->bindParam(":email", $email, \PDO::PARAM_STR);
-        $sql->bindParam(":id", $id, \PDO::PARAM_INT);
+        $sql->bindParam(":name", $info["name"], \PDO::PARAM_STR);
+        $sql->bindParam(":email", $info["email"], \PDO::PARAM_STR);
+        $sql->bindParam(":id", user()["id"], \PDO::PARAM_INT);
 
         if (! empty($password)) {
-            $sql->bindParam(":password", $password, \PDO::PARAM_STR);
+            $sql->bindParam(":password", $info["password"], \PDO::PARAM_STR);
+        }
+
+        if (! empty($avatar)) {
+            $sql->bindParam(":avatar", $info["avatar"], \PDO::PARAM_STR);
         }
 
         $sql->execute();
 
-        if ($sql->rowCount() > 0) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public function delete(int $id): bool
@@ -225,12 +231,16 @@ class User extends Table
 
     private function emailExists(string $email): bool
     {
+        if (user() && $email == user()["email"]) {
+            return false;
+        }
+
         $sql = "SELECT 
                     id 
                 FROM 
                      {$this->table} 
-				WHERE 
-				      email = :email";
+                WHERE 
+                    email = :email";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":email", $email, \PDO::PARAM_STR);
         $sql->execute();

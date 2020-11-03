@@ -1,1 +1,1 @@
-<?php
+<script src="<?= DIRJS ?>Forms/edituser.js"></script>

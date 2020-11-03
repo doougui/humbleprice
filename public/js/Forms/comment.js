@@ -41,7 +41,7 @@ $(document).ready(function() {
           comments += `
             <div class="thread" data-parent="${item.id}">
                 <div class="comment d-flex mx-2 pt-3 align-items-start parent-comment" data-id="${item.id}">
-                    <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}${item.avatar}" alt="Usuário">
+                    <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}users/${item.avatar}" alt="Usuário">
     
                     <div class="w-100">
                         <div class="comment-header">
@@ -93,7 +93,7 @@ $(document).ready(function() {
 
               comments += `
                 <div class="comment d-flex mr-2 pt-3 align-items-start" data-id="${child.id}">
-                    <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}${child.avatar}" alt="Usuário">
+                    <img class="img img-fluid rounded rounded-circle mr-3" src="${DIRIMG}users/${child.avatar}" alt="Usuário">
     
                     <div class="w-100">
                         <div class="comment-header">

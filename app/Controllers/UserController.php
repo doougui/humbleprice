@@ -40,6 +40,8 @@ class UserController extends Authorization
     {
         $this->authRequired();
 
+        $user = new User();
+
         if (isset($_POST["name"]) && isset($_POST["email"])) {
             $name = filter_input(
                 INPUT_POST,
@@ -52,111 +54,76 @@ class UserController extends Authorization
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (! empty($_FILES["picture"]["size"])) {
-                $picture = $_FILES["picture"];
+            if (! empty($_FILES["avatar"]["size"])) {
+                $avatar = $_FILES["avatar"];
             }
 
             if (
-                isset($_POST["end-offer"])
-                && ! isset($_POST["offer-end-date-not-specified"])
+                isset($_POST["password"])
+                && isset($_POST["password-confirmation"])
             ) {
-                $endOffer = filter_input(
+                $password = filter_input(
                     INPUT_POST,
-                    "end-offer",
+                    "password",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+                $passwordConfirmation = filter_input(
+                    INPUT_POST,
+                    "password-confirmation",
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             }
 
-            if (
-                strlen($link) !== 0 && strlen($name) !== 0
-                && strlen($oldPrice) !== 0 && strlen($newPrice) !== 0
-                && strlen($categorySlug) !== 0 && strlen($subcategorySlug) !== 0
-            ) {
-                $oldPrice = floatval(str_replace(",", ".", $oldPrice));
-                $newPrice = floatval(str_replace(",", ".", $newPrice));
-
-                $endOffer = (isset($endOffer) && strlen($endOffer) !== 0)
-                    ? $endOffer
-                    : null;
-
-                $additionalInfo = (
-                    isset($additionalInfo)
-                    && strlen($additionalInfo) !== 0
-                )
-                    ? $additionalInfo
-                    : null;
-
-                $categoryId = $category->getId("slug", $categorySlug);
-
-                if (! $categoryId) {
-                    die(
-                        json_encode(
-                            [
-                                "error" => "Uma categoria inválida foi 
-                                selecionada. Por favor, selecione outra."
-                            ]
-                        )
-                    );
-                }
-
-                $subcategoryId = $subcategory->getId("slug", $subcategorySlug);
-
-                if (! $subcategoryId) {
-                    die(
-                        json_encode(
-                            [
-                                "error" => "Uma subcategoria inválida foi 
-                                    selecionada. Por favor, selecione outra."
-                            ]
-                        )
-                    );
-                }
-
-                if (!$subcategory->isChildOf(
-                    $subcategoryId,
-                    $categoryId,
-                    "category")
+            if (strlen($name) !== 0 && strlen($email) !== 0) {
+                if (isset($password)
+                    && strlen($password) !== 0
                 ) {
-                    die(
-                        json_encode(
-                            [
-                                "error" => "Esta subcategoria não pertence a 
-                                    respectiva categoria."
-                            ]
-                        )
-                    );
+                    if (
+                        isset($passwordConfirmation)
+                        && strlen($passwordConfirmation) !== 0
+                    ) {
+                        if ($password !== $passwordConfirmation) {
+                            die(
+                                json_encode(
+                                    ["error" => "As senhas não são compatíveis"]
+                                )
+                            );
+                        }
+
+                        $password = password_hash($password, PASSWORD_DEFAULT);
+                    } else {
+                        die(
+                            json_encode(
+                                ["error" => "Repita a senha para continuar."]
+                            )
+                        );
+                    }
+                } else {
+                    $password = null;
                 }
 
-                if (isset($picture)) {
-                    $imageName = $this->treatImage($picture);
+                if (isset($avatar)) {
+                    $imageName = $this->treatImage($avatar, "users");
                 }
 
                 $info = [
-                    "offerId" => $offerId,
-                    "slug" => $slug,
-                    "link" => $link,
                     "name" => $name,
-                    "additionalInfo" => $additionalInfo,
-                    "oldPrice" => $oldPrice,
-                    "newPrice" => $newPrice,
-                    "categoryId" => $categoryId,
-                    "subcategoryId" => $subcategoryId,
-                    "endOffer" => $endOffer
+                    "email" => $email,
+                    "password" => $password, PASSWORD_DEFAULT
                 ];
 
                 if (isset($imageName)) {
-                    $info["picture"] = $imageName;
+                    $info["avatar"] = $imageName;
                 }
 
-                if ($offer->update($info)) {
+                if ($user->update($info)) {
                     die(json_encode([]));
                 }
 
                 die(
                     json_encode(
                         [
-                            "error" => "Algo de errado ocorreu. 
-                            Tente novamente mais tarde!"
+                            "error" => "Este email já esta em uso."
                         ]
                     )
                 );
