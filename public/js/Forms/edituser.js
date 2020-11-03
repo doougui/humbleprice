@@ -20,12 +20,17 @@ $(document).ready(function() {
       beforeSend: function() {
         $(button).attr('disabled', '');
       }
-    }).done(function(response) {
+    }).done(async function(response) {
       if (response.error) {
         $(error).removeClass('d-none');
         $(error).addClass('d-block');
         $(errorMsg).html(response.error).fadeIn();
       } else {
+        await swal("Dados editados com sucesso.", {
+          icon: "success",
+          timer: 1250,
+        });
+
         window.location.href = DIRPAGE;
       }
     }).fail(function() {
