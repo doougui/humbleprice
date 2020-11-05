@@ -166,3 +166,15 @@ button[data-btn="delete"] {
 .thread .reply-form {
   margin: 5px 0 5px 70px;
 }
+
+.report-img {
+  margin-left: 8px;
+}
+
+.report-img img {
+  max-width: 90px;
+}
+
+.report-close-offer {
+  margin-right: 8px;
+}
