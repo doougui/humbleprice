@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Core\Authorization;
 use App\Models\Offer;
+use App\Models\Reason;
+use App\Models\Report;
 
 class ReportController extends Authorization
 {
@@ -16,8 +18,6 @@ class ReportController extends Authorization
     public function index(): void
     {
         $this->withPermission("MANAGE_OFFERS");
-        
-        
     }
 
     public function create(
@@ -26,6 +26,7 @@ class ReportController extends Authorization
     ): void {
         $offer = new Offer();
         $reason = new Reason();
+        $report = new Report();
 
         if (
             empty($offerSlug)
@@ -36,9 +37,30 @@ class ReportController extends Authorization
 
         if (
             empty($reasonSlug)
-            || ! $offerId = $reason->getId("slug", $reasonSlug)
+            || ! $reasonId = $reason->getId("slug", $reasonSlug)
         ) {
-            die(json_encode(["error" => "O tipo do report é inválido."]));
+            die(json_encode(["error" => "O motivo do report é inválido."]));
         }
+
+        if ($report->offerAlreadyReportedByUser($offerId)) {
+            die(
+                json_encode(
+                    [
+                        "error" => "Você já reportou esta oferta. 
+                        Aguarde a análise da nossa equipe de administração."
+                    ]
+                )
+            );
+        }
+
+        if ($report->create($offerId, $reasonId)) {
+            die(json_encode([]));
+        }
+
+        die(
+            json_encode(
+                ["error" => "Não foi possível criar um report."]
+            )
+        );
     }
 }

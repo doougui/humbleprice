@@ -6,6 +6,7 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Offer;
+use App\Models\Report;
 use App\Models\Subcategory;
 use App\Models\OfferLike;
 use App\Models\User;
@@ -28,6 +29,7 @@ class OfferController extends Authorization
         $offer = new Offer();
         $offerLike = new OfferLike();
         $comment = new Comment();
+        $report = new Report();
 
         if (
             empty($slug)
@@ -96,12 +98,14 @@ class OfferController extends Authorization
             ? $offerLike->liked($offerId, user()["id"])
             : false;
         $commentCount = $comment->count("id_offer", $offerId);
+        $reported = $report->offerAlreadyReportedByUser($offerId);
 
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $latestOffers);
         $this->setData("isClosed", $isClosed);
         $this->setData("likes", $likeCount);
         $this->setData("liked", $liked);
+        $this->setData("reported", $reported);
         $this->setData("comments", $commentCount);
 
         $this->renderLayout($this->getData());
@@ -541,7 +545,6 @@ class OfferController extends Authorization
                 ["error" => "Não foi possível deletar esta oferta."]
             )
         );
-
     }
 
     public function subcategory(string $slug = null): void

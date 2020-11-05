@@ -2,7 +2,7 @@
     <div class="row flex-wrap">
         <div class="col-md-9">
             <section id="offer" class="mb-4">
-                <div class="card" data-item="<?= $offer['slug'] ?>" data-end="<?= $offer['end_offer'] ?>">
+                <div class="card" data-item="<?= $offer['slug'] ?>" data-end="<?= $offer['end_offer'] ?>" data-reported="<?= $reported ?>">
                     <div class="card-header">
                         <h4>Oferta</h4>
                     </div>
