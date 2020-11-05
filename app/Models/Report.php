@@ -12,6 +12,11 @@ class Report extends Table
         $this->table = "reports";
     }
 
+    public function getLastReports(string $status): array
+    {
+        return [];
+    }
+
     public function create(int $offerId, int $reasonId): bool
     {
         $sql = "INSERT INTO

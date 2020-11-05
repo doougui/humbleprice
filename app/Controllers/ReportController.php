@@ -18,6 +18,20 @@ class ReportController extends Authorization
     public function index(): void
     {
         $this->withPermission("MANAGE_OFFERS");
+
+        $report = new Report();
+
+        $this->setDir("Report");
+        $this->setTitle("Lista de reports | Humbleprice");
+        $this->setDescription("Veja os reports de promoções criados pelos usuários para alertar possíveis problemas.");
+        $this->setKeywords("ofertas, produtos, report, problem");
+
+        $this->setData(
+            "pendingReports",
+            $report->getLastReports("pending")
+        );
+
+        $this->renderLayout($this->getData());
     }
 
     public function create(

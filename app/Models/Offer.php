@@ -36,11 +36,11 @@ class Offer extends Table
                 AND
                     status = :status
                 AND 
-                      {$categoryQuery}
+                    {$categoryQuery}
                 AND
-                      {$subcategoryQuery}
+                    {$subcategoryQuery}
                 AND
-                      status != 'closed'
+                    status != 'closed'
                 ORDER BY 
                     end_offer 
                 ASC";
