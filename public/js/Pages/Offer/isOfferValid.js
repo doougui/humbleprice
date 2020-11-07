@@ -39,6 +39,8 @@ $(document).ready(function() {
                 icon: "success",
                 timer: 1250,
               });
+
+              $(card).attr('data-reported', 'true');
             }
           }).fail(function() {
             $(error).removeClass('d-none');

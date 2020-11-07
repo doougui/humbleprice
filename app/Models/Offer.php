@@ -28,7 +28,20 @@ class Offer extends Table
         }
 
         $sql = "SELECT 
-                    * 
+                    id_author,
+                    id_category,
+                    id_subcategory,
+                    slug,
+                    link,
+                    name,
+                    additional_info,    
+                    old_price,
+                    new_price,
+                    published_at,
+                    end_offer,
+                    image,
+                    views,
+                    status
                 FROM 
                     {$this->table} 
                 WHERE 
