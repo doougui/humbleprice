@@ -37,7 +37,7 @@ $(document).ready(function() {
             } else {
               await swal("Agradecemos pelo seu aviso.", {
                 icon: "success",
-                timer: 1250,
+                timer: 1500,
               });
 
               $(card).attr('data-reported', 'true');

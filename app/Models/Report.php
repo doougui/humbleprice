@@ -85,6 +85,8 @@ class Report extends Table
                     id_offer = :id_offer
                 AND
                     id_author = :id_author
+                AND
+                    status != 'closed'
         ";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id_offer", $offerId, \PDO::PARAM_INT);

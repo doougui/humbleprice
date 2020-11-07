@@ -53,6 +53,19 @@ class ReportController extends Authorization
             die(json_encode(["error" => "A oferta especificada é inválida."]));
         }
 
+        $offerData = $offer->getInfo("id", $offerId, ["status"]);
+
+        if ($offerData["status"] === "closed") {
+            die(
+                json_encode(
+                    [
+                        "error" => "Esta oferta já foi encerrada. 
+                        Portanto, não é possível reportar um problema."
+                    ]
+                )
+            );
+        }
+
         if (
             empty($reasonSlug)
             || ! $reasonId = $reason->getId("slug", $reasonSlug)
