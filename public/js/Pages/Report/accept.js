@@ -1,11 +1,11 @@
 $(document).ready(function() {
-  $('[data-btn="close-offer"]').click(async function(e) {
+  $('[data-btn="accept-report"]').click(async function(e) {
     e.preventDefault();
 
     const li = $(this).closest('.list-group-item');
     const action = `${DIRPAGE}offer/close/${$(li).attr('data-item')}`;
 
-    const error = $(this).closest($('[data-error="offer"]'));
+    const error = $(this).closest($('[data-error="report"]'));
     const errorMsg = $(error).find('.error-msg');
 
     const button = $(this);

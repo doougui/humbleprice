@@ -12,9 +12,9 @@
             </div>
 
             <div class="card-body">
-                <ul class="list-group"">
+                <ul class="list-group">
                     <?php foreach ($pendingReports as $report): ?>
-                        <li class="list-group-item" data-item="<?= $report['offer_slug'] ?>">
+                        <li class="list-group-item" data-item="<?= $report['offer_slug'] ?>" data-report="<?= $report['id'] ?>">
                             <div class="alert alert-danger d-none" data-error="report" role="alert">
                                 <p class="error-msg"></p>
                             </div>
@@ -37,7 +37,10 @@
                                 </div>
 
                                 <div class="flex-grow-1 d-flex justify-content-end report-close-offer">
-                                    <button class="btn btn-danger" data-btn="close-offer">Encerrar oferta</button>
+                                    <button class="btn btn-danger" data-btn="accept-report">Encerrar oferta</button>
+                                    <button class="btn btn-info ml-2" data-btn="refuse-report" title="Recusar report">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                         </li>

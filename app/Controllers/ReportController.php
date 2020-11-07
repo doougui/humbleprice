@@ -16,7 +16,7 @@ class ReportController extends Authorization
 
     public function index(): void
     {
-        $this->withPermission("MANAGE_OFFERS");
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
 
         $report = new Report();
 
@@ -102,6 +102,45 @@ class ReportController extends Authorization
             json_encode(
                 ["error" => "Não foi possível criar um report."]
             )
+        );
+    }
+
+    public function refuse(int $id = null): void
+    {
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
+
+        $this->setStatus("refused", $id);
+
+        die(
+            json_encode([
+                "error" =>  "Não foi possível recusar este report."
+            ])
+        );
+    }
+
+    private function setStatus(string $status, int $id = null): void
+    {
+        $report = new Report();
+
+        if (
+            empty($id)
+            || ! $reportId = $report->getId("id", $id)
+        ) {
+            die(
+                json_encode([
+                    "error" =>  "Este report é inválido."
+                ])
+            );
+        }
+
+        if ($report->updateStatus($reportId, $status)) {
+            die(json_encode([]));
+        }
+
+        die(
+            json_encode([
+                "error" =>  "Não foi possível alterar o status do report."
+            ])
         );
     }
 }

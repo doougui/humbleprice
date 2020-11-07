@@ -15,6 +15,7 @@ class Report extends Table
     public function getLastReports(string $status = "pending"): array
     {
         $sql = "SELECT 
+                    reports.id AS id,
                     users.name AS author,
                     offers.image AS image,
                     offers.name AS offer_name,
@@ -91,6 +92,26 @@ class Report extends Table
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id_offer", $offerId, \PDO::PARAM_INT);
         $sql->bindParam(":id_author", user()["id"], \PDO::PARAM_INT);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updateStatus(int $reportId, string $status): bool
+    {
+        $sql = "UPDATE 
+                    {$this->table} 
+                SET 
+                    status = :status 
+                WHERE 
+                    id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindParam(":status", $status, \PDO::PARAM_STR);
+        $sql->bindParam(":id", $reportId, \PDO::PARAM_INT);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
