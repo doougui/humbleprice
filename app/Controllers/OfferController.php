@@ -6,6 +6,7 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Offer;
+use App\Models\Reason;
 use App\Models\Report;
 use App\Models\Subcategory;
 use App\Models\OfferLike;
@@ -30,6 +31,7 @@ class OfferController extends Authorization
         $offerLike = new OfferLike();
         $comment = new Comment();
         $report = new Report();
+        $reason = new Reason();
 
         if (
             empty($slug)
@@ -99,6 +101,7 @@ class OfferController extends Authorization
             : false;
         $commentCount = $comment->count("id_offer", $offerId);
         $reported = $report->offerAlreadyReportedByUser($offerId);
+        $reasons = $reason->getAll(["slug", "name"]);
 
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $latestOffers);
@@ -107,6 +110,7 @@ class OfferController extends Authorization
         $this->setData("liked", $liked);
         $this->setData("reported", $reported);
         $this->setData("comments", $commentCount);
+        $this->setData("reasons", $reasons);
 
         $this->renderLayout($this->getData());
     }

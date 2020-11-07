@@ -62,10 +62,17 @@
 
                     <div class="card-footer d-flex justify-content-between">
                         <div>
-                            <button class="btn badge btn-secondary px-3 py-2 mr-2">
-                                <i class="fas fa-flag"></i>
-                                Reportar
-                            </button>
+                            <div class="dropdown d-inline-block">
+                                <button class="btn badge btn-secondary px-3 py-2 mr-2 dropdown-toggle" type="button" id="dropdown-report-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-flag"></i>
+                                    Reportar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown-report-button" id="dropdown-report-items">
+                                    <?php foreach ($reasons as $reason): ?>
+                                        <a class="dropdown-item" href="<?= DIRPAGE ?>report/create/<?= $offer['slug'] ?>/<?= $reason['slug'] ?>"><?= $reason["name"] ?></a>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
 
                             <button class="btn badge <?= ($liked) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2" data-btn="like-offer" <?= (! user()) ? 'disabled' : '' ?>>
                                 <i class="fas fa-thumbs-up"></i>
