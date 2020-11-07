@@ -54,17 +54,17 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" data-btn="like-comment" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(item.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" data-btn="like-comment" ${(!logged) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span>${item.likes}</span>
                             </button>
       
-                            <button class="btn btn-link btn-sm py-2 mr-1" data-btn="reply" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link btn-sm py-2 mr-1" data-btn="reply" ${(!logged) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : ''}>
                                 <i class="fas fa-comments"></i>
                                 Responder
                             </button>
       
-                            <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar">
+                            <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar" ${(!logged) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : ''}>
                                 <i class="fas fa-flag"></i>
                             </button>
                         </div>
@@ -106,17 +106,17 @@ $(document).ready(function() {
                         </div>
     
                         <div class="comment-actions d-flex justify-content-end">
-                            <button class="btn btn-link ${(child.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" data-btn="like-comment" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link ${(child.liked) ? 'text-success' : ''} btn-sm py-2 mr-1" data-btn="like-comment" ${(!logged) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : ''}>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span>${child.likes}</span>
                             </button>
       
-                            <button class="btn btn-link btn-sm py-2 mr-1 reply" ${(!logged) ? 'disabled' : ''}>
+                            <button class="btn btn-link btn-sm py-2 mr-1 reply" ${(!logged) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : ''}>
                                 <i class="fas fa-comments"></i>
                                 Responder
                             </button>
       
-                            <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar">
+                            <button class="btn btn-link btn-sm py-2 mr-1" data-toggle="tooltip" data-placement="top" title="Denunciar" ${(!logged) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : ''}>
                                 <i class="fas fa-flag"></i>
                             </button>
                         </div>

@@ -12,7 +12,6 @@ class ReportController extends Authorization
     public function __construct()
     {
         parent::__construct();
-        $this->authRequired();
     }
 
     public function index(): void
@@ -44,6 +43,17 @@ class ReportController extends Authorization
 
         if (! $this->isAjax()) {
             $this->redirect(DIRPAGE);
+        }
+
+        if (! $this->authenticated()) {
+            die(
+                json_encode(
+                    [
+                        "error" => "Você precisa estar logado para 
+                            realizar esta ação."
+                    ]
+                )
+            );
         }
 
         if (

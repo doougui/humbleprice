@@ -39,7 +39,7 @@ $(document).ready(function() {
               icon: "success",
             });
 
-            window.location.href = `${DIRPAGE}report`;
+            $(li).fadeOut();
           }
         }).fail(function() {
           $(error).removeClass('d-none');
