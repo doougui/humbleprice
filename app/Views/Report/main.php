@@ -24,19 +24,19 @@
                                     <img src="<?= DIRIMG ?>products/<?= $report['image'] ?>" alt="<?= $report['offer_name'] ?>" class="img img-fluid img-thumbnail">
                                 </a>
 
-                                <div class="flex-grow-1">
-                                    <a href="<?= DIRPAGE ?>offer/view/<?= $report['offer_slug'] ?>" class="card-link ml-2 my-0">
+                                <div class="flex-grow-1 report-info">
+                                    <a href="<?= DIRPAGE ?>offer/view/<?= $report['offer_slug'] ?>" class="card-link ml-2 my-0" title="<?= $report['offer_name'] ?>">
                                         <?= $report['offer_name'] ?>
                                     </a>
-                                    <p class="ml-2 my-0">Reportado por: <span class="text-themed m-0 font-weight-bold" title="<?= $report['offer_name'] ?>"><?= $report['author'] ?></span></p>
+                                    <p class="ml-2 my-0">Reportado por: <span class="text-themed m-0 font-weight-bold" title="<?= $report['author'] ?>"><?= $report['author'] ?></span></p>
                                     <p class="ml-2 my-0">Em: <span class="font-weight-bold"><?= date("d/m/Y H:i:s", strtotime($report['reported_at'])) ?></span></p>
                                 </div>
 
-                                <div class="flex-grow-1">
+                                <div class="flex-grow-1 report-reason">
                                     <p class="ml-2 my-1">Motivo: <span class="font-weight-bold" title="<?= $report['reason'] ?>"><?= $report['reason'] ?></span></p>
                                 </div>
 
-                                <div class="d-flex align-items-end report-close-offer">
+                                <div class="flex-grow-1 d-flex justify-content-end report-close-offer">
                                     <button class="btn btn-danger" data-btn="close-offer">Encerrar oferta</button>
                                 </div>
                             </div>

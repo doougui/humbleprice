@@ -178,3 +178,15 @@ button[data-btn="delete"] {
 .report-close-offer {
   margin-right: 8px;
 }
+
+.report-info {
+  flex-basis: 350px;
+  max-width: 350px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.report-reason {
+  max-width: 450px;
+}
