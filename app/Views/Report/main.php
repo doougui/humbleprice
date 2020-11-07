@@ -12,9 +12,9 @@
             </div>
 
             <div class="card-body">
-                <ul class="list-group">
+                <ul class="list-group"">
                     <?php foreach ($pendingReports as $report): ?>
-                        <li class="list-group-item">
+                        <li class="list-group-item" data-item="<?= $report['offer_slug'] ?>">
                             <div class="alert alert-danger d-none" data-error="report" role="alert">
                                 <p class="error-msg"></p>
                             </div>

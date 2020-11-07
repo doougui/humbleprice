@@ -2,10 +2,10 @@ $(document).ready(function() {
   $('[data-btn="close-offer"]').click(async function(e) {
     e.preventDefault();
 
-    const card = $(this).closest('.card');
-    const action = `${DIRPAGE}offer/close/${$(card).attr('data-item')}`;
+    const li = $(this).closest('.list-group-item');
+    const action = `${DIRPAGE}offer/close/${$(li).attr('data-item')}`;
 
-    const error = $('[data-error="offer"]');
+    const error = $(this).closest($('[data-error="offer"]'));
     const errorMsg = $(error).find('.error-msg');
 
     const button = $(this);
@@ -13,7 +13,7 @@ $(document).ready(function() {
     try {
       const willClose = await swal({
         title: "Você tem certeza?",
-        text: "Uma vez fechada, esta oferta se tornará inválida.",
+        text: "Uma vez fechada, esta oferta se tornará inválida e o report será fechado.",
         icon: "warning",
         buttons: ['Cancelar', 'Encerrar oferta'],
         dangerMode: true,
@@ -39,7 +39,7 @@ $(document).ready(function() {
               icon: "success",
             });
 
-            window.location.href = `${DIRPAGE}offer/view/${$(card).attr('data-item')}`;
+            window.location.href = `${DIRPAGE}report`;
           }
         }).fail(function() {
           $(error).removeClass('d-none');

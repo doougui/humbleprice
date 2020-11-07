@@ -19,11 +19,7 @@ class OfferlikeController extends Authorization
         $offerLike = new OfferLike();
 
         if (! $this->isAjax()) {
-            die(
-                json_encode(
-                    ["error" => "Direct access not allowed"]
-                )
-            );
+            $this->redirect(DIRPAGE);
         }
 
         if (

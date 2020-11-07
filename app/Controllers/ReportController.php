@@ -42,6 +42,10 @@ class ReportController extends Authorization
         $reason = new Reason();
         $report = new Report();
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         if (
             empty($offerSlug)
             || ! $offerId = $offer->getId("slug", $offerSlug)
