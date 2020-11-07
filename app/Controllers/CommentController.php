@@ -37,9 +37,11 @@ class CommentController extends Authorization
 
         $offerData = $offer->getInfo("id", $offerId, ["status"]);
 
+        $allowedStatuses = ["approved", "closed"];
+
         if (
             ! $this->hasPermission("MANAGE_OFFERS")
-            && $offerData["status"] !== "approved"
+            && ! in_array($offerData["status"], $allowedStatuses)
         ) {
             die(
                 json_encode(
