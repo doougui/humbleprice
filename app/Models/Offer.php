@@ -39,8 +39,6 @@ class Offer extends Table
                     {$categoryQuery}
                 AND
                     {$subcategoryQuery}
-                AND
-                    status != 'closed'
                 ORDER BY 
                     end_offer 
                 ASC";

@@ -28,7 +28,7 @@ class ReportController extends Authorization
 
         $this->setData(
             "pendingReports",
-            $report->getLastReports("pending")
+            $report->getLastReports()
         );
 
         $this->renderLayout($this->getData());
