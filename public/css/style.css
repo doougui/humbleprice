@@ -41,9 +41,21 @@ h4 {
 }
 
 .card-item {
-  width: 200px !important;
+  width: 200px;
   display: inline-block;
   margin: 0px 10px 10px 0px;
+}
+
+@media only screen and (max-width: 496px) {
+  .card-item {
+    width: 100%;
+  }
+
+  .offer-actions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .card-item .card-body a.btn {
@@ -63,7 +75,6 @@ h4 {
   color: #d63031;
   border-style: none;
   background-color: white;
-  margin: auto;
 }
 
 .delete:hover {
@@ -82,11 +93,6 @@ h4 {
   color: #FFF;
   width: 100%;
   height: 100px;
-}
-
-.product-img {
-  background-color: #F7F7F7;
-  height: 237.23px;
 }
 
 .tr-error {

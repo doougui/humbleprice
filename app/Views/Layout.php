@@ -81,7 +81,7 @@
         </section>
     </main>
 
-    <footer id="footer" class="mt-5">
+    <footer id="footer" class="mt-5 px-3">
         <h4>Humbleprice © Todos os direitos reservados.</h4>
     </footer>
 
