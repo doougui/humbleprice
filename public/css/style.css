@@ -54,10 +54,6 @@ h4 {
   text-align: center;
 }
 
-.card-prices .old-price {
-  color: #AAA;
-}
-
 .grayscaled-img {
   filter: grayscale(100%);
 }

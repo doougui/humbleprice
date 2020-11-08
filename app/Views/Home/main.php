@@ -24,8 +24,8 @@
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>
 
                             <div class="card-prices d-flex justify-content-between w-100">
-                                <div class="old-price">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></div>
-                                <div class="new-price">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></div>
+                                <p class="text-muted mb-0">R$<del><?= number_format($offer['old_price'], 2, ',', '.') ?></del></p>
+                                <p class="text-themed font-weight-bold mb-0">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></p>
                             </div>
 
                             <?php if (user() && authorized("MANAGE_OFFERS")): ?>
