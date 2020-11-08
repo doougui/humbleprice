@@ -20,6 +20,7 @@ class Report extends Table
                     offers.image AS image,
                     offers.name AS offer_name,
                     offers.slug AS offer_slug,
+                    reasons.slug AS reason_slug,
                     reasons.name AS reason,
                     reported_at,
                     reports.status

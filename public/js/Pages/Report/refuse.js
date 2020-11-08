@@ -5,6 +5,8 @@ $(document).ready(function() {
     const li = $(this).closest('.list-group-item');
     const action = `${DIRPAGE}report/refuse/${$(li).attr('data-report')}`;
 
+    const lis = $(`.list-group-item[data-reason="${$(li).attr('data-reason')}"]`);
+
     const error = $(this)
         .closest('.report-actions')
         .closest('.row')
@@ -16,7 +18,7 @@ $(document).ready(function() {
     try {
       const willRefuse = await swal({
         title: "Você tem certeza?",
-        text: "Deseja mesmo recusar este report?",
+        text: "Deseja mesmo recusar este report e todos os outros que contêm o mesmo motivo?",
         icon: "info",
         buttons: ['Cancelar', 'Recusar report'],
         dangerMode: false,
@@ -42,7 +44,7 @@ $(document).ready(function() {
               icon: "success",
             });
 
-            $(li).fadeOut();
+            $(lis).fadeOut();
           }
         }).fail(function() {
           $(error).removeClass('d-none');
