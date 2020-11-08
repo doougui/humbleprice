@@ -12,7 +12,7 @@ class Report extends Table
         $this->table = "reports";
     }
 
-    public function getLastReports(string $status = "pending"): array
+    public function getLastReports(int $offset, int $limit, string $status = "pending"): array
     {
         $sql = "SELECT 
                     reports.id AS id,
@@ -44,7 +44,11 @@ class Report extends Table
                     {$this->table}.status = :status
                 ORDER BY 
                     reported_at 
-                DESC";
+                DESC
+                LIMIT
+                    {$limit}
+                OFFSET
+                    {$offset}";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":status", $status, \PDO::PARAM_STR);
         $sql->execute();

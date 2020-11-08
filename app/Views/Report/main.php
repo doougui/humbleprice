@@ -50,6 +50,26 @@
                 <?php if (empty($pendingReports)): ?>
                     <p class="text-muted text-center">Não há reports pendentes.</p>
                 <?php endif; ?>
+
+                <nav class="d-flex justify-content-center mt-3" aria-label="navigation">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="<?= DIRPAGE ?>report?page=<?= (intval($currentPage) === 1) ? $totalPages : $currentPage - 1 ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                        </li>
+                        <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                            <li class="page-item <?= ($p === intval($currentPage)) ? 'active' : '' ?>"><a class="page-link" href="<?= DIRPAGE ?>report?page=<?= $p ?>"><?= $p ?></a></li>
+                        <?php endfor; ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?= DIRPAGE ?>report?page=<?= (intval($currentPage) == $totalPages) ? '1' : $currentPage + 1 ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Próximo</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>

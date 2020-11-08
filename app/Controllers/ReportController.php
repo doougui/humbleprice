@@ -25,10 +25,37 @@ class ReportController extends Authorization
         $this->setDescription("Veja os reports de promoções criados pelos usuários para alertar possíveis problemas.");
         $this->setKeywords("ofertas, produtos, report, problem");
 
+        $reportsCount = $report->count("status", "pending");
+
+        $currentPage = 1;
+
+        if (isset($_GET["page"])) {
+            if (
+                strlen(filter_input(
+                INPUT_GET,
+                "page",
+                FILTER_SANITIZE_NUMBER_INT
+            )) !== 0) {
+                $currentPage = filter_input(
+                    INPUT_GET,
+                    "page",
+                    FILTER_SANITIZE_NUMBER_INT
+                );
+            }
+        }
+
+        $perPage = 10;
+        $totalPages = ceil($reportsCount / $perPage);
+
+        $offset = ($currentPage - 1) * $perPage;
+
         $this->setData(
             "pendingReports",
-            $report->getLastReports()
+            $report->getLastReports($offset, $perPage)
         );
+
+        $this->setData("totalPages", $totalPages);
+        $this->setData("currentPage", $currentPage);
 
         $this->renderLayout($this->getData());
     }
