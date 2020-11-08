@@ -21,11 +21,7 @@ class CommentController extends Authorization
         $commentLike = new CommentLike();
 
         if (! $this->isAjax()) {
-            die(
-                json_encode(
-                    ["error" => "Direct access not allowed"]
-                )
-            );
+            $this->redirect(DIRPAGE);
         }
 
         if (
@@ -41,9 +37,11 @@ class CommentController extends Authorization
 
         $offerData = $offer->getInfo("id", $offerId, ["status"]);
 
+        $allowedStatuses = ["approved", "closed"];
+
         if (
             ! $this->hasPermission("MANAGE_OFFERS")
-            && $offerData["status"] !== "approved"
+            && ! in_array($offerData["status"], $allowedStatuses)
         ) {
             die(
                 json_encode(
@@ -96,11 +94,7 @@ class CommentController extends Authorization
         $comment = new Comment();
 
         if (! $this->isAjax()) {
-            die(
-                json_encode(
-                    ["error" => "Direct access not allowed"]
-                )
-            );
+            $this->redirect(DIRPAGE);
         }
 
         if (

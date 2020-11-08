@@ -4,6 +4,7 @@
 <script src="<?= DIRJS ?>Pages/Offer/offerLike.js"></script>
 <script src="<?= DIRJS ?>Pages/Offer/commentLike.js"></script>
 <script src="<?= DIRJS ?>Pages/Offer/isOfferValid.js"></script>
+<script src="<?= DIRJS ?>Pages/Offer/report.js"></script>
 <script src="<?= DIRJS ?>Pages/Offer/showReplyForm.js"></script>
 <script src="<?= DIRJS ?>Pages/Offer/hideReplyForm.js"></script>
 <script>const DIRIMG = '<?= DIRIMG ?>'</script>

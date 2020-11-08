@@ -127,8 +127,10 @@ class Table extends Connection
         return false;
     }
 
-    public function count(string $byColumn, string $value): ?int
-    {
+    public function count(
+        string $whereColumn = null,
+        string $equals = null
+    ): ?int {
         $sql = "SELECT
                     count(id)
                 AS 
@@ -136,10 +138,10 @@ class Table extends Connection
                 FROM
                     {$this->table}
                 WHERE
-                    {$byColumn} = :{$byColumn}
+                    {$whereColumn} = :{$whereColumn}
         ";
         $sql = $this->db->prepare($sql);
-        $sql->bindParam(":{$byColumn}", $value, \PDO::PARAM_STR);
+        $sql->bindParam(":{$whereColumn}", $equals, \PDO::PARAM_STR);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

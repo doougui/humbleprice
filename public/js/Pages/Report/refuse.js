@@ -1,25 +1,30 @@
 $(document).ready(function() {
-  $('[data-btn="close-offer"]').click(async function(e) {
+  $('[data-btn="refuse-report"]').click(async function(e) {
     e.preventDefault();
 
-    const card = $(this).closest('.card');
-    const action = `${DIRPAGE}offer/close/${$(card).attr('data-item')}`;
+    const li = $(this).closest('.list-group-item');
+    const action = `${DIRPAGE}report/refuse/${$(li).attr('data-report')}`;
 
-    const error = $('[data-error="offer"]');
+    const lis = $(`.list-group-item[data-reason="${$(li).attr('data-reason')}"]`);
+
+    const error = $(this)
+        .closest('.report-actions')
+        .closest('.row')
+        .siblings($('[data-error="report"]'));
     const errorMsg = $(error).find('.error-msg');
 
     const button = $(this);
 
     try {
-      const willClose = await swal({
+      const willRefuse = await swal({
         title: "Você tem certeza?",
-        text: "Uma vez fechada, esta oferta se tornará inválida.",
-        icon: "warning",
-        buttons: ['Cancelar', 'Encerrar oferta'],
-        dangerMode: true,
+        text: "Deseja mesmo recusar este report e todos os outros que contêm o mesmo motivo?",
+        icon: "info",
+        buttons: ['Cancelar', 'Recusar report'],
+        dangerMode: false,
       });
 
-      if (willClose) {
+      if (willRefuse) {
         $.ajax({
           url: action,
           type: 'POST',
@@ -35,11 +40,11 @@ $(document).ready(function() {
             $(error).addClass('d-block');
             $(errorMsg).html(response.error).fadeIn();
           } else {
-            await swal("Oferta encerrada com sucesso", {
+            await swal("Report recusado com sucesso", {
               icon: "success",
             });
 
-            window.location.href = `${DIRPAGE}offer/view/${$(card).attr('data-item')}`;
+            $(lis).fadeOut();
           }
         }).fail(function() {
           $(error).removeClass('d-none');

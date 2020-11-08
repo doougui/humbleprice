@@ -2,7 +2,7 @@
     <div class="row flex-wrap">
         <div class="col-md-9">
             <section id="offer" class="mb-4">
-                <div class="card" data-item="<?= $offer['slug'] ?>" data-end="<?= $offer['end_offer'] ?>">
+                <div class="card" data-item="<?= $offer['slug'] ?>" data-end="<?= $offer['end_offer'] ?>" data-reported="<?= $reported ?>">
                     <div class="card-header">
                         <h4>Oferta</h4>
                     </div>
@@ -26,7 +26,6 @@
                                     <p class="h4 mb-0 text-themed font-weight-bold">R$<?= number_format($offer['new_price'], 2, ',', '.') ?></p>
                                 </div>
                             </div>
-
 
                             <div class="d-flex flex-md-column justify-content-between">
                                 <div>
@@ -62,18 +61,25 @@
 
                     <div class="card-footer d-flex justify-content-between">
                         <div>
-                            <button class="btn badge btn-secondary px-3 py-2 mr-2">
-                                <i class="fas fa-flag"></i>
-                                Reportar
-                            </button>
+                            <div class="dropdown d-inline-block">
+                                <button class="btn badge btn-secondary px-3 py-2 mr-2 dropdown-toggle" type="button" id="dropdown-report-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <?= (! user() || $isClosed) ? 'disabled' : '' ?> <?= ($isClosed) ? 'title="Esta oferta já foi encerrada. Portanto, não é possível reportar um problema."' : '' ?> <?= (! user()) ? 'title="Você precisa estar logado para realizar esta ação."' : '' ?>>
+                                    <i class="fas fa-flag"></i>
+                                    Reportar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown-report-button">
+                                    <?php foreach ($reasons as $reason): ?>
+                                        <a class="dropdown-item" data-link="report-reason" href="<?= DIRPAGE ?>report/create/<?= $offer['slug'] ?>/<?= $reason['slug'] ?>"><?= $reason["name"] ?></a>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
 
-                            <button class="btn badge <?= ($liked) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2" data-btn="like-offer" <?= (! user()) ? 'disabled' : '' ?>>
+                            <button class="btn badge <?= ($liked) ? 'btn-success' : 'btn-secondary' ?> px-3 py-2 mr-2" data-btn="like-offer" <?= (! user()) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : '' ?>>
                                 <i class="fas fa-thumbs-up"></i>
                                 <span><?= $likes ?></span>
                             </button>
 
                             <a href="#comments">
-                                <button class="btn badge btn-secondary px-3 py-2 mr-2" id="amount-comments" <?= (! user()) ? 'disabled' : '' ?>>
+                                <button class="btn badge btn-secondary px-3 py-2 mr-2" id="amount-comments" <?= (! user()) ? 'disabled title="Você precisa estar logado para realizar esta ação."' : '' ?>>
                                     <i class="fas fa-comments"></i>
                                     <span></span>
                                 </button>

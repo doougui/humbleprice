@@ -1,14 +1,15 @@
 $(document).ready(function() {
   $('[data-btn="offer-link"]').click(async function() {
     const card = $(this).closest('.card');
-    const action = `${DIRPAGE}report/unavailable/${$(card).attr('data-item')}`;
+    const action = `${DIRPAGE}report/create/${$(card).attr('data-item')}/unavailable`;
 
     const endOffer = $(card).attr('data-end');
+    const alreadyReported = $(card).attr('data-reported');
 
     const error = $('[data-error="offer"]');
     const errorMsg = $(error).find('.error-msg');
 
-    if (!endOffer) {
+    if (!endOffer && !alreadyReported) {
       try {
         const isValid = await swal("Esta oferta ainda está disponível?", {
           buttons: {
@@ -36,8 +37,10 @@ $(document).ready(function() {
             } else {
               await swal("Agradecemos pelo seu aviso.", {
                 icon: "success",
-                timer: 1250,
+                timer: 1500,
               });
+
+              $(card).attr('data-reported', 'true');
             }
           }).fail(function() {
             $(error).removeClass('d-none');

@@ -6,6 +6,8 @@ use App\Core\Authorization;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Offer;
+use App\Models\Reason;
+use App\Models\Report;
 use App\Models\Subcategory;
 use App\Models\OfferLike;
 use App\Models\User;
@@ -28,6 +30,8 @@ class OfferController extends Authorization
         $offer = new Offer();
         $offerLike = new OfferLike();
         $comment = new Comment();
+        $report = new Report();
+        $reason = new Reason();
 
         if (
             empty($slug)
@@ -71,9 +75,11 @@ class OfferController extends Authorization
         $this->setDescription("Encontre aqui o produto {$offerData['name']} no melhor preço possível.");
         $this->setKeywords("offer, low-price, price, discount");
 
+        $allowedStatuses = ["approved", "closed"];
+
         if (
             ! $this->hasPermission("MANAGE_OFFERS")
-            && $offerData["status"] !== "approved"
+            && ! in_array($offerData["status"], $allowedStatuses)
         ) {
             $this->redirect(DIRPAGE);
         }
@@ -96,13 +102,17 @@ class OfferController extends Authorization
             ? $offerLike->liked($offerId, user()["id"])
             : false;
         $commentCount = $comment->count("id_offer", $offerId);
+        $reported = $report->offerAlreadyReportedByUser($offerId);
+        $reasons = $reason->getAll(["slug", "name"]);
 
         $this->setData("offer", $offerData);
         $this->setData("relatedOffers", $latestOffers);
         $this->setData("isClosed", $isClosed);
         $this->setData("likes", $likeCount);
         $this->setData("liked", $liked);
+        $this->setData("reported", $reported);
         $this->setData("comments", $commentCount);
+        $this->setData("reasons", $reasons);
 
         $this->renderLayout($this->getData());
     }
@@ -541,7 +551,6 @@ class OfferController extends Authorization
                 ["error" => "Não foi possível deletar esta oferta."]
             )
         );
-
     }
 
     public function subcategory(string $slug = null): void
@@ -575,12 +584,13 @@ class OfferController extends Authorization
         );
     }
 
-
     public function approve(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
-        $this->setStatus("approved", $slug);
+        if ($this->setStatus("approved", $slug)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -593,7 +603,9 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
-        $this->setStatus("refused", $slug);
+        if ($this->setStatus("refused", $slug)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -606,7 +618,9 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
-        $this->setStatus("closed", $slug);
+        if ($this->setStatus("closed", $slug)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -615,7 +629,7 @@ class OfferController extends Authorization
         );
     }
 
-    private function setStatus(string $status, string $slug = null): void
+    private function setStatus(string $status, string $slug = null): bool
     {
         $offer = new Offer();
 
@@ -631,7 +645,7 @@ class OfferController extends Authorization
         }
 
         if ($offer->updateStatus($offerId, $status)) {
-            die(json_encode([]));
+            return true;
         }
 
         die(

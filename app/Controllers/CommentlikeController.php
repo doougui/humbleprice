@@ -22,11 +22,7 @@ class CommentlikeController extends Authorization
         $offer = new Offer();
 
         if (! $this->isAjax()) {
-            die(
-                json_encode(
-                    ["error" => "Direct access not allowed"]
-                )
-            );
+            $this->redirect(DIRPAGE);
         }
 
         if (

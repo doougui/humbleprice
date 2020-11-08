@@ -32,7 +32,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="old-price-currency">R$</span>
                             </div>
-                            <input type="text" name="old-price" id="old-price" class="form-control" aria-label="Old price" aria-describedby="old-price-currency">
+                            <input type="text" name="old-price" id="old-price" class="form-control" aria-label="Old price" aria-describedby="old-price-currency" required>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="new-price-currency">R$</span>
                             </div>
-                            <input type="text" name="new-price" id="new-price" class="form-control" aria-label="New price" aria-describedby="new-price-currency">
+                            <input type="text" name="new-price" id="new-price" class="form-control" aria-label="New price" aria-describedby="new-price-currency" required>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="form-group col-6">
                         <label for="category">Categoria</label>
-                        <select name="category" id="category" class="form-control">
+                        <select name="category" id="category" class="form-control" required>
                             <option value="">Escolha uma categoria</option>
                             <?php foreach (categories() as $category): ?>
                                 <option value="<?= $category["slug"] ?>"><?= $category["name"] ?></option>
@@ -60,7 +60,7 @@
 
                     <div class="form-group col-6">
                         <label for="subcategory">Subcategoria</label>
-                        <select name="subcategory" id="subcategory" class="form-control">
+                        <select name="subcategory" id="subcategory" class="form-control" required>
                             <option value="">Escolha uma subcategoria</option>
                         </select>
                     </div>
