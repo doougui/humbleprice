@@ -5,7 +5,7 @@ $(document).ready(function() {
     const li = $(this).closest('.list-group-item');
     const action = `${DIRPAGE}report/refuse/${$(li).attr('data-report')}`;
 
-    const lis = $(`.list-group-item[data-reason="${$(li).attr('data-reason')}"]`);
+    const lis = $(`.list-group-item[data-reason="${$(li).attr('data-reason')}"][data-item="${$(li).attr('data-item')}"]`);
 
     const error = $(this)
         .closest('.report-actions')
