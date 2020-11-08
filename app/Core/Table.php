@@ -10,7 +10,9 @@ class Table extends Connection
         array $fields,
         array $joins = null,
         array $on = null,
-        string $orderBy = null
+        string $orderBy = null,
+        int $offset = null,
+        int $limit = null
     ): array {
         $fields = implode(", ", $fields);
 
@@ -27,13 +29,26 @@ class Table extends Connection
             }
         }
 
+        if (strlen($offset) !== 0) {
+            $offset = "OFFSET {$offset}";
+        }
+
+        if (strlen($limit) !== 0) {
+            $limit = "LIMIT {$limit}";
+        }
+
         $sql = "SELECT
                     $fields
                 FROM
                     {$this->table}
                 {$joinQuery}
-                {$orderBy}";
+                {$orderBy}
+                {$limit}
+                {$offset}
+        ";
+
         $sql = $this->db->query($sql);
+
         if ($sql->rowCount() > 0) {
             return $sql->fetchAll();
         }
