@@ -5,8 +5,8 @@
 </section>
 
 <div class="container">
-    <section id="offers" class="table-responsive">
-        <table class="table table-hover table-dark">
+    <section id="users">
+        <table class="table table-hover table-dark table-responsive">
             <thead>
                 <tr>
                     <th scope="col">Nome</th>

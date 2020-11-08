@@ -19,7 +19,7 @@
                                 <p class="error-msg"></p>
                             </div>
 
-                            <div class="row align-items-center flex-nowrap">
+                            <div class="row align-items-center flex-wrap report">
                                 <a href="<?= DIRPAGE ?>offer/view/<?= $report['offer_slug'] ?>" class="report-img">
                                     <img src="<?= DIRIMG ?>products/<?= $report['image'] ?>" alt="<?= $report['offer_name'] ?>" class="img img-fluid img-thumbnail">
                                 </a>
