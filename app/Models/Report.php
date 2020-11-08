@@ -87,7 +87,7 @@ class Report extends Table
                 AND
                     id_author = :id_author
                 AND
-                    status != 'closed'
+                    status = 'pending'
         ";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":id_offer", $offerId, \PDO::PARAM_INT);
@@ -101,17 +101,20 @@ class Report extends Table
         return false;
     }
 
-    public function updateStatus(int $reportId, string $status): bool
+    public function updateStatus(int $offerId, int $reasonId, string $status): bool
     {
         $sql = "UPDATE 
                     {$this->table} 
                 SET 
                     status = :status 
                 WHERE 
-                    id = :id";
+                    id_reason = :id_reason
+                AND
+                    id_offer = :id_offer";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":status", $status, \PDO::PARAM_STR);
-        $sql->bindParam(":id", $reportId, \PDO::PARAM_INT);
+        $sql->bindParam(":id_reason", $reasonId, \PDO::PARAM_INT);
+        $sql->bindParam(":id_offer", $offerId, \PDO::PARAM_INT);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

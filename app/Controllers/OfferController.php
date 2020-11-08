@@ -584,12 +584,13 @@ class OfferController extends Authorization
         );
     }
 
-
     public function approve(string $slug = null): void
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
-        $this->setStatus("approved", $slug);
+        if ($this->setStatus("approved", $slug)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -602,7 +603,9 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_QUEUE");
 
-        $this->setStatus("refused", $slug);
+        if ($this->setStatus("refused", $slug)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -615,7 +618,9 @@ class OfferController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
-        $this->setStatus("closed", $slug);
+        if ($this->setStatus("closed", $slug)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -624,7 +629,7 @@ class OfferController extends Authorization
         );
     }
 
-    private function setStatus(string $status, string $slug = null): void
+    private function setStatus(string $status, string $slug = null): bool
     {
         $offer = new Offer();
 
@@ -640,7 +645,7 @@ class OfferController extends Authorization
         }
 
         if ($offer->updateStatus($offerId, $status)) {
-            die(json_encode([]));
+            return true;
         }
 
         die(

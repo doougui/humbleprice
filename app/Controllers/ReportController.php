@@ -105,11 +105,28 @@ class ReportController extends Authorization
         );
     }
 
+    public function accept(int $id = null): void
+    {
+        $this->authRequired()->withPermission("MANAGE_OFFERS");
+
+        if ($this->setStatus("accepted", $id)) {
+            die(json_encode([]));
+        }
+
+        die(
+            json_encode([
+                "error" =>  "Não foi possível aceitar este report."
+            ])
+        );
+    }
+
     public function refuse(int $id = null): void
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
-        $this->setStatus("refused", $id);
+        if ($this->setStatus("refused", $id)) {
+            die(json_encode([]));
+        }
 
         die(
             json_encode([
@@ -118,7 +135,7 @@ class ReportController extends Authorization
         );
     }
 
-    private function setStatus(string $status, int $id = null): void
+    private function setStatus(string $status, int $id = null): bool
     {
         $report = new Report();
 
@@ -133,8 +150,20 @@ class ReportController extends Authorization
             );
         }
 
-        if ($report->updateStatus($reportId, $status)) {
-            die(json_encode([]));
+        $reportData = $report->getInfo(
+            "id",
+            $id,
+            ["id_reason", "id_offer"]
+        );
+
+        if (
+            $report->updateStatus(
+                $reportData["id_offer"],
+                $reportData["id_reason"],
+                $status
+            )
+        ) {
+            return true;
         }
 
         die(

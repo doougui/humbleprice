@@ -36,7 +36,7 @@
                                     <p class="ml-2 my-1">Motivo: <span class="font-weight-bold" title="<?= $report['reason'] ?>"><?= $report['reason'] ?></span></p>
                                 </div>
 
-                                <div class="flex-grow-1 d-flex justify-content-end report-close-offer">
+                                <div class="flex-grow-1 d-flex justify-content-end report-actions">
                                     <button class="btn btn-danger" data-btn="accept-report">Encerrar oferta</button>
                                     <button class="btn btn-info ml-2" data-btn="refuse-report" title="Recusar report">
                                         <i class="fas fa-times"></i>

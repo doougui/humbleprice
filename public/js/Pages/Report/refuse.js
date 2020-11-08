@@ -5,7 +5,10 @@ $(document).ready(function() {
     const li = $(this).closest('.list-group-item');
     const action = `${DIRPAGE}report/refuse/${$(li).attr('data-report')}`;
 
-    const error = $(this).closest($('[data-error="report"]'));
+    const error = $(this)
+        .closest('.report-actions')
+        .closest('.row')
+        .siblings($('[data-error="report"]'));
     const errorMsg = $(error).find('.error-msg');
 
     const button = $(this);
