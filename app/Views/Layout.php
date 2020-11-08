@@ -41,7 +41,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
                                     <?php if (authorized('MANAGE_USERS')): ?>
-                                        <a class="dropdown-item" href="<?= DIRPAGE ?>userspanel">Painel de usuários</a>
+                                        <a class="dropdown-item" href="<?= DIRPAGE ?>userspanel">Usuários</a>
                                     <?php endif; ?>
 
                                     <?php if (authorized('MANAGE_OFFERS')): ?>

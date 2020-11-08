@@ -146,10 +146,19 @@ class UserController extends Authorization
 
     public function suspended(string $email = null): void
     {
+        $this->authRequired();
+
         $loggedEmail = user()["email"];
 
         if ($email !== $loggedEmail) {
             $this->redirect(DIRPAGE."user/suspended/{$loggedEmail}");
         }
+
+        $this->setDir('Suspended');
+        $this->setTitle('Perfil suspenso | Humbleprice');
+        $this->setDescription('Este perfil foi suspenso. Se você acha que isto foi um erro, entre em contato com nossa equipe de administração..');
+        $this->setKeywords('suspended, profile, user, perfil');
+
+        $this->renderLayout($this->getData());
     }
 }
