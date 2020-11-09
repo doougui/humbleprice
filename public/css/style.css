@@ -132,10 +132,6 @@ h4 {
   display: flex;
 }
 
-.card-body {
-  overflow-x: scroll;
-}
-
 .offer-info {
   min-width: 300px;
 }
@@ -269,5 +265,9 @@ button[data-btn="delete"] {
     display: flex;
     width: 100%;
     justify-content: center;
+  }
+
+  #offer .card-body {
+    overflow-x: scroll;
   }
 }
