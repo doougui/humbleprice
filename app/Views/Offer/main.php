@@ -12,10 +12,10 @@
                             <p class="error-msg"></p>
                         </div>
 
-                        <div class="row m-2">
+                        <div class="row m-2 offer-data">
                             <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="<?= $offer['name'] ?>" class="img img-thumbnail img-fluid w-25 <?= ($isClosed) ? 'grayscaled-img' : '' ?>">
 
-                            <div class="col-sm-6 mx-2 d-flex flex-md-column justify-content-between">
+                            <div class="col col-lg-6 mx-2 d-flex flex-column justify-content-between offer-info">
                                 <div>
                                     <h1 class="offer-title font-weight-bold my-0"><?= $offer["name"] ?></h1>
                                     <p class="mt-2 text-muted"><?= $offer["category"] ?>・<?= $offer["subcategory"] ?></p>
@@ -27,7 +27,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex flex-md-column justify-content-between">
+                            <div class="author-and-actions col flex-md-column justify-content-between">
                                 <div>
                                     <p>Oferta publicada por:</p>
 
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
 
-                                <div class="w-100 d-flex flex-md-column">
+                                <div class="w-100 d-flex offer-actions-btns flex-md-column">
                                     <a href="<?= $offer['link'] ?>" target="_blank" data-btn="offer-link" class="btn <?= ($isClosed) ? 'disabled btn-secondary' : 'btn-themed' ?> w-100 mb-1"><?= ($isClosed) ? "Oferta encerrada" : "Ir para oferta" ?></a>
 
                                     <?php if (authorized("MANAGE_OFFERS") && ! $isClosed && $offer["status"] === "approved"): ?>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <div class="card-footer d-flex justify-content-between">
+                    <div class="card-footer d-flex flex-wrap justify-content-between">
                         <div>
                             <div class="dropdown d-inline-block">
                                 <button class="btn badge btn-secondary px-3 py-2 mr-2 dropdown-toggle" type="button" id="dropdown-report-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <?= (! user() || $isClosed) ? 'disabled' : '' ?> <?= ($isClosed) ? 'title="Esta oferta já foi encerrada. Portanto, não é possível reportar um problema."' : '' ?> <?= (! user()) ? 'title="Você precisa estar logado para realizar esta ação."' : '' ?>>
