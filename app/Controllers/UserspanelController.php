@@ -77,6 +77,10 @@ class UserspanelController extends Authorization
     {
         $user = new User();
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         if (empty($email)) {
             die(
                 json_encode(
@@ -130,6 +134,10 @@ class UserspanelController extends Authorization
     {
         $user = new User();
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         if (empty($email)) {
             die(
                 json_encode(
@@ -182,6 +190,10 @@ class UserspanelController extends Authorization
     ): void {
         $user = new User();
         $role = new Role();
+
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
 
         if (empty($email) || empty($roleLabel)) {
             die(

@@ -133,6 +133,10 @@ class OfferController extends Authorization
     {
         $this->authRequired();
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         $offer = new Offer();
         $category = new Category();
         $subcategory = new Subcategory();

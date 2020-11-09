@@ -24,9 +24,13 @@ class RegisterController extends Authorization
 
     public function signup(): void
     {
-        $this->logout(false);
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
 
         $user = new User();
+
+        $this->logout(false);
 
         if (
             isset($_POST["name"])

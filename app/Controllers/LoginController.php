@@ -26,9 +26,13 @@ class LoginController extends Authorization
 
     public function signin(): void
     {
-        $this->logout(false);
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
 
         $user = new User();
+
+        $this->logout(false);
 
         if (isset($_POST["email"]) && isset($_POST["password"])) {
             if (filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL)) {

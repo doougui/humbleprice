@@ -136,6 +136,10 @@ class ReportController extends Authorization
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         if ($this->setStatus("accepted", $id)) {
             die(json_encode([]));
         }
@@ -150,6 +154,10 @@ class ReportController extends Authorization
     public function refuse(int $id = null): void
     {
         $this->authRequired()->withPermission("MANAGE_OFFERS");
+
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
 
         if ($this->setStatus("refused", $id)) {
             die(json_encode([]));

@@ -79,6 +79,10 @@ class CategoryController extends Authorization
         $subcategory = new Subcategory();
         $category = new Category();
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         if (
             empty($slug)
             || ! $categoryId = $category->getId("slug", $slug)

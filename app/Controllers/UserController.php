@@ -40,6 +40,10 @@ class UserController extends Authorization
     {
         $this->authRequired();
 
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         $user = new User();
 
         if (isset($_POST["name"]) && isset($_POST["email"])) {
@@ -137,11 +141,6 @@ class UserController extends Authorization
                 ]
             )
         );
-    }
-
-    public function delete(): void
-    {
-
     }
 
     public function suspended(string $email = null): void
