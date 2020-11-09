@@ -14,9 +14,9 @@
             <div class="card-body">
                 <?php foreach ($offers as $offer): ?>
                     <div class="card card-item" data-item="<?= $offer['slug'] ?>">
-                        <div class="card-body d-flex align-items-center flex-md-column flex-wrap">
+                        <div class="card-body d-flex align-items-center flex-md-column justify-content-center flex-wrap">
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>">
-                                <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
+                                <div class="offer-img" style="background: url('<?= DIRIMG ?>products/<?= $offer['image'] ?>') no-repeat center; background-size: cover;"></div>
                             </a>
 
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>

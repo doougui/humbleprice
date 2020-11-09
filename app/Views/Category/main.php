@@ -1,9 +1,9 @@
 <section id="filters">
     <div class="container">
         <h1 class="h4">Ofertas e promoções de <?= $category["name"] ?>.</h1>
-        <a href="?" class="btn btn-light border">Tudo</a>
+        <a href="?" class="btn btn-light border mb-1">Tudo</a>
         <?php foreach ($subcategories as $subcategory): ?>
-            <a href="?subcategory=<?= $subcategory['slug'] ?>" class="btn btn-light border"><?= $subcategory["name"] ?></a>
+            <a href="?subcategory=<?= $subcategory['slug'] ?>" class="btn btn-light border mb-1"><?= $subcategory["name"] ?></a>
         <?php endforeach; ?>
     </div>
 </section>
@@ -20,7 +20,7 @@
                     <div class="card card-item" data-item="<?= $offer['slug'] ?>">
                         <div class="card-body d-flex align-items-center flex-md-column flex-wrap">
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>">
-                                <img src="<?= DIRIMG ?>products/<?= $offer['image'] ?>" alt="Imagem do produto" class="img img-fluid">
+                                <div class="offer-img" style="background: url('<?= DIRIMG ?>products/<?= $offer['image'] ?>') no-repeat center; background-size: cover;"></div>
                             </a>
 
                             <a href="<?= DIRPAGE ?>offer/view/<?= $offer['slug'] ?>" class="btn btn-link"><?= $offer['name'] ?></a>

@@ -5,9 +5,4 @@
         width: 40px;
         height: 40px;
     }
-
-    .comment-author-avatar {
-        min-width: 75px;
-        min-height: 75px;
-    }
 </style>

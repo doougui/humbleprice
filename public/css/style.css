@@ -40,6 +40,11 @@ h4 {
   margin-bottom: 0px;
 }
 
+.offer-img {
+  width: 158px;
+  height: 238px;
+}
+
 .card-item {
   width: 200px;
   display: inline-block;
@@ -225,6 +230,11 @@ button[data-btn="delete"] {
 .replies .comment,
 .thread .reply-form {
   margin: 5px 0 5px 70px;
+}
+
+.comment-author-avatar {
+  min-width: 75px;
+  min-height: 75px;
 }
 
 .report-img {
