@@ -24,29 +24,8 @@ class UserspanelController extends Authorization
         $this->setDescription("Ajuste as permissões dos usuários ou manuseie os mesmos");
         $this->setKeywords("usuarios, painel, panel, permission, action");
 
-        $usersCount = $user->count("1", "1");
-
-        $currentPage = 1;
-
-        if (isset($_GET["page"])) {
-            if (
-                strlen(filter_input(
-                    INPUT_GET,
-                    "page",
-                    FILTER_SANITIZE_NUMBER_INT
-                )) !== 0) {
-                $currentPage = filter_input(
-                    INPUT_GET,
-                    "page",
-                    FILTER_SANITIZE_NUMBER_INT
-                );
-            }
-        }
-
         $perPage = 10;
-        $totalPages = ceil($usersCount / $perPage);
-
-        $offset = ($currentPage - 1) * $perPage;
+        $pagination = paginate($user, $perPage);
 
         $this->setData("users", $user->getAll(
             [
@@ -62,13 +41,13 @@ class UserspanelController extends Authorization
             ],
             ["users.id_role = roles.id"],
             "ORDER BY id_role DESC, users.id ASC",
-            $offset,
+            $pagination["offset"],
             $perPage
         ));
         $this->setData("roles", $role->getAll(["id", "name", "label"]));
 
-        $this->setData("totalPages", $totalPages);
-        $this->setData("currentPage", $currentPage);
+        $this->setData("totalPages", $pagination["totalPages"]);
+        $this->setData("currentPage", $pagination["currentPage"]);
 
         $this->renderLayout($this->getData());
     }

@@ -54,10 +54,7 @@ class CommentController extends Authorization
 
         foreach ($comments as $commentKey => $commentValue) {
             $comments[$commentKey]["likes"] =
-                $commentLike->count(
-                    "id_comment",
-                    $commentValue["id"]
-                );
+                $commentLike->count(["id_comment" => $commentValue["id"]]);
 
             $comments[$commentKey]["liked"] = ($this->authenticated())
                 ? $commentLike->liked($commentValue["id"], user()["id"])
@@ -68,10 +65,7 @@ class CommentController extends Authorization
                 $replyKey => $replyValue
             ) {
                 $comments[$commentKey]["children"][$replyKey]["likes"] =
-                    $commentLike->count(
-                        "id_comment",
-                        $replyValue["id"]
-                    );
+                    $commentLike->count(["id_comment" => $replyValue["id"]]);
 
                 $comments[$commentKey]["children"][$replyKey]["liked"] = ($this->authenticated())
                     ? $commentLike->liked($replyValue["id"], user()["id"])

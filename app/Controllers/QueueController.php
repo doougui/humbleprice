@@ -22,10 +22,21 @@ class QueueController extends Authorization
         $this->setDescription("Verifique se uma promoção é válida ou não através da fila.");
         $this->setKeywords("ofertas, produtos, preço, fila, queue, approval");
 
+        $perPage = 30;
+        $pagination = paginate($offer, $perPage, ["status" => "approved"]);
+
         $this->setData(
             "pendingOffers",
-            $offer->getLastOffers(null, null, "pending"
+            $offer->getLastOffers(
+                $pagination["offset"],
+                $perPage,
+                null,
+                null,
+                "pending"
         ));
+
+        $this->setData("totalPages", $pagination["totalPages"]);
+        $this->setData("currentPage", $pagination["currentPage"]);
 
         $this->renderLayout($this->getData());
     }

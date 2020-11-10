@@ -13,6 +13,8 @@ class Offer extends Table
     }
 
     public function getLastOffers(
+        int $offset,
+        int $limit,
         int $category = null,
         int $subcategory = null,
         string $status = "approved"
@@ -54,7 +56,11 @@ class Offer extends Table
                     {$subcategoryQuery}
                 ORDER BY 
                     end_offer 
-                ASC";
+                ASC
+                LIMIT
+                    {$limit}
+                OFFSET
+                    {$offset}";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":status", $status, \PDO::PARAM_STR);
 

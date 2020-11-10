@@ -97,11 +97,11 @@ class OfferController extends Authorization
             || $offerData["status"] === "refused"
             || ! empty($offerData["end_offer"])
             && date("Y-m-d") > $offerData["end_offer"];
-        $likeCount = $offerLike->count("id_offer", $offerId);
+        $likeCount = $offerLike->count(["id_offer" => $offerId]);
         $liked = ($this->authenticated())
             ? $offerLike->liked($offerId, user()["id"])
             : false;
-        $commentCount = $comment->count("id_offer", $offerId);
+        $commentCount = $comment->count(["id_offer" => $offerId]);
         $reported = $report->offerAlreadyReportedByUser($offerId);
         $reasons = $reason->getAll(["slug", "name"]);
 

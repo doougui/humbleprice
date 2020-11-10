@@ -21,7 +21,16 @@ class HomeController extends Authorization
         $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
         $this->setKeywords("ofertas, produtos, preço");
 
-        $this->setData("offers", $offer->getLastOffers());
+        $perPage = 30;
+        $pagination = paginate($offer, $perPage, ["status" => "approved"]);
+
+        $this->setData("offers", $offer->getLastOffers(
+            $pagination["offset"],
+            $perPage
+        ));
+
+        $this->setData("totalPages", $pagination["totalPages"]);
+        $this->setData("currentPage", $pagination["currentPage"]);
 
         $this->renderLayout($this->getData());
     }

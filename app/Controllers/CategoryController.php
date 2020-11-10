@@ -64,12 +64,28 @@ class CategoryController extends Authorization
             }
         }
 
+        $perPage = 30;
+        $pagination = paginate(
+            $offer,
+            $perPage,
+            [
+                "status" => "approved",
+                "id_category" => $categoryId,
+                "id_subcategory" => $subcategoryId
+            ]
+        );
+
         $this->setData("subcategories", $category->subcategories($categoryId));
         $this->setData("offers", $offer->getLastOffers(
+            $pagination["offset"],
+            $perPage,
             $categoryId,
             $subcategoryId
         ));
         $this->setData("category", $categoryInfo);
+
+        $this->setData("totalPages", $pagination["totalPages"]);
+        $this->setData("currentPage", $pagination["currentPage"]);
 
         $this->renderLayout($this->getData());
     }

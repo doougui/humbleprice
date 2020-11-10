@@ -143,9 +143,18 @@ class Table extends Connection
     }
 
     public function count(
-        string $whereColumn = null,
-        string $equals = null
+        array $where = ["1" => "1"]
     ): ?int {
+        $whereColumn = [];
+
+        foreach ($where as $column => $condition) {
+            if (strlen($column) !== 0 && strlen($condition) !== 0) {
+                $whereColumn[] = "{$column} = '{$condition}'";
+            }
+        }
+
+        $whereColumn = implode(" AND ", $whereColumn);
+
         $sql = "SELECT
                     count(id)
                 AS 
@@ -153,7 +162,7 @@ class Table extends Connection
                 FROM
                     {$this->table}
                 WHERE
-                    {$whereColumn} = :{$whereColumn}
+                    {$whereColumn}
         ";
         $sql = $this->db->prepare($sql);
         $sql->bindParam(":{$whereColumn}", $equals, \PDO::PARAM_STR);
