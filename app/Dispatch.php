@@ -2,9 +2,13 @@
 
 namespace App;
 
+use Src\Traits\TraitUrlParser;
+
 class Dispatch
 {
-    use \Src\Traits\TraitUrlParser;
+    private array $prefixes;
+
+    use TraitUrlParser;
 
     public function run(): void
     {
@@ -43,6 +47,21 @@ class Dispatch
         $newController = $prefix.$currentController;
 
         $controller = new $newController();
+
+        set_error_handler(function () {
+            $currentController = "NotfoundController";
+            $currentAction = "index";
+
+            $prefix = "\App\Controllers\\";
+
+            $newController = $prefix.$currentController;
+
+            $controller = new $newController();
+            call_user_func_array([$controller, $currentAction], []);
+        });
+
         call_user_func_array([$controller, $currentAction], $params);
+
+        restore_error_handler();
     }
 }

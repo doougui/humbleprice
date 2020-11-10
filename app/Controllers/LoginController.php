@@ -2,30 +2,37 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Render;
+use App\Core\Authorization;
 use App\Models\User;
 
-class LoginController extends Render
+class LoginController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
-        unset($_SESSION["user"]);
-
-        $data = [];
+        $this->logout();
 
         $this->setDir("Login");
         $this->setTitle("Entre na sua conta | Humbleprice");
         $this->setDescription("Entre na sua conta.");
-        $this->setKeywords("forum, dev, entrar, login");
+        $this->setKeywords("entrar, login");
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 
-    public function signin(): ?bool
+    public function signin(): void
     {
-        unset($_SESSION["user"]);
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
 
         $user = new User();
+
+        $this->logout(false);
 
         if (isset($_POST["email"]) && isset($_POST["password"])) {
             if (filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL)) {
@@ -35,7 +42,11 @@ class LoginController extends Render
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             } else {
-                die("Insira um e-mail válido para continuar.");
+                die(
+                    json_encode(
+                        ["error" => "Insira um e-mail válido para continuar."]
+                    )
+                );
             }
 
             $password = filter_input(
@@ -44,22 +55,23 @@ class LoginController extends Render
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (! empty($email) && ! empty($password)) {
+            if (strlen($email) !== 0 && strlen($password) !== 0) {
                 if ($user->login($email, $password)) {
-                    return true;
-                } else {
-                    die("Usuário e/ou senha incorretos.");
+                    die(json_encode([]));
                 }
-            } else {
-                die("Preencha todos os campos para continuar.");
-            }
-        } else {
-            die("Preencha todos os campos para continuar.");
-        }
-    }
 
-    public function logout() {
-        unset($_SESSION["user"]);
-        header("Location: ".DIRPAGE."login");
+                die(
+                    json_encode(
+                        ["error" => "Usuário e/ou senha incorretos."]
+                    )
+                );
+            }
+        }
+
+        die(
+            json_encode(
+                ["error" => "Preencha todos os campos para continuar."]
+            )
+        );
     }
 }

@@ -2,17 +2,18 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Render;
+use App\Core\Authorization;
 use App\Models\Offer;
-use App\Models\Forum;
-use App\Models\Topic;
 
-class HomeController extends Render
+class HomeController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
-        $data = [];
-
         $offer = new Offer();
 
         $this->setDir("Home");
@@ -20,18 +21,17 @@ class HomeController extends Render
         $this->setDescription("Aqui você encontra os produtos que você deseja com os melhores preços possíveis.");
         $this->setKeywords("ofertas, produtos, preço");
 
-        $filter = "";
+        $perPage = 30;
+        $pagination = paginate($offer, $perPage, ["status" => "approved"]);
 
-        if (isset($_GET["filter"])) {
-            $filter = filter_input(
-                INPUT_GET,
-                'filter',
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
-        }
+        $this->setData("offers", $offer->getLastOffers(
+            $pagination["offset"],
+            $perPage
+        ));
 
-        $data["offers"] = $offer->getLastOffers($filter);
+        $this->setData("totalPages", $pagination["totalPages"]);
+        $this->setData("currentPage", $pagination["currentPage"]);
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 }

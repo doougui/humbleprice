@@ -9,7 +9,6 @@
     <title><?= $this->getTitle() ?></title>
     <link rel="stylesheet" href="<?= DIRCSS ?>bootstrap.min.css">
     <link rel="stylesheet" href="<?= DIRCSS ?>normalize.css">
-    <link rel="stylesheet" href="<?= DIRCSS ?>quill.snow.css">
     <link rel="stylesheet" href="<?= DIRCSS ?>style.css">
     <?= $this->addExtraHead($data) ?>
 </head>
@@ -24,71 +23,94 @@
                 </button>
 
                 <div class="navbar-collapse collapse" id="navbar-menu">
-                    <div class="navbar-nav">
-                        <a href="<?= DIRPAGE ?>" class="nav-item nav-link active">Jogos</a>
-                        <?php if (isset($_SESSION['user'])): ?>
-                            <a href="<?= DIRPAGE ?>" class="nav-item nav-link"><?= utf8_encode($_SESSION['user']['name']); ?></a>
-                            <a href="<?= DIRPAGE ?>login/logout" class="nav nav-item nav-link alert-link">Sair</a>
-                        <?php else: ?>
-                           <a href="<?= DIRPAGE ?>login" class="nav-item nav-link">Login</a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categorias
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
+                                <?php foreach (categories() as $category): ?>
+                                    <a class="dropdown-item" href="<?= DIRPAGE."category/offers/{$category['slug']}" ?>"><?= $category["name"] ?></a>
+                                <?php endforeach; ?>
+                            </div>
+                        </li>
+                        <?php if (user() && authorized('NANAGE_USERS') || authorized('MANAGE_OFFERS')): ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Painel
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbar-dropdown">
+                                    <?php if (authorized('MANAGE_USERS')): ?>
+                                        <a class="dropdown-item" href="<?= DIRPAGE ?>userspanel">Usuários</a>
+                                    <?php endif; ?>
+
+                                    <?php if (authorized('MANAGE_OFFERS')): ?>
+                                        <a class="dropdown-item" href="<?= DIRPAGE ?>report">Reports</a>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
                         <?php endif; ?>
-                    </div>
+                        <?php if (user()): ?>
+                            <?php if (authorized('MANAGE_QUEUE')): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?= DIRPAGE ?>queue">Fila</a>
+                                </li>
+                            <?php endif; ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= DIRPAGE ?>user/edit"><?= user()['name'] ?></a>
+                            </li>
+                            <li class="nav-item alert-link">
+                                <a class="nav-link" href="<?= DIRPAGE ?>login/logout">Sair</a>
+                            </li>
+                        <?php else: ?>
+                           <li class="nav-item">
+                               <a class="nav-link" href="<?= DIRPAGE ?>login">Login</a>
+                           </li>
+                        <?php endif; ?>
+                    </ul>
                 </div>
 
-                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-danger <?= isset($_SESSION['user']) ? '' : 'disabled' ?>">Sugerir oferta</a>
+                <a href="<?= DIRPAGE ?>offer/suggest" class="btn btn-themed <?= (user()) ? '' : 'disabled' ?>">Sugerir oferta</a>
             </div>
         </nav>
     </header>
 
     <main>
-<!--        <section id="navigation" class="box box-infos">
-            <nav class="breadcrumbs">
-                <li>
-                    <?php
-/*                    $breadcrumb = new Src\Classes\ClassBreadcrumb();
-                    echo $breadcrumb->addBreadcrumb();
-                    */?>
-                </li>
-            </nav>
-
-            <div class="btn-newpost">
-                <?/*= $this->addNavBtns($data) */?>
-                <a href="<?/*= DIRPAGE */?>topic/new">
-                    <button class="button" <?/*= (!isset($_SESSION['user'])) ? 'disabled' : '' */?>>
-                        NOVA POSTAGEM
-                    </button>
-                </a>
-            </div>
-        </section>
--->
         <section id="content">
             <?= $this->addMainContent($data) ?>
         </section>
     </main>
 
-    <footer id="footer" class="mt-5">
+    <footer id="footer" class="mt-5 px-3">
         <h4>Humbleprice © Todos os direitos reservados.</h4>
     </footer>
 
     <!-- JavaScript -->
-    <script src="<?= DIRJS ?>jquery-3.4.1.min.js"></script>
-    <script src="<?= DIRJS ?>bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/f8d095f64b.js" crossorigin="anonymous"></script>
+    <script src="<?= DIRJS ?>jquery-3.5.1.min.js"></script>
+    <script src="<?= DIRJS ?>bootstrap.bundle.min.js"></script>
     <script src="<?= DIRJS ?>ckeditor.js"></script>
-    <script>
-      ClassicEditor
-          .create( document.querySelector( '#editor' ), {
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']
-          } )
-          .then( editor => {
-            window.editor = editor;
-          } )
-          .catch( err => {
-            console.error( err.stack );
-          } );
-    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/f8d095f64b.js" crossorigin="anonymous"></script>
     <script>const DIRPAGE = '<?= DIRPAGE ?>';</script>
     <?= $this->addExtraFooter($data) ?>
-<!--    <script src="--><?//= DIRJS ?><!--script.js"></script>-->
+    <script src="<?= DIRJS ?>script.js"></script>
+    <script>
+      const editors = document.querySelectorAll('.editor');
+
+      editors.forEach(editor => {
+        if (editor) {
+          ClassicEditor
+              .create(editor, {
+                toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'blockQuote', '|', 'undo', 'redo']
+              })
+              .then(editor => {
+                window.editor = editor;
+              })
+              .catch(err => {
+                console.error(err.stack);
+              });
+        }
+      });
+    </script>
 </body>
 </html>

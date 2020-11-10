@@ -1,1 +1,6 @@
 vendor/
+.idea/
+public/img/products
+public/img/products/*
+public/img/users
+public/img/users/*

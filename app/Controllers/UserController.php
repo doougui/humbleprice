@@ -2,109 +2,162 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Render;
+use App\Core\Authorization;
 use App\Models\User;
 
-class UserController extends Render
+class UserController extends Authorization
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index(): void
     {
-        header('Location: '.DIRPAGE);
-        exit;
+        $this->redirect(DIRPAGE);
     }
 
-    public function edit(int $id): void
+    public function edit(): void
     {
-        $data = [];
+        $this->authRequired();
 
         $user = new User();
-
-        if (empty($id) ||
-            ! isset($_SESSION['user']) ||
-            $id !== $_SESSION['user']['id']
-        ) {
-            header('Location: '.DIRPAGE);
-            exit;
-        }
 
         $this->setDir('EditUser');
-        $this->setTitle('Forum - Editar perfil');
-        $this->setDescription('Edite seu perfil.');
-        $this->setKeywords('forum, dev, editar perfil, perfil');
+        $this->setTitle('Edite seu perfil | Humbleprice');
+        $this->setDescription('Aqui você pode editar todas as informações do seu perfil de usuário.');
+        $this->setKeywords('offer, profile, editar, perfil');
 
-        $data['user'] = $user->getInfo($id);
+        $this->setData("user", $user->getInfo("id", user()["id"],
+                ["name", "email", "avatar"]
+            )
+        );
 
-        $this->renderLayout($data);
+        $this->renderLayout($this->getData());
     }
 
-    public function editUser(): ?bool
+    public function update(): void
     {
+        $this->authRequired();
+
+        if (! $this->isAjax()) {
+            $this->redirect(DIRPAGE);
+        }
+
         $user = new User();
 
-        if (isset($_POST['id']) && ! empty($_POST['id']) &&
-            isset($_POST['name']) && ! empty($_POST['name']) &&
-            isset($_POST['email']) && ! empty($_POST['email'])
-        ) {
-            if (filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL)) {
-                $email = filter_input(
-                    INPUT_POST,
-                    'email',
-                    FILTER_SANITIZE_SPECIAL_CHARS
-                );
-            } else {
-                die("Insira um e-mail válido para continuar.");
-            }
-
-            $id = filter_input(
-                INPUT_POST,
-                'id',
-                FILTER_SANITIZE_SPECIAL_CHARS
-            );
+        if (isset($_POST["name"]) && isset($_POST["email"])) {
             $name = filter_input(
                 INPUT_POST,
-                'name',
+                "name",
+                FILTER_SANITIZE_SPECIAL_CHARS
+            );
+            $email = filter_input(
+                INPUT_POST,
+                "email",
                 FILTER_SANITIZE_SPECIAL_CHARS
             );
 
-            if (isset($_POST['password']) && ! empty($_POST['password'])) {
-                $password = password_hash(
-                    filter_input(
-                        INPUT_POST,
-                        'password',
-                        FILTER_SANITIZE_SPECIAL_CHARS
-                    ),
-                    PASSWORD_DEFAULT
-                );
-            } else {
-                $password = '';
+            if (! empty($_FILES["avatar"]["size"])) {
+                $avatar = $_FILES["avatar"];
             }
 
-            if ($user->editUser($id, $name, $email, $password)) {
-                return true;
-            } else {
-                die("Não foi possível atualizar as informações.");
+            if (
+                isset($_POST["password"])
+                && isset($_POST["password-confirmation"])
+            ) {
+                $password = filter_input(
+                    INPUT_POST,
+                    "password",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+                $passwordConfirmation = filter_input(
+                    INPUT_POST,
+                    "password-confirmation",
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
             }
-        } else {
-            die("Todos os campos devem estar preenchidos.");
+
+            if (strlen($name) !== 0 && strlen($email) !== 0) {
+                if (isset($password)
+                    && strlen($password) !== 0
+                ) {
+                    if (
+                        isset($passwordConfirmation)
+                        && strlen($passwordConfirmation) !== 0
+                    ) {
+                        if ($password !== $passwordConfirmation) {
+                            die(
+                                json_encode(
+                                    ["error" => "As senhas não são compatíveis"]
+                                )
+                            );
+                        }
+
+                        $password = password_hash($password, PASSWORD_DEFAULT);
+                    } else {
+                        die(
+                            json_encode(
+                                ["error" => "Repita a senha para continuar."]
+                            )
+                        );
+                    }
+                } else {
+                    $password = null;
+                }
+
+                if (isset($avatar)) {
+                    $imageName = $this->treatImage($avatar, "users");
+                }
+
+                $info = [
+                    "name" => $name,
+                    "email" => $email,
+                    "password" => $password, PASSWORD_DEFAULT
+                ];
+
+                if (isset($imageName)) {
+                    $info["avatar"] = $imageName;
+                }
+
+                if ($user->update($info)) {
+                    die(json_encode([]));
+                }
+
+                die(
+                    json_encode(
+                        [
+                            "error" => "Este email já esta em uso."
+                        ]
+                    )
+                );
+            }
         }
+
+        die(
+            json_encode(
+                [
+                    "error" => "Preencha todos os campos para continuar"
+                ]
+            )
+        );
     }
 
-    public function deleteUser(): ?bool
+    public function suspended(string $email = null): void
     {
-        $user = new User();
+        $this->authRequired();
 
-        if (isset($_POST['id']) && !empty($_POST['id'])) {
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
+        $loggedEmail = user()["email"];
 
-            if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $id) {
-                if ($user->deleteUser($id)) {
-                    return true;
-                } else {
-                    echo "Não foi possível deletar sua conta.";
-                }
-            }
-        } else {
-            echo "Preencha todos os campos para continuar.";
+        if ($email !== $loggedEmail) {
+            $this->redirect(DIRPAGE."user/suspended/{$loggedEmail}");
         }
+
+        $this->setDir('Suspended');
+        $this->setTitle('Perfil suspenso | Humbleprice');
+        $this->setDescription('Este perfil foi suspenso. Se você acha que isto foi um erro, entre em contato com nossa equipe de administração..');
+        $this->setKeywords('suspended, profile, user, perfil');
+
+        $this->renderLayout($this->getData());
     }
 }

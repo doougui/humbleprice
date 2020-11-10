@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Core\Table;
+
 class Category extends Table
 {
     public function __construct()
     {
         parent::__construct();
-        $this->table = 'category';
+        $this->table = "categories";
     }
 
     public function subcategories(int $categoryId): array
@@ -15,7 +17,7 @@ class Category extends Table
         $sql = "SELECT
                     id, id_category, slug, name
                 FROM
-                    subcategory
+                    subcategories
                 WHERE 
                     id_category = :id_category";
         $sql = $this->db->prepare($sql);

@@ -1,74 +1,283 @@
 * {
-	padding: 0;
-	margin: 0;
-	font-family: Arial;
+  padding: 0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-	background-color: #F3F5F5;
+  background-color: #F3F5F5;
 }
 
-.btn-danger {
-	background-color: tomato;
-	color: #FFF;
+.text-themed {
+  color: tomato;
+}
+
+.btn-themed {
+  color: white;
+  background-color: tomato;
+  border-color: tomato;
+}
+
+.btn-themed:hover {
+  color: white;
+  background-color: #C82333;
 }
 
 .navbar-brand {
-	color: tomato !important;
+  color: tomato !important;
 }
 
 h1.h4 {
-	padding: 20px 0px;
-	color: #AAA;
+  padding: 20px 0px;
+  color: #AAA;
 }
 
 h4 {
-	margin-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.offer-img {
+  width: 158px;
+  height: 238px;
 }
 
 .card-item {
-	width: 200px !important;
-	display: inline-block;
-	margin: 0px 10px 10px 0px;
+  width: 200px;
+  display: inline-block;
+  margin: 0px 10px 10px 0px;
+}
+
+@media only screen and (max-width: 496px) {
+  .card-item {
+    width: 100%;
+  }
+
+  .offer-data img {
+    width: 100% !important;
+    margin: auto;
+  }
+
+  .offer-actions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .card-item .card-body a.btn {
-	height: 110px;
+  min-height: 110px;
 }
 
 .card-footer {
-	text-align: center;
+  text-align: center;
 }
 
-.card-prices {
-	display: flex;
-	justify-content: space-between;
+.grayscaled-img {
+  filter: grayscale(100%);
 }
 
-.card-prices .old-price {
-	color: #AAA;
+.delete {
+  display: block;
+  color: #d63031;
+  border-style: none;
+  background-color: white;
 }
 
-a.delete {
-	display: block;
-	color: #d63031;
+.delete:hover {
+  text-decoration: underline;
 }
 
 .thead-dark th {
-	color: tomato !important;
+  color: tomato !important;
 }
 
 #footer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #343A40;
-	color: #FFF;
-	width: 100%;
-	height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #343A40;
+  color: #FFF;
+  width: 100%;
+  height: 100px;
 }
 
-.product-img {
-	background-color: #F7F7F7;
-	height: 237.23px;
+.tr-error {
+  max-width: 300px;
+}
+
+.offer-title {
+  font-size: 28px;
+}
+
+.offer-author {
+  margin-left: 0;
+}
+
+.offer-author img {
+  width: 40px;
+}
+
+.offer-author-name {
+  max-width: 142px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#offer .card-footer button:not([data-btn="delete"]) {
+  outline: none;
+  font-size: 14px;
+}
+
+.author-and-actions {
+  display: flex;
+}
+
+.offer-info {
+  min-width: 300px;
+}
+
+@media only screen and (max-width: 767px) {
+  .author-and-actions {
+    display: block !important;
+    padding: 0;
+  }
+
+  .offer-actions-btns {
+    margin: 10px 0;
+  }
+
+  .offer-actions-btns a {
+    height: 100%;
+    margin-right: 10px;
+  }
+
+  .offer-actions-btns button:not(.approve):not(.refuse) {
+    height: 100%;
+    margin-left: 10px;
+  }
+
+  #recommended-offer .row {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .offer-info {
+    margin: 0;
+    padding-right: 0;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .offer-info {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  #offer .card-footer {
+    justify-content: center !important;
+  }
+}
+
+button[data-btn="delete"] {
+  background-color: transparent;
+}
+
+#recommended-offer .prices small,
+#recommended-offer .prices p {
+  line-height: 1em;
+}
+
+.swal-button--available {
+  background-color: #28a745;
+}
+
+.swal-button--available:hover {
+  background-color: #218838 !important;
+}
+
+.swal-button--unavailable {
+  background-color: #dc3545;
+}
+
+.swal-button--unavailable:hover {
+  background-color: #c82333 !important;
+}
+
+.comment img {
+  width: 10%;
+}
+
+.comment-author-name {
+  line-height: 1;
+}
+
+.comment-content p {
+  margin-bottom: 0;
+}
+
+.thread {
+  margin: 5px 0;
+}
+
+.replies .comment,
+.thread .reply-form {
+  margin: 5px 0 5px 70px;
+}
+
+.comment-author-avatar {
+  min-width: 75px;
+  min-height: 75px;
+}
+
+.report-img {
+  margin-left: 8px;
+}
+
+.report-img img {
+  max-width: 90px;
+}
+
+.report-actions {
+  margin-right: 8px;
+}
+
+.report-info {
+  flex-basis: 350px;
+  max-width: 350px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.report-reason {
+  max-width: 450px;
+}
+
+@media only screen and (max-width: 533px) {
+  .report div {
+    margin: 15px 0;
+  }
+
+  .report-actions {
+    justify-content: center !important;
+  }
+
+  .report-img {
+    margin: 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  #offer .card-body {
+    overflow-x: scroll;
+  }
 }
