@@ -2,16 +2,16 @@
 
 require('environment.php');
 
-define('DIRPAGE',"http://{$_SERVER['HTTP_HOST']}/");
+define('DIRPAGE',"http://{$_SERVER['HTTP_HOST']}/humbleprice_tcc/");
 
 // Global folders
-define('DIRIMG', DIRPAGE."img/");
-define('DIRCSS', DIRPAGE."css/");
-define('DIRJS', DIRPAGE."js/");
-define('DIRVID', DIRPAGE."video/");
-define('DIRAUD', DIRPAGE."audio/");
-define('DIRFONT', DIRPAGE."font/");
-define('DIRDESIGN', DIRPAGE."design/");
+define('DIRIMG', DIRPAGE."public/img/");
+define('DIRCSS', DIRPAGE."public/css/");
+define('DIRJS', DIRPAGE."public/js/");
+define('DIRVID', DIRPAGE."public/video/");
+define('DIRAUD', DIRPAGE."public/audio/");
+define('DIRFONT', DIRPAGE."public/font/");
+define('DIRDESIGN', DIRPAGE."public/design/");
 
 // Database connection
 $config = [];
