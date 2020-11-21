@@ -34,7 +34,7 @@
                                 <?php endforeach; ?>
                             </div>
                         </li>
-                        <?php if (user() && authorized('NANAGE_USERS') || authorized('MANAGE_OFFERS')): ?>
+                        <?php if (user() && authorized('NANAGE_USERS') || authorized('MANAGE_OFFERS') || authorized('MANAGE_PERMISSIONS')): ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbar-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Painel
@@ -46,6 +46,10 @@
 
                                     <?php if (authorized('MANAGE_OFFERS')): ?>
                                         <a class="dropdown-item" href="<?= DIRPAGE ?>report">Reports</a>
+                                    <?php endif; ?>
+
+                                    <?php if (authorized('MANAGE_PERMISSIONS')): ?>
+                                        <a class="dropdown-item" href="<?= DIRPAGE ?>role">Permissões</a>
                                     <?php endif; ?>
                                 </div>
                             </li>

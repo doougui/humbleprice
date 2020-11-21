@@ -1,0 +1,1 @@
+<script src="<?= DIRJS ?>Pages/EditRole/permission.js"></script>

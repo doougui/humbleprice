@@ -40,7 +40,7 @@ class UserspanelController extends Authorization
                 ["roles", "INNER"]
             ],
             ["users.id_role = roles.id"],
-            "ORDER BY id_role DESC, users.id ASC",
+            "id_role DESC, users.id ASC",
             $pagination["offset"],
             $perPage
         ));
