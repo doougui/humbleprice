@@ -2,7 +2,7 @@
 
 require('environment.php');
 
-define('DIRPAGE',"http://{$_SERVER['HTTP_HOST']}/humbleprice_tcc/");
+define('DIRPAGE',"http://{$_SERVER['HTTP_HOST']}/humbleprice/");
 
 // Global folders
 define('DIRIMG', DIRPAGE."public/img/");

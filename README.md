@@ -46,7 +46,7 @@ You can also switch environments between `development` and `production` at `conf
 
 #### DIRPAGE
 
-The `DIRPAGE` variable should contain the URL of your website. You should replace `humbleprice_tcc` with your actual folder name.
+The `DIRPAGE` variable should contain the URL of your website. You should replace `humbleprice` with your actual folder name.
 
 #### Assets
 
@@ -96,7 +96,7 @@ Here are located all the public assets of your project.
 
 ### `src`
 
-Classes, Traits, Interfaces and Partials files. This is also the place where your `Composer` dependecies will be located (after you run `composer install`, a `vendor` folder will be created).
+This is where your Classes, Traits, Interfaces and Partials must be. This is also the place where your `Composer` dependencies will be located (after you run `composer install`, a `vendor` folder will be created).
 
 ## :world_map: Routing
 
