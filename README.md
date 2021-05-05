@@ -50,11 +50,11 @@ Configure `dbname`, `host`, `dbuser` and `dbpass` to fit your project and databa
  
 The default `dbuser` and `dbpass` are `root` and an empty password (respectively), but it may change based on your installation and in what you are using (`XAMPP`, `WAMP`, `LAMP`, `MAMP`, etc).
 
-### Directory Structure
+## :file_folder: Directory Structure
 
 This project used the [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller#:~:text=Model%E2%80%93view%E2%80%93controller%20\(usually,logic%20into%20three%20interconnected%20elements.) architecture. It's recommended to get familiar with this concept before proceeding to use or modify this project. 
 
-#### `app`
+### `app`
 
 The `app` directory contains the core code of your application. There you can find the project `Dispatcher`, `Controllers`, `Models` and `Views`, which are the base structure of a MVC project.
 
@@ -70,19 +70,19 @@ The `app` directory contains the core code of your application. There you can fi
 
 - `Helpers`: These are some helpful (duh) functions used throughout the entire project. This file is autoloaded using Composer.
 
-#### `config`
+### `config`
 
 These are the project configuration files. You can find instructions on how to use then [here](#config).
 
-#### `public`
+### `public`
 
 Here are located all the public assets of your project. 
 
-#### `src`
+### `src`
 
 Classes, Traits, Interfaces and Included files. This also is the place where your `Composer` dependecies will be located (after you run `composer install`, a `vendor` folder will be created).
 
-### Routing
+## :world_map: Routing
 
 The routes are based on the Controller name and action. If you have a controller named `OfferController`, for example, and you want to edit an offer, the route would be `https://website.com.br/offer/edit/child-of-light` ("child-of-light" being a parameter). This controller and action actually exists and can be found at `app/Controllers/OfferController.php@edit`. The default controller action is `index`.
 
