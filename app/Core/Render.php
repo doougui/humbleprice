@@ -8,10 +8,10 @@ namespace App\Core;
  */
 class Render
 {
-    private $dir;
-    private $title;
-    private $description;
-    private $keywords;
+    private string $dir;
+    private string $title;
+    private string $description;
+    private string $keywords;
 
     public function getDir() { return $this->dir; }
     public function setDir(string $dir) { $this->dir = $dir; }
@@ -30,7 +30,7 @@ class Render
     public function renderLayout(array $data = []): void
     {
         extract($data);
-        include_once(DIRREQ.'app/Views/Layout.php');
+        include_once(dirname(__DIR__)."/Views/Layout.php");
     }
 
     /**
@@ -40,9 +40,9 @@ class Render
      */
     public function addExtraHead(array$data = []): void
     {
-        if (file_exists(DIRREQ."app/Views/{$this->getDir()}/head.php")) {
+        if (file_exists(dirname(__DIR__)."/Views/{$this->getDir()}/head.php")) {
             extract($data);
-            include(DIRREQ."app/Views/{$this->getDir()}/head.php");
+            include(dirname(__DIR__)."/Views/{$this->getDir()}/head.php");
         }
     }
 
@@ -51,9 +51,9 @@ class Render
      */
     public function addNavBtns(array $data = []): void
     {
-        if (file_exists(DIRREQ."app/Views/{$this->getDir()}/btns.php")) {
+        if (file_exists(dirname(__DIR__)."/Views/{$this->getDir()}/btns.php")) {
             extract($data);
-            include(DIRREQ."app/Views/{$this->getDir()}/btns.php");
+            include(dirname(__DIR__)."/Views/{$this->getDir()}/btns.php");
         }
     }
 
@@ -64,9 +64,9 @@ class Render
      */
     public function addExtraHeader(array $data = []): void
     {
-        if (file_exists(DIRREQ."app/Views/{$this->getDir()}/header.php")) {
+        if (file_exists(dirname(__DIR__)."/Views/{$this->getDir()}/header.php")) {
             extract($data);
-            include(DIRREQ."app/Views/{$this->getDir()}/header.php");
+            include(dirname(__DIR__)."/Views/{$this->getDir()}/header.php");
         }
     }
 
@@ -77,9 +77,9 @@ class Render
      */
     public function addMainContent(array $data = []): void
     {
-        if (file_exists(DIRREQ."app/Views/{$this->getDir()}/main.php")) {
+        if (file_exists(dirname(__DIR__)."/Views/{$this->getDir()}/main.php")) {
             extract($data);
-            include(DIRREQ."app/Views/{$this->getDir()}/main.php");
+            include(dirname(__DIR__)."/Views/{$this->getDir()}/main.php");
         }
     }
 
@@ -92,9 +92,9 @@ class Render
      */
     public function addExtraFooter(array $data = []): void
     {
-        if (file_exists(DIRREQ."app/Views/{$this->getDir()}/footer.php")) {
+        if (file_exists(dirname(__DIR__)."/Views/{$this->getDir()}/footer.php")) {
             extract($data);
-            include(DIRREQ."app/Views/{$this->getDir()}/footer.php");
+            include(dirname(__DIR__)."/Views/{$this->getDir()}/footer.php");
         }
     }
 }

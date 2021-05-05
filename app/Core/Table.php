@@ -29,6 +29,10 @@ class Table extends Connection
             }
         }
 
+        if (strlen($orderBy) !== 0) {
+            $orderBy = "ORDER BY {$orderBy}";
+        }
+
         if (strlen($offset) !== 0) {
             $offset = "OFFSET {$offset}";
         }
@@ -46,7 +50,6 @@ class Table extends Connection
                 {$limit}
                 {$offset}
         ";
-
         $sql = $this->db->query($sql);
 
         if ($sql->rowCount() > 0) {

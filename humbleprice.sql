@@ -4,6 +4,7 @@
 --
 -- Host: localhost
 -- Generation Time: Nov 12, 2020 at 09:20 PM
+-- Generation Time: Nov 21, 2020 at 04:05 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -41,9 +42,9 @@ CREATE TABLE `abilities` (
 INSERT INTO `abilities` (`id`, `label`, `name`) VALUES
 (1, 'ALL', 'Permissão total'),
 (2, 'MANAGE_QUEUE', 'Gerenciar fila'),
-(3, 'MANAGE_MODS', 'Gerenciar moderadores'),
 (4, 'MANAGE_USERS', 'Gerenciar usuários'),
-(5, 'MANAGE_OFFERS', 'Gerenciar ofertas');
+(5, 'MANAGE_OFFERS', 'Gerenciar ofertas'),
+(6, 'MANAGE_PERMISSIONS', 'Manusear permissões de cargos');
 
 -- --------------------------------------------------------
 
@@ -61,12 +62,12 @@ CREATE TABLE `ability_role` (
 -- Dumping data for table `ability_role`
 --
 
-INSERT INTO `ability_role` (`id`, `id_ability`, `id_role`) VALUES
-(1, 1, 4),
-(2, 1, 3),
-(3, 2, 2),
-(4, 3, 2),
-(5, 5, 2);
+INSERT INTO `ability_role` (`id_ability`, `id_role`) VALUES
+(1, 4),
+(1, 3),
+(5, 2),
+(6, 2),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -201,7 +202,7 @@ INSERT INTO `offers` (`id`, `id_author`, `id_category`, `id_subcategory`, `slug`
 (14, 7, 1, 6, 'assassin-39-s-creed-odyssey-56319', 'https://www.microsoft.com/PT-BR/p/assassins-creed-odyssey/BW9TWC8L4JCS?id=Pubsalegame_Week43&#38;ranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-fUfGUiMjo1zUkqwWYcsoeg&#38;epi=wuBjaD0yAek-fUfGUiMjo1zUkqwWYcsoeg&#38;irgwc=1&#38;OCID=AID2000142_aff_7803_1243925&#38;tduid=%28ir__echp36uwi0kftmzkkk0sohzjx32xs39ehn6qedhz00%29%287803%29%281243925%29%28wuBjaD0yAek-fUfGUiMjo1zUkqwWYcsoeg%29%28%29&#38;irclickid=_echp36uwi0kftmzkkk0sohzjx32xs39ehn6qedhz00&#38;activetab=pivot%3Aoverviewtab', 'Assassin&#39;s Creed® Odyssey', '<p>Forma de pagamento:&nbsp;<strong>em 1x no cartão de crédito</strong>.</p>', 199, 49, '2020-10-25', '2021-10-30', '749fbc2093637b40410e9022cd37c59c.jpg', 112, 'approved'),
 (15, 7, 1, 6, 'the-witcher-3-wild-hunt-complete-edition-56272', 'https://www.microsoft.com/pt-br/p/the-witcher-3-wild-hunt-complete-edition/c261457lcnmj?ocid=AID2000142_aff_7803_1243925#activetab=pivot:overviewtab', 'The Witcher 3: Wild Hunt – Complete Edition', '<p>O jogo mais premiado de 2015!&nbsp;</p><p>Torne-se um mercenário caçador de monstros e embarque em uma épica jornada para encontrar a criança da profecia, uma arma viva capaz de incríveis destruições.&nbsp;</p><p><strong>INCLUI TODAS AS EXPANSÕES E CONTEÚDO ADICIONAL.</strong></p>', 190, 152, '2020-10-25', NULL, 'f9c477ea2d2dba8fdd736831b33cd778.jpg', 900, 'approved'),
 (18, 2, 1, 6, 'grand-theft-auto-v-edicao-online-premium-e-pacote-de-dinheiro-91094', 'https://www.microsoft.com/pt-br/p/grand-theft-auto-v-premium-online-edition-great-white-shark-card-bundle/c54h8fdktjpg?ranMID=42431&#38;ranEAID=wuBjaD0yAek&#38;ranSiteID=wuBjaD0yAek-tNFguuEb6Ce55eW9oJ0F5A&#38;epi=wuBjaD0yAek-tNFguuEb6Ce55eW9oJ0F5A&#38;irgwc=1&#38;OCID=AID2000142_aff_7803_1243925&#38;tduid=%28ir__echp36uwi0kftmzkkk0sohzjx32xshd6a26qedhs00%29%287803%29%281243925%29%28wuBjaD0yAek-tNFguuEb6Ce55eW9oJ0F5A%29%28%29&#38;irclickid=_echp36uwi0kftmzkkk0sohzjx32xshd6a26qedhs00&#38;activetab=pivot:overviewtab', 'Grand Theft Auto V: Edição Online Premium e Pacote de Dinheiro ', '<p>O bundle Grand Theft Auto V: Edição Online Premium e Pacote de Dinheiro Tubarão-Branco inclui o Modo História completo do Grand Theft Auto V, acesso gratuito ao mundo em constante evolução do Grand Theft Auto Online e todo o conteúdo e melhorias de jogo já lançados. Você também recebe o Kit Inicial de Esquema Criminal, a maneira mais rápida de começar seu império do crime no Grand Theft Auto Online, e um Pacote de Dinheiro Tubarão-Branco no valor de GTA$1.250.000 para gastar no <strong>GTA Online.</strong></p>', 159, 71, '2020-11-03', NULL, 'd7cedf8d692742e8efc5874daecbf558.jpg', 58, 'pending'),
-(19, 1, 6, 11, 'cadeira-gamer-husky-snow-black-hsn-58818', 'https://www.kabum.com.br/produto/92748/cadeira-gamer-husky-snow-black-hsn-bk?awc=17729_1604943810_ed9db0fd5d94b00847d0a7e35911ec48&#38;utm_source=AWIN&#38;utm_medium=AFILIADOS&#38;utm_campaign=novembroninja_nov20&#38;utm_content=home&#38;utm_term=https%3A%2F%2Fwww.promobit.com.br', 'Cadeira Gamer Husky Snow Black HSN', '<p>A Cadeira Gamer Husky Snow proporciona alto conforto e qualidade para as melhores horas do seu dia! Tudo isso aliado a um ótimo custo benefício. Os games do momento ficam ainda mais empolgantes ao serem jogados em uma Cadeira Gamer Husky Snow, pois além do design moderno e robusto, a cadeira proporciona ótima performance nas partidas devido a sensação de conforto que é convertida em foco e concentração, tudo que um gamer de verdade precisa para ser o melhor! A Gamer Husky Snow conta com uma estrutura consistente e de fácil montagem, com rodas 100% Nylon, função butterfly que regula a sua altura de forma prática, couro sintético PU, um balanço com até 13º de ajuste e ainda um assento de 510x500mm com encosto de 520x770mm, é fácil perceber que ela foi projetada para entregar muito conforto para os gamers de forma acessível. A Husky Snow conta com espuma de alta qualidade e suas características mais elogiadas são regulagem de altura por pistão à gás e design singular e ao mesmo tempo muito moderno. Dê um upgrade no seu espaço gamer com uma Cadeira Husky Snow e sinta a diferença! Qualidade com custo benefício para você enfrentar qualquer desafio gamer! Aproveite essa oportunidade e adquira a Cadeira Gamer Husky Snow.</p>', 941, 764, '2020-11-09', NULL, '00ba4a7d28f7f0011811807cb9a8ae69.jpg', 8, 'approved');
+(19, 1, 6, 11, 'cadeira-gamer-husky-snow-black-hsn-58818', 'https://www.kabum.com.br/produto/92748/cadeira-gamer-husky-snow-black-hsn-bk?awc=17729_1604943810_ed9db0fd5d94b00847d0a7e35911ec48&#38;utm_source=AWIN&#38;utm_medium=AFILIADOS&#38;utm_campaign=novembroninja_nov20&#38;utm_content=home&#38;utm_term=https%3A%2F%2Fwww.promobit.com.br', 'Cadeira Gamer Husky Snow Black HSN', '<p>A Cadeira Gamer Husky Snow proporciona alto conforto e qualidade para as melhores horas do seu dia! Tudo isso aliado a um ótimo custo benefício. Os games do momento ficam ainda mais empolgantes ao serem jogados em uma Cadeira Gamer Husky Snow, pois além do design moderno e robusto, a cadeira proporciona ótima performance nas partidas devido a sensação de conforto que é convertida em foco e concentração, tudo que um gamer de verdade precisa para ser o melhor! A Gamer Husky Snow conta com uma estrutura consistente e de fácil montagem, com rodas 100% Nylon, função butterfly que regula a sua altura de forma prática, couro sintético PU, um balanço com até 13º de ajuste e ainda um assento de 510x500mm com encosto de 520x770mm, é fácil perceber que ela foi projetada para entregar muito conforto para os gamers de forma acessível. A Husky Snow conta com espuma de alta qualidade e suas características mais elogiadas são regulagem de altura por pistão à gás e design singular e ao mesmo tempo muito moderno. Dê um upgrade no seu espaço gamer com uma Cadeira Husky Snow e sinta a diferença! Qualidade com custo benefício para você enfrentar qualquer desafio gamer! Aproveite essa oportunidade e adquira a Cadeira Gamer Husky Snow.</p>', 941, 764, '2020-11-09', NULL, '00ba4a7d28f7f0011811807cb9a8ae69.jpg', 10, 'approved');
 
 --
 -- Triggers `offers`
@@ -410,7 +411,6 @@ ALTER TABLE `abilities`
 -- Indexes for table `ability_role`
 --
 ALTER TABLE `ability_role`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_id_ability` (`id_ability`),
   ADD KEY `fk_id_role` (`id_role`);
 
@@ -435,7 +435,8 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `comment_likes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_id_comment_like_comment` (`id_comment`) USING BTREE;
+  ADD KEY `fk_id_comment_like_comment` (`id_comment`) USING BTREE,
+  ADD KEY `fk_comment_like_user` (`id_user`);
 
 --
 -- Indexes for table `offers`
@@ -502,7 +503,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `abilities`
 --
 ALTER TABLE `abilities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ability_role`
@@ -593,6 +594,7 @@ ALTER TABLE `comments`
 -- Constraints for table `comment_likes`
 --
 ALTER TABLE `comment_likes`
+  ADD CONSTRAINT `fk_comment_like_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_id_comment` FOREIGN KEY (`id_comment`) REFERENCES `comments` (`id`) ON DELETE CASCADE;
 
 --

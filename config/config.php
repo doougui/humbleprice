@@ -2,14 +2,7 @@
 
 require('environment.php');
 
-$innerFolder = "humbleprice_tcc/";
-define('DIRPAGE',"http://{$_SERVER['HTTP_HOST']}/{$innerFolder}");
-
-if (substr($_SERVER['DOCUMENT_ROOT'], -1) == '/') {
-    define('DIRREQ', "{$_SERVER['DOCUMENT_ROOT']}{$innerFolder}");
-} else {
-    define('DIRREQ', "{$_SERVER['DOCUMENT_ROOT']}/{$innerFolder}");
-}
+define('DIRPAGE',"http://{$_SERVER['HTTP_HOST']}/humbleprice_tcc/");
 
 // Global folders
 define('DIRIMG', DIRPAGE."public/img/");

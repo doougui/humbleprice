@@ -34,14 +34,14 @@ class Controller extends Render
             $imageName = md5(time() . rand(0, 99999)) . ".jpg";
             move_uploaded_file(
                 $picture["tmp_name"],
-                DIRREQ . "public/img/{$folder}/{$imageName}"
+                dirname(__DIR__, 2)."/public/img/{$folder}/{$imageName}"
             );
 
             list(
                 $originalWidth,
                 $originalHeight
                 ) = getimagesize(
-                DIRREQ . "public/img/{$folder}/{$imageName}"
+                dirname(__DIR__, 2)."/public/img/{$folder}/{$imageName}"
             );
 
             $ratio = $originalWidth / $originalHeight;
@@ -59,11 +59,11 @@ class Controller extends Render
 
             if ($type == "image/jpeg") {
                 $original = imagecreatefromjpeg(
-                    DIRREQ . "public/img/{$folder}/{$imageName}"
+                    dirname(__DIR__, 2)."/public/img/{$folder}/{$imageName}"
                 );
             } elseif ($type == "image/png") {
                 $original = imagecreatefrompng(
-                    DIRREQ . "public/img/{$folder}/{$imageName}"
+                    dirname(__DIR__, 2)."/public/img/{$folder}/{$imageName}"
                 );
             } else {
                 die(
@@ -88,7 +88,7 @@ class Controller extends Render
 
             imagejpeg(
                 $img,
-                DIRREQ . "public/img/{$folder}/{$imageName}",
+                dirname(__DIR__, 2)."/public/img/{$folder}/{$imageName}",
                 80
             );
 

@@ -37,7 +37,7 @@ class Dispatch
         $currentController = ucfirst($currentController);
         $prefix = "\App\Controllers\\";
 
-        if (! file_exists(DIRREQ."app/Controllers/{$currentController}.php") ||
+        if (! file_exists(dirname(__DIR__)."/app/Controllers/{$currentController}.php") ||
             ! method_exists($prefix.$currentController, $currentAction))
         {
             $currentController = "NotfoundController";
