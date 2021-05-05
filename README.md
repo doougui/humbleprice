@@ -2,6 +2,22 @@
   Humbleprice
 </h1>
 
+## :bust_in_silhouette: Test accounts
+
+Since this is a demo version of the project, here are some helpful accounts you can use to test features that are only available to high hierarchy users (like administrators, moderators, etc):
+
+### Admin
+
+__Email__: admin@admin.com
+__Password__: admin
+
+### Moderator
+
+__Email__: mod@mod.com
+__Password__: mod
+
+You can login with one of these accounts here: https://humbleprice.000webhostapp.com/login.
+
 ## :rocket: Setup
 
 :bulb: To install the required dependencies, you'll need to have [Composer](https://getcomposer.org/) installed in your machine.
