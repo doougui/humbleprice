@@ -17,21 +17,21 @@
                 </thead>
                 <tbody>
                     <?php foreach ($roles as $role): ?>
-                        <tr data-item="<?= $role["label"] ?>">
-                            <td><?= $role["label"] ?></td>
-                            <td><?= $role["name"] ?></td>
+                        <tr data-item="<?= $role['label'] ?>">
+                            <td><?= $role['label'] ?></td>
+                            <td><?= $role['name'] ?></td>
                             <td>
                                 <div class="alert alert-danger tr-error d-none" data-error="actions" role="alert">
                                     <p class="error-msg"></p>
                                 </div>
 
                                 <a href="<?= DIRPAGE ?>role/edit/<?= $role['label'] ?>"
-                                    <?= ($role["id"] >= user()["id_role"])
+                                    <?= ($role['id'] >= user()['id_role'])
                                         ? 'title="Você não pode editar as habilidades de um cargo com o nível hierárquico maior ou igual ao seu."'
                                         : ''
                                     ?>
                                    class="btn btn-info
-                                    <?= ($role["id"] >= user()["id_role"])
+                                    <?= ($role['id'] >= user()['id_role'])
                                         ? 'disabled'
                                         : ''
                                     ?>
@@ -39,14 +39,6 @@
                                 >
                                     Editar permissões
                                 </a>
-                                <button class="btn btn-danger"
-                                    <?= ($role["id"] >= user()["id_role"])
-                                        ? 'disabled title="Você não pode deletar um cargo com o nível hierárquico maior ou igual ao seu."'
-                                        : ''
-                                    ?>
-                                >
-                                    Deletar
-                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
